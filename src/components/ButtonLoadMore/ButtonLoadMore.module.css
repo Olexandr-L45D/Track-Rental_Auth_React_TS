@@ -1,0 +1,34 @@
+.cartBottomLoad {
+    position: fixed;
+    bottom: 15px;
+    /* Відступ від нижнього краю */
+    left: 10%;
+    /* Центрування кнопки по горизонталі */
+    transform: translateX(-50%);
+    /* Центрування відносно ширини кнопки */
+    z-index: 10;
+    /* Щоб кнопка була поверх іншого контенту */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnSend {
+    width: 160px;
+    height: 60px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e44848;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnSend:hover {
+    background-color: #d13636;
+    /* Зміна кольору при наведенні */
+}

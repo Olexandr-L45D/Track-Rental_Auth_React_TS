@@ -1,0 +1,177 @@
+
+.container {
+    position: fixed;
+    /* Фіксує контейнер у верхній частині */
+    top: 0;
+    /* Відступ від верхнього краю екрана */
+    left: 0;
+    /* Вирівнювання по лівому краю */
+    right: 0;
+    /* Вирівнювання по правому краю */
+    z-index: 1000;
+    /* Забезпечує, що шапка буде зверху інших елементів */
+    border-bottom: 1px solid #f2f4f7;
+    padding: 24px 64px;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    width: 1440px;
+    /* Забезпечує повну ширину */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Додає тінь для кращої видимості */
+}
+
+.card {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 2px;
+    margin-right: auto;
+    color: black;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconLogo {
+    margin-top: 10px;
+    width: 170px;
+    height: 22px;
+}
+
+.nav {
+    height: 16px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 700;
+    margin: 0;
+}
+
+.link {
+    padding: 8px 16px;
+    margin: 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+a:hover {
+    color: #d84343;
+}
+
+.link:hover {
+    color: #d84343;
+}
+
+a:focus {
+    color: #d84343;
+}
+
+.link:focus {
+    color: #d84343;
+}
+
+.active {
+    color: #d84343;
+    
+}
+
+.languageSwitcher {
+    display: flex;
+    gap: 10px;
+    padding: 1px;
+    padding-right: 30px;
+    margin: 1px;
+    margin-right: 170px;
+    margin-left: auto;
+}
+
+.languageSwitcher button {
+    padding: 5px 10px;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #0e0d0d;
+   
+}
+
+/* Зміна кольору при наведенні */
+.languageSwitcher button:hover {
+    background-color: white;
+    border-color: white;
+    color: white;
+}
+
+/* Активна кнопка (вибрана мова) */
+.activeButton {
+    color: #0e0d0d;
+    /* Текст червоний */
+    font-weight: bold;
+    border-color: white;
+    border: 1px solid #ccc;
+        padding: 5px 10px;
+        border-radius: 5px;
+}
+
+.activeButton:hover,
+.activeButton:focus
+ {
+    color: #d84343 !important;
+    /* Текст червоний */
+    font-weight: bold;
+    border-color: #d84343;
+}
+/* .languageSwitcher {
+    display: flex;
+    gap: 10px;
+    padding: 1px;
+    padding-right: 20px;
+    margin: 1px;
+    margin-right: 20px;
+    margin-left: auto;
+}
+
+.languageSwitcher button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #0e0d0d;
+}
+
+.languageSwitcher button:hover {
+    background-color: #d84343;
+    border-color: #d84343;
+}
+
+.button:hover,
+.button:focus {
+    background-color: #d84343;
+    border-color: #d84343;
+    color: #d84343;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} */

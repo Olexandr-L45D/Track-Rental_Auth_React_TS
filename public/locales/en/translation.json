@@ -1,0 +1,48 @@
+
+{
+  "navigation": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "send": "Send",
+    "search": "Search",
+    "Load": "Load More",
+    "show_more": "Show more",
+    "searchTitle": "Please find truck by location",
+    "titleHome": "Campers of your dreams",
+    "View": "View Now",
+    "titleWelcom": "You can find everything uoy want in our catalog",
+    "example": "Location example: Country, City",
+    "features": "Features",
+    "reviews": "Reviews",
+    "go_Catalog": "Go to Catalog",
+    "bokTitleFm": "Book yoor campervan now",
+    "bokTitleFmText": "Stay connected ! We are alwaays raady to help you.",
+    "titleVeh": "Vehicle details",
+    "form": "Form",
+    "lenght": "Length",
+    "width": "Width",
+    "height": "Height",
+    "tank": "Tank",
+    "consum": "Consumption"
+
+  },
+  "register": {
+   "titleRegistr": "RegistrationForm"
+  },
+  "login": {
+   "titleLogin": "LOGIN FORM"
+  },
+  "auth": {
+    "welcome": "Welcome",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Submit",
+    "logout": "Logout",
+    "btnLog": "Log In"
+  },
+  "loader": {
+    "shortTextMessage": "Text must be longer than 3 characters"
+  }
+}
+
+

@@ -1,0 +1,122 @@
+
+.item {
+    width: 527px;
+    height: auto;
+    margin: 5px;
+    margin-left: 0px;
+    padding: 5px;
+    padding: 0px;
+    list-style: none;
+    border: none;
+    border-radius: 8px;
+    color: rgb(14, 15, 15);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: left;
+}
+
+.items {
+    width: 520px;
+    margin: 1px;
+    margin-bottom: 8px;
+    padding: 1px;
+}
+
+.label {
+    margin-bottom: 8px;
+    padding: 1px;
+}
+
+.messag {
+    margin: 5px;
+    margin-bottom: 8px;
+    padding: 5px;
+}
+
+.inp {
+    width: 100%;
+    border-radius: 10px;
+    padding: 18px 341px 18px 18px;
+    width: 515px;
+    height: 35px;
+    background-color: #f7f7f7;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttonSend {
+    width: 166px;
+    height: 56px;
+    padding: 0px;
+    margin: 10px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+}
+
+.btnSend {
+    width: 166px;
+    height: 56px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e44848;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    color: #fff;
+}
+.formGroup {
+    padding: 2px;
+    margin-left: 2px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.formGroup label {
+    width: 150px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.inptextarea {
+    resize: none;
+    /* Прибирає можливість змінювати розмір textarea */
+    width: 100%;
+    /* Займає всю доступну ширину контейнера */
+    height: 90px;
+    /* Фіксована висота для textarea */
+    padding: 5px;
+    /* Відступи всередині textarea */
+    font-size: 16px;
+    /* Розмір шрифту */
+    border: 1px solid #ccc;
+    /* Колір і ширина рамки */
+    border-radius: 5px;
+    /* Закруглення кутів */
+    outline: none;
+    /* Прибирає обведення при фокусі */
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inptextarea:focus {
+    border-color: #007bff;
+    /* Колір рамки при фокусі */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Легка тінь при фокусі */
+}
+
+.inptextarea::placeholder {
+    color: #999;
+    /* Колір тексту плейсхолдера */
+    font-style: italic;
+    /* Текст плейсхолдера курсивом */
+}

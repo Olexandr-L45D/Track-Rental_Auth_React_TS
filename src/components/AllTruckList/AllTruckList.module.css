@@ -1,0 +1,319 @@
+
+.containerList {
+    width: 888px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.list {
+    width: 880px;
+    height: 368px;
+    margin: 1px;
+    margin-left: 10px;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    
+}
+
+.cartItem {
+margin: 0px;
+padding: 0px;
+}
+.titlesblok {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    text-align: center;
+    align-items: center;
+}
+
+.featuresList {
+    margin: 1px;
+    padding: 1px;
+    width: 100%;
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+.titles {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    color: black;
+    margin: 0px;
+    margin-left: 5px;
+    padding: 0px;
+}
+
+.cardWrapper a {
+    text-decoration: none;
+}
+
+.productName {
+    padding: 4px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: black;
+}
+
+.cartContainer{
+    width: 888px;
+    height: 368px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.cartComent {
+    width: 524px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.textPrice {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 0px; 
+    padding: 0px;
+    padding-right: 0px;
+    margin-left: 140px;
+}
+.textTitle {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.textTitles {
+    margin: 5px;
+    margin-left: 20px;
+    padding: 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+}
+.text {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #555;
+}
+.textDescr {
+    width: 520px;
+    height: 24px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 5px;
+    color: #475467;
+    white-space: nowrap;
+    /* Забороняє перенесення тексту на новий рядок */
+    overflow: hidden;
+    /* Обрізає текст, що не вміщується */
+    text-overflow: ellipsis;
+    /* Додає три крапки (...) в кінці обрізаного тексту */
+}
+
+.featuresItem {
+    width: 123px;
+    height: 48px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F2F4F7;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;}
+
+.featuresItemAc {
+    width: 87px;
+        height: 48px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 0px;  
+        margin-top: 45px;
+        margin-left: 10px;
+        padding-bottom: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F2F4F7;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 30px;
+}
+
+.comIte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 92px;
+    height: 138px;
+    background-color: gray;
+
+}
+
+.icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(5px);
+}
+
+.error {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.icons {
+    width: 50px;
+    height: 25px;
+    padding: 0px;
+    margin: 0px;
+    color: rgb(255, 0, 34);
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+    align-items: right;
+}
+.buttonIconShowe {
+    width: 166px;
+    height: 56px;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 8px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+} 
+.btnShowe {
+    width: 166px;
+        height: 56px;
+        font-size: 18px;  
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e44848;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 40px;
+    color: #ffffff;
+}
+
+.btnShowe:hover, 
+.btnShowe:focus {
+    color: #0f0707;
+}
+.img {
+    width: 292px;
+    height: 320px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+     border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.imgCard {
+    width: 292px;
+    height: 320px;
+    padding: 1px;
+    margin: 1px;
+}
+
+.textTitleL {
+    width: 200px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.descripBloc {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.descripList {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    margin-right: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* Прибираємо маркери списку */
+}
+
+.descripItem {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #555;
+}
+
+.iconhed {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(5px);
+    /* Зміщення вниз */
+}
+
+.loched {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+}

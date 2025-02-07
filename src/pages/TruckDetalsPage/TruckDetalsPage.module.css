@@ -1,0 +1,13 @@
+
+.container {
+    width: 1440px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    gap: 10px;
+    display: flex;
+    justify-content: start;
+    text-align: center;
+    align-items: center;
+    
+}

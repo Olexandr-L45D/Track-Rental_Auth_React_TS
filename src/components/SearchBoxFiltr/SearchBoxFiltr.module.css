@@ -1,0 +1,182 @@
+.item {
+    width: 290px;
+    height: auto;
+    margin: 5px;
+    margin-top: 40px;
+    padding: 5px;
+    padding-top: 30px;
+    padding-bottom: 5px;
+    list-style: none;
+    color: rgb(14, 15, 15);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: left;
+    align-items: left;
+    position: fixed;
+    top: 50px;
+    /* Відступ від нижнього краю */
+    left: 11%;
+    /* Центрування кнопки по горизонталі */
+    transform: translateX(-50%);
+     /* Центрування відносно ширини кнопки */
+     z-index: 10;
+    /* Щоб поверх іншого контенту */
+       
+}
+
+.items {
+    width: 130px;
+    height: 96px;
+    margin: 6px;
+    padding: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.label {
+    width: 130px;
+    height: 50px;
+    margin-bottom: 16px;
+    padding: 10px;
+    justify-content: start;
+}
+
+.paragraf {
+    justify-content: start;
+    padding-bottom: 5px;
+    margin: 2px;
+}
+
+.buttonIconSearch {
+    width: 166px;
+    height: 56px;
+    padding: 0px;
+    margin: 10px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+}
+
+.btnReset {
+    margin-top: 10px;
+}
+.btnSearch {
+    width: 166px;
+    height: 56px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e44848;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    color: #fff;
+}
+
+.btn {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.messag {
+    margin: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.inp {
+    border-radius: 10px;
+    padding: 2px;
+    margin: 5px;
+    width: 230px;
+    height: 40px;
+    background-color: #f7f7f7;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+}
+
+.iconCard {
+    width: 112px;
+    height: 96px;
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid rgb(104, 102, 102);
+    border-radius: 5px;
+    color: rgb(14, 15, 15);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.iconCard.active {
+    background-color: #e0f7fa;
+    border: 1px solid #00796b;
+}
+
+.itemsCont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.wrapper {
+    display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    gap: 12px;
+}
+
+.username {
+    font-weight: 700;
+}
+
+.button {
+    margin: 10px;
+}
+.cartPage {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartTitle {
+    padding: 2px;
+    margin: 2px;
+    color: black;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.5;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
