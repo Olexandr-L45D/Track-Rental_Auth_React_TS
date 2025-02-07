@@ -9,12 +9,32 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
 
-const TruckDetails = ({ id }) => {
+type State = {
+  items: string | [];
+  loading: boolean;
+  isFetched: boolean;
+  error: string | null;
+  selectedTruck: null; // Для збереження деталей вантажівки
+  isBooked: boolean;
+  totalpages: number;
+  page: number;
+  // user: User | null;
+};
+
+const TruckDetails = ( id: number | string ) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { selectedTruck, loading, error } = useSelector(state => state.campers);
+  const { selectedTruck, loading, error } = useSelector<State>(state => state.campers);
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    let isActive = true;
+
+    return (): void => {
+      isActive = false;
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(findTruckById(id)); // Запит на завантаження деталей вантажівки
@@ -145,3 +165,4 @@ export default TruckDetails;
 // Обробник події onClick: При натисканні на мініатюру встановлює поточний індекс та відкриває лайтбокс.
 // Компонент Lightbox: Відображає повнорозмірне зображення з можливістю перегляду інших зображень при кліку на стрілку.
 // Цей підхід забезпечує зручний перегляд зображень у лайтбоксі при натисканні на мініатюри в каталозі автомобілів.
+

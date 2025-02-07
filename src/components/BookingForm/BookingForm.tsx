@@ -1,9 +1,11 @@
 import css from "./BookingForm.module.css";
+// import { useState, useCallback } from 'react';
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
+import { FormikHelpers } from 'formik';
 
 export default function BookingForm() {
   const { t } = useTranslation();
@@ -18,7 +20,49 @@ export default function BookingForm() {
     comment: Yup.string().max(200, "Comment cannot exceed 200 characters"),
   });
 
-  const handleSubmit = (values, actions) => {
+//   export function ComponentWithRef() {
+//   const divRef = useRef<HTMLDivElement>(null);
+//   const textareaRef = useRef<HTMLTextAreaElement>(null);
+//   const selectRef = useRef<HTMLSelectElement>(null);
+
+//   // ...
+
+//   return (
+//     <>
+//       <div ref={divRef}>Це div елемент</div>
+//       <textarea ref={textareaRef}></textarea>
+//       <select ref={selectRef}></select>
+//     </>
+//   );
+// }
+
+
+
+// type UseFormInput = {
+//   value: string;
+//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+// };
+
+//  function useFormInput(initialValue: string): UseFormInput {
+//   const [value, setValue] = useState(initialValue);
+
+//   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+//     setValue(event.target.value);
+//   }, []);
+
+//   return {
+//     value,
+//     onChange,
+//   };
+// }
+  interface BookinFormVelues {
+    name: string;
+    email: string;
+    bookingDate: string;
+    comment: string;
+  }
+  // FormikHelpers — це вбудований тип з Formik, який описує доступні методи в actions.
+  const handleSubmit = (values: BookinFormVelues, actions: FormikHelpers<BookinFormVelues>) => {
     toast.success("Booking successful!");
     actions.resetForm();
   };

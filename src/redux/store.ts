@@ -29,5 +29,16 @@ export const store = configureStore({
       },
     }),
 });
-
+// Додаємо тип для глобального стану
+export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
+
+
+
+// type State = {
+// count: number;
+// };
+
+// type Action = 
+//  { type: 'increment' }
+// | { type: 'decrement' };
