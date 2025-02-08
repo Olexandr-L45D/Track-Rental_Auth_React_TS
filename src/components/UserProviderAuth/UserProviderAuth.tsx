@@ -41,6 +41,12 @@ export function useUserState() {
 function UserProfile() {
   const { user, setUser } = useUserState();
 
+  // useEffect(() => {
+  //   let isActive = true;
+  //   return (): void => {
+  //     isActive = false;
+  //   };
+  // }, []);
   // Моделюємо завантаження даних про користувача.
   useEffect(() => {
     setTimeout(() => {
@@ -79,4 +85,40 @@ function UserProfile() {
 //     default:
 //       throw new Error();
 //   }
+// }
+
+//   export function ComponentWithRef() {
+//   const divRef = useRef<HTMLDivElement>(null);
+//   const textareaRef = useRef<HTMLTextAreaElement>(null);
+//   const selectRef = useRef<HTMLSelectElement>(null);
+
+//   // ...
+
+//   return (
+//     <>
+//       <div ref={divRef}>Це div елемент</div>
+//       <textarea ref={textareaRef}></textarea>
+//       <select ref={selectRef}></select>
+//     </>
+//   );
+// }
+
+
+
+// type UseFormInput = {
+//   value: string;
+//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+// };
+
+//  function useFormInput(initialValue: string): UseFormInput {
+//   const [value, setValue] = useState(initialValue);
+
+//   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+//     setValue(event.target.value);
+//   }, []);
+
+//   return {
+//     value,
+//     onChange,
+//   };
 // }

@@ -1,13 +1,14 @@
 import { createSelector } from "reselect";
+import { RootState } from "../store";
 
 // Основний селектор вантажівок
-export const selectTrucks = state => state.campers.items;
+export const selectTrucks = (state: RootState) => state.campers.items;
 
 // Основний селектор фільтрів
-export const selectFilters = state => state.filters.filters;
+export const selectFilters = (state: RootState) => state.filters.filters;
 // export const selectFilters = state => state.filters; цей варіант не працює
-
-// Селектор фільтрації вантажівок за локацією
+export const selectLocation = (state: RootState) => state.filters.filters.location;
+// Селектор фільтрації вантажівок за локацією selectLocation по каскаду прямо до локації (але раніше працювало так filters.filters )
 export const selectFilteredByLocation = createSelector(
   [selectTrucks, selectFilters],
   (trucks, filters) => {
@@ -19,22 +20,23 @@ export const selectFilteredByLocation = createSelector(
   }
 );
 
-// Селектор фільтрації вантажівок за вибраними чекбоксами
-export const selectFilteredTrucks = createSelector(
-  [selectFilteredByLocation, selectFilters],
-  (trucks, filters) => {
-    if (!filters) return trucks;
+// Селектор фільтрації вантажівок за вибраними чекбоксами (поки не використовую)
 
-    // Фільтруємо вантажівки за активними чекбоксами
-    const activeFilters = Object.keys(filters).filter(
-      key => filters[key] === true && key !== "location"
-    );
+// export const selectFilteredTrucks = createSelector(
+//   [selectFilteredByLocation, selectFilters],
+//   (trucks, filters) => {
+//     if (!filters) return trucks;
 
-    if (activeFilters.length === 0) return trucks;
+//     // Фільтруємо вантажівки за активними чекбоксами
+//     const activeFilters = Object.keys(filters).filter(
+//       key => filters[key] === true && key !== "location"
+//     );
 
-    return trucks.filter(truck => activeFilters.every(filter => truck[filter]));
-  }
-);
+//     if (activeFilters.length === 0) return trucks;
+
+//     return trucks.filter(truck => activeFilters.every(filter => truck[filter]));
+//   }
+// );
 
 // import { createSelector } from "@reduxjs/toolkit";
 // // export const selectStatusFilter = state => state.filters.filters;

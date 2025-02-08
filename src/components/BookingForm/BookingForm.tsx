@@ -20,41 +20,6 @@ export default function BookingForm() {
     comment: Yup.string().max(200, "Comment cannot exceed 200 characters"),
   });
 
-//   export function ComponentWithRef() {
-//   const divRef = useRef<HTMLDivElement>(null);
-//   const textareaRef = useRef<HTMLTextAreaElement>(null);
-//   const selectRef = useRef<HTMLSelectElement>(null);
-
-//   // ...
-
-//   return (
-//     <>
-//       <div ref={divRef}>Це div елемент</div>
-//       <textarea ref={textareaRef}></textarea>
-//       <select ref={selectRef}></select>
-//     </>
-//   );
-// }
-
-
-
-// type UseFormInput = {
-//   value: string;
-//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-// };
-
-//  function useFormInput(initialValue: string): UseFormInput {
-//   const [value, setValue] = useState(initialValue);
-
-//   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-//     setValue(event.target.value);
-//   }, []);
-
-//   return {
-//     value,
-//     onChange,
-//   };
-// }
   interface BookinFormVelues {
     name: string;
     email: string;

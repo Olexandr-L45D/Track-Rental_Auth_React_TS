@@ -1,24 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllTruck, findTruckById } from "./operations";
+import { fetchAllTruck, fetchAllTruckLanguage, findTruckById } from "./operations";
+// import { TruckDetailById } from "../../components/TruckDetails/TruckDetails";
 
-export type Truck = {
-  id: string;
+export interface Truck{
+  id: number;
   name: string;
-  location: string; 
+  location: string;
 };
-type State = {
-  items: Truck[];
+// Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
+export interface TruckDetailById extends Truck {
+  rating: number;
+  price: number;
+  gallery: { original: string; thumb: string }[];
+  description: string;
+  reviews?: {
+    reviewer_name: string;
+    reviewer_rating: number;
+    comment: string;
+  }[];
+}
+interface State{
+  items: Truck[] | TruckDetailById[]; // Це має бути або список вантажівок, або деталі
+  total: number;
   loading: boolean;
   isFetched: boolean;
   error: string | null;
-  selectedTruck: Truck | null; // Для збереження деталей вантажівки
+  selectedTruck: TruckDetailById | null; // Для збереження деталей вантажівки
   isBooked: boolean;
   totalpages: number;
   page: number;
 };
-
 const initialState: State = {
   items: [],
+  total: 0,
   loading: false,
   isFetched: false,
   error: null,
@@ -27,22 +41,21 @@ const initialState: State = {
   totalpages: 1,
   page: 1,
 };
-
+//  узгодити типи у PayloadAction\from "@reduxjs/toolkit"; з тим, що повертає createAsyncThunk. Додамо типізацію TruckDetailById для selectedTruck.
 const campersSlice = createSlice({
   name: "campers",
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchAllTruck.pending, state => {
+      // fetchAllTruck
+      .addCase(fetchAllTruck.pending, (state) => {
         state.loading = true;
       })
         .addCase(fetchAllTruck.fulfilled, (state: State, action: PayloadAction<{ items: Truck[]; total: number }>) => {
-      
-          const newItems = action.payload.items.filter(
-  (item: Truck) => !state.items.some((existing: Truck) => existing.id === item.id)
-          );
-          console.log(typeof state.items, state.items);
+  const newItems = action.payload.items.filter(
+    (item: Truck) => !state.items.some((existing: Truck) => existing.id === item.id)
+  );
         state.items = [...state.items, ...newItems];
         state.loading = false;
         state.isFetched = true;
@@ -51,50 +64,34 @@ const campersSlice = createSlice({
           state.page += 1;
         }
       })
-
       .addCase(fetchAllTruck.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Unknown error';
+        state.error = action.payload as string;
       })
-      .addCase(findTruckById.pending, state => {
+      // fetchAllTruckLanguage
+      .addCase(fetchAllTruckLanguage.pending, (state) => {
         state.loading = true;
       })
-      .addCase(findTruckById.fulfilled, (state, action) => {
-        state.selectedTruck = action.payload; // Зберігаємо деталі вантажівки
+      .addCase(fetchAllTruckLanguage.fulfilled, (state, action: PayloadAction<Truck[]>) => {
+        state.items = action.payload;
         state.loading = false;
-        state.error = null;
+      })
+      .addCase(fetchAllTruckLanguage.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      // findTruckById
+      .addCase(findTruckById.fulfilled,
+        (state, action: PayloadAction<TruckDetailById>) => {
+        state.selectedTruck = action.payload;
+        state.loading = false;
       })
       .addCase(findTruckById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Error fetching truck details';
+        state.error = action.payload as string;
       });
   },
 });
 
 export default campersSlice.reducer;
 
-
-
-// function reducer(state: State, action: Action): State {
-//   switch (action.type) {
-//     case 'LOADING':
-//       return { ...state, loading: true, error: null };
-//     case 'SUCCESS':
-//       return { loading: false, error: null, item: action.payload };
-//     case 'ERROR':
-//       return { ...state, loading: false, error: action.error };
-//     default:
-//       throw new Error();
-//   }
-// }
-
-// initialState: {
-  //   items: [],
-  //   loading: false,
-  //   isFetched: false,
-  //   error: null,
-  //   selectedTruck: null, // Для збереження деталей вантажівки
-  //   isBooked: false,
-  //   totalpages: 1,
-  //   page: 1,
-  // },

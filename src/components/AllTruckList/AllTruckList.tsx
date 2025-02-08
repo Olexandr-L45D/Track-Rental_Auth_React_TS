@@ -4,11 +4,38 @@ import css from "./AllTruckList.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectFilteredByLocation } from "../../redux/filters/selectors";
-
+export interface TruckAll{
+  id: number;
+  name: string;
+  location: string;
+  rating: number;
+  price: number;
+  gallery: { original: string; thumb: string }[];
+  description: string;
+  reviews: {
+    reviewer_name: string;
+    reviewer_rating: number;
+    comment: string;
+  }[];
+};
+// Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
+export interface TruckDetailAll extends TruckAll {
+  kitchen: boolean;
+  AC: boolean;
+  transmission: string; 
+  engine: string;
+  form: string;
+  length: number;
+  width: number;
+  height: number;
+  tank: number;
+  consumption: string | number;
+}
+// використовую дженерік <T extends TruckDetailAll>
 export default function AllTruckList() {
   const { t } = useTranslation();
   // Використовуємо мемоізований селектор а саме Селектор фільтрації вантажівок за локацією
-  const trucks = useSelector(selectFilteredByLocation);
+  const trucks = useSelector(selectFilteredByLocation) as TruckDetailAll[];
   if (!trucks || trucks.length === 0) {
     return <div>No trucks available</div>; // Відобразіть це, якщо дані ще не завантажені
   }
@@ -52,7 +79,7 @@ export default function AllTruckList() {
                 </section>
 
                 <p className={css.textDescr}>{truck.description}</p>
-
+                
                 <ul className={css.featuresList}>
                   <li className={css.featuresItem}>
                     <svg className={css.icon}>
@@ -71,15 +98,16 @@ export default function AllTruckList() {
                       {truck.engine.charAt(0).toUpperCase() +
                         truck.engine.slice(1)}
                     </strong>
-                  </li>
+                  </li> 
                   <li className={css.featuresItem}>
                     <svg className={css.icon}>
                       <use href={`${sprite}#icon-kitch`} />
                     </svg>
                     <strong>Kitchen</strong> {truck.kitchen}
                   </li>
-                </ul>
-                <div className={css.featuresItemAc}>
+              </ul>             
+              <div
+                className={css.featuresItemAc}>
                   <svg className={css.icon}>
                     <use href={`${sprite}#icon-ac`} />
                   </svg>
@@ -100,27 +128,33 @@ export default function AllTruckList() {
   );
 }
 
-// {
-//   name,
-//   id,
-//   location,
-//   price,
-//   rating,
-//   gallery,
-//   description,
-//   water,
-//   engin,
-//   kitchen,
-// //   AC,
+
+
+//  all descriptions Truck
+//             "id": "2",
+//             "name": "Cruise America C-21",
+//             "price": 8000,
+//             "rating": 4.3,
+//             "location": "Ukraine, Poltava",
+//             "description": "Discover the charm of the open road with the Cruise America C-21, a compact and versatile alcove-style motorhome. Ideal for couples or small families, this motorhome combines practicality with comfort, offering an efficient and enjoyable travel experience. The Cruise America C-21 is designed to provide you with the freedom to explore while ensuring a cozy retreat at the end of the day.",
+//             "form": "alcove",
+//             "length": "6.4m",
+//             "width": "2.34m",
+//             "height": "3.72m",
+//             "tank": "151l",
+//             "consumption": "21l/100km",
+//             "transmission": "automatic",
+//             "engine": "petrol",
+//             "AC": true,
+//             "bathroom": true,
+//             "kitchen": true,
+//             "TV": false,
+//             "radio": true,
+//             "refrigerator": true,
+//             "microwave": true,
+//             "gas": true,
+//             "water": true,
 // "transmission": "manual",
 //             "engine": "petrol",
 // }
-// <li key={id} className={css.cartItem}>
-/* <ul>
-  {trucks.map(truck => (
-    <li key={truck.id}>
-      <h3>{truck.name}</h3>
-      <p>{truck.description}</p>
-    </li>
-  ))}
-</ul>; */
+

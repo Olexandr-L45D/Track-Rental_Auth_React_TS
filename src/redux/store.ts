@@ -32,7 +32,11 @@ export const store = configureStore({
 // Додаємо тип для глобального стану
 export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
-
+// Визначаємо тип AppDispatch
+export type AppDispatch = typeof store.dispatch;
+// також створюємо типізовані версії хуків в окремому файлі hooks.ts 
+// export const useAppDispatch: () => AppDispatch = useDispatch;
+// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 
 // type State = {

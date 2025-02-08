@@ -11,7 +11,8 @@ export const selectError = (state: RootState)=> state.campers.error;
 export const selectTrucs = (state: RootState) => state.campers.items;
 
 export const selectPage = (state: RootState) => state.campers.page;
-export const selectLocation = (state: RootState) => state.filters.filters.location;
+
+// export const selectLocation = (state: RootState) => state.filters.filters.location; поки не використовую
 
 // Селектор для відфільтрованих вантажівок
 export const selectOutCampers = createSelector(
