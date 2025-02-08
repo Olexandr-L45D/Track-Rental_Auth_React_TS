@@ -16,7 +16,7 @@ export default function SearchBoxFiltr() {
   const [params, setParams] = useSearchParams();
 
   // типізую локацію для initialValues та values
-interface SearchBoxVelues {
+  interface SearchBoxVelues {
     location: string; 
   }
   // Початкові значення форми

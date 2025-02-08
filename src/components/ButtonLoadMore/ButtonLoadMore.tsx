@@ -1,12 +1,11 @@
 import css from "./ButtonLoadMore.module.css";
-import { useSelector, useDispatch } from "react-redux";
 import { fetchAllTruck } from "../../redux/campers/operations";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-export default function ButtonLoadMore() {
-  const dispatch = useDispatch();
-  const { page, totalpages, loading } = useSelector(state => state.campers);
-
+const ButtonLoadMore: React.FC = ()=> {
+   const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
+  const { page, totalpages, loading } = useAppSelector((state) => state.campers);
   const { t } = useTranslation();
 
   const handleClick = () => {
@@ -29,6 +28,8 @@ export default function ButtonLoadMore() {
     </div>
   );
 }
+
+export default ButtonLoadMore;
 
 // Як це працює:
 // При кліку по кнопці:

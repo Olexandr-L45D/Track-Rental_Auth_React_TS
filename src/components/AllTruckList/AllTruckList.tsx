@@ -4,34 +4,9 @@ import css from "./AllTruckList.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectFilteredByLocation } from "../../redux/filters/selectors";
-export interface TruckAll{
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  price: number;
-  gallery: { original: string; thumb: string }[];
-  description: string;
-  reviews: {
-    reviewer_name: string;
-    reviewer_rating: number;
-    comment: string;
-  }[];
-};
-// Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
-export interface TruckDetailAll extends TruckAll {
-  kitchen: boolean;
-  AC: boolean;
-  transmission: string; 
-  engine: string;
-  form: string;
-  length: number;
-  width: number;
-  height: number;
-  tank: number;
-  consumption: string | number;
-}
-// використовую дженерік <T extends TruckDetailAll>
+import { TruckDetailAll } from "../App/App.types";
+
+// використовую дженерік <as TruckDetailAll>
 export default function AllTruckList() {
   const { t } = useTranslation();
   // Використовуємо мемоізований селектор а саме Селектор фільтрації вантажівок за локацією

@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import { FormikHelpers } from 'formik';
+import { BookinFormVelues } from "../App/App.types";
 
 export default function BookingForm() {
   const { t } = useTranslation();
@@ -19,13 +20,6 @@ export default function BookingForm() {
       .required("Booking date is required"),
     comment: Yup.string().max(200, "Comment cannot exceed 200 characters"),
   });
-
-  interface BookinFormVelues {
-    name: string;
-    email: string;
-    bookingDate: string;
-    comment: string;
-  }
   // FormikHelpers — це вбудований тип з Formik, який описує доступні методи в actions.
   const handleSubmit = (values: BookinFormVelues, actions: FormikHelpers<BookinFormVelues>) => {
     toast.success("Booking successful!");

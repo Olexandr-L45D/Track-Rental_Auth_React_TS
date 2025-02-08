@@ -1,25 +1,20 @@
-import { Link, NavLink } from "react-router-dom";
 import clsx from "clsx";
 import css from "./Navigation.module.css";
 import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
-// import { useDispatch } from "react-redux";
-// import { setLanguage } from "../../redux/sliceLanguage";
-// import { fetchAllTruckLanguage } from "../../redux/campers/operations";
+import {Link, NavLink, NavLinkProps } from "react-router-dom";
 
-const newLinkClass = ({ isActive }) => {
+const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
-export const Navigation = () => {
-  // const dispatch = useDispatch();
+export const Navigation: React.FC = () => {
   const { i18n } = useTranslation(); // Додано хук
   // Функція для зміни мови
-  const changeLanguage = language => {
-    i18n.changeLanguage(language);
-    // dispatch(setLanguage(language)); // Міняємо Redux-стан мови
-    // dispatch(fetchAllTruckLanguage()); // Перезапитуємо trucks вже на новій мові
-  };
+  const changeLanguage = (language: string) => {
+  i18n.changeLanguage(language);
+   };
+
   const { t, ready } = useTranslation();
   if (!ready) {
     return <div>Loading translations...</div>;
@@ -60,3 +55,4 @@ export const Navigation = () => {
     </section>
   );
 };
+

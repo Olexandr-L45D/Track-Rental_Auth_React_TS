@@ -3,19 +3,19 @@ import { useSelector } from "react-redux";
 import sprite from "../../images/sprite.svg";
 import BookingForm from "../BookingForm/BookingForm";
 import { useTranslation } from "react-i18next";
-// import { RootState } from "../../redux/store";
 import { useAppSelector } from "../../redux/hooks";
 
 interface TruckReview {
   reviews: { reviewer_name: string, reviewer_rating: number, comment: string }[];
   description: string;
 };
+
 const TruckReviews: React.FC = () => {
   const { selectedTruck } = useAppSelector(
     (state) => state.campers as { selectedTruck: TruckReview | null }
   );
-  // const { selectedTruck } = useAppSelector((state: RootState) => state.campers.selectedTruck);
   const { t } = useTranslation();
+
   return (
     <div className={css.cartBottomDetall}>
       {selectedTruck ? (

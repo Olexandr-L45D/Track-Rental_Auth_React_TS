@@ -1,73 +1,88 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-// логіка авторизації з тайскрипт
-type User = {
-  name: string;
-  email: string;
-};
+// import React, { createContext, useContext, useEffect, useState } from 'react';
+// // логіка авторизації з тайскрипт
+// type User = {
+//   name: string;
+//   email: string;
+// };
 
-type UserContextProps = {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-};
+// type UserContextProps = {
+//   user: User | null;
+//   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+// };
 
-const UserContext = createContext<UserContextProps | undefined>(undefined);
+// const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-type Props = {
-  children: React.ReactNode;
-};
+// type Props = {
+//   children: React.ReactNode;
+// };
 
-// Сам провайдер
-export function UserProviderAuth({ children }: Props) {
-  const [user, setUser] = useState<User | null>(null);
+// type Propses = {
+//   name: string;
+//   age: number;
+//   children: React.ReactNode; // Типизация для children
+// };
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
-}
+// export function User({ name, age, children }: Propses) {
+//   return (
+//     <div>
+//       <p>{`User name is ${name}`}</p>
+//       <p>{`User age is ${age}`}</p>
+//       {children} {/* Рендерим children */}
+//     </div>
+//   );
+// }
+// // Сам провайдер
+// export function UserProviderAuth({ children }: Props) {
+//   const [user, setUser] = useState<User | null>(null);
 
-// Хук для використання контексту
-export function useUserState() {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
-  return context;
-}
+//   return (
+//     <UserContext.Provider value={{ user, setUser }}>
+//       {children}
+//     </UserContext.Provider>
+//   );
+// }
 
-// можливо потім перенести в окремий компонент але поки що щоб було видно
-// Компонент, що використовує контекст
-function UserProfile() {
-  const { user, setUser } = useUserState();
+// // Хук для використання контексту
+// export function useUserState() {
+//   const context = useContext(UserContext);
+//   if (context === undefined) {
+//     throw new Error('useUser must be used within a UserProvider');
+//   }
+//   return context;
+// }
 
-  // useEffect(() => {
-  //   let isActive = true;
-  //   return (): void => {
-  //     isActive = false;
-  //   };
-  // }, []);
-  // Моделюємо завантаження даних про користувача.
-  useEffect(() => {
-    setTimeout(() => {
-      setUser({
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-      });
-    }, 2000);
-  }, [setUser]);
+// // можливо потім перенести в окремий компонент але поки що щоб було видно
+// // Компонент, що використовує контекст
+// function UserProfile() {
+//   const { user, setUser } = useUserState();
 
-  if (!user) {
-    return <p>Loading...</p>;
-  }
+//   // useEffect(() => {
+//   //   let isActive = true;
+//   //   return (): void => {
+//   //     isActive = false;
+//   //   };
+//   // }, []);
+//   // Моделюємо завантаження даних про користувача.
+//   useEffect(() => {
+//     setTimeout(() => {
+//       setUser({
+//         name: 'John Doe',
+//         email: 'john.doe@example.com',
+//       });
+//     }, 2000);
+//   }, [setUser]);
 
-  return (
-    <div>
-      <h1>{user.name}</h1>
-      <p>{user.email}</p>
-    </div>
-  );
-}
+//   if (!user) {
+//     return <p>Loading...</p>;
+//   }
+
+//   return (
+//     <div>
+//       <h1>{user.name}</h1>
+//       <p>{user.email}</p>
+//     </div>
+//   );
+// }
 
 
 

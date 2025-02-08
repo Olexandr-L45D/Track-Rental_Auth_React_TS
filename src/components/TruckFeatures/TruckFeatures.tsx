@@ -3,8 +3,7 @@ import sprite from "../../images/sprite.svg";
 import css from "./TruckFeatures.module.css";
 import BookingForm from "../BookingForm/BookingForm";
 import { useTranslation } from "react-i18next";
-// import { TruckDetailById } from "../TruckDetails/TruckDetails"; // Імпортуємо тип
-import { TruckDetailAll } from "../AllTruckList/AllTruckList";
+import { TruckDetailAll } from "../App/App.types";
 
 const TruckFeatures: React.FC = () => {
   const { selectedTruck } = useAppSelector(
