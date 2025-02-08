@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+
 import css from "./TruckDetalsPage.module.css";
 import TruckDetails from "../../components/TruckDetails/TruckDetails";
 
@@ -7,7 +7,6 @@ export default function TruckDetalsPage() {
   return (
     <div className={css.container}>
       <TruckDetails />
-      
     </div>
   );
 }

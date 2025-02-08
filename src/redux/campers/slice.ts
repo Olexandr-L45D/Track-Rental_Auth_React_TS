@@ -1,35 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAllTruck, fetchAllTruckLanguage, findTruckById } from "./operations";
-// import { TruckDetailById } from "../../components/TruckDetails/TruckDetails";
+import { State, Truck, TruckDetailWithId } from "../../components/App/App.types";
 
-export interface Truck{
-  id: number;
-  name: string;
-  location: string;
-};
-// Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
-export interface TruckDetailById extends Truck {
-  rating: number;
-  price: number;
-  gallery: { original: string; thumb: string }[];
-  description: string;
-  reviews?: {
-    reviewer_name: string;
-    reviewer_rating: number;
-    comment: string;
-  }[];
-}
-interface State{
-  items: Truck[] | TruckDetailById[]; // Це має бути або список вантажівок, або деталі
-  total: number;
-  loading: boolean;
-  isFetched: boolean;
-  error: string | null;
-  selectedTruck: TruckDetailById | null; // Для збереження деталей вантажівки
-  isBooked: boolean;
-  totalpages: number;
-  page: number;
-};
 const initialState: State = {
   items: [],
   total: 0,
@@ -48,7 +20,6 @@ const campersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // fetchAllTruck
       .addCase(fetchAllTruck.pending, (state) => {
         state.loading = true;
       })
@@ -68,7 +39,6 @@ const campersSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // fetchAllTruckLanguage
       .addCase(fetchAllTruckLanguage.pending, (state) => {
         state.loading = true;
       })
@@ -80,9 +50,8 @@ const campersSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // findTruckById
       .addCase(findTruckById.fulfilled,
-        (state, action: PayloadAction<TruckDetailById>) => {
+        (state, action: PayloadAction<TruckDetailWithId>) => {
         state.selectedTruck = action.payload;
         state.loading = false;
       })

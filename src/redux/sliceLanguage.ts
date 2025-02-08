@@ -1,7 +1,7 @@
-// sliceLanguage.js
+
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = "en"; // Початкова мова
+const initialState = "en"; 
 
 const languageSlice = createSlice({
   name: "language",

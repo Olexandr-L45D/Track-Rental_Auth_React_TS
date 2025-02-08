@@ -13,20 +13,18 @@ import { setChangeFilter } from "../../redux/filters/slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 export default function TruckPageFilters() {
-  // const isLoading = useSelector(state => state.campers.loading);
   const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
   const isLoading = useAppSelector((state) => state.campers.loading);
   const filteres = useSelector(selectFilters);
   const page = useSelector(selectPage);
   const [params, setParams] = useSearchParams();
 
-  // Об'єднаний useEffect
   useEffect(() => {
     const existingFilters = Object.fromEntries(params.entries());
-    // Якщо URL містить параметри, а Redux-параметри порожні
-    if (!Object.keys(filteres).length && Object.keys(existingFilters).length) {
+    
+    if (!Object.keys(filteres).length && Object.keys(existingFilters).length) {  // Якщо URL містить параметри, а Redux-параметри порожні
       console.log("Initializing Redux with existing filters:", existingFilters);
-      // dispatch(setChangeFilter(existingFilters)); // Синхронізація Redux з URL
+      
       dispatch(setChangeFilter({ location: "" })); // Синхронізація Redux з URL { location: "" }
       return;
     }

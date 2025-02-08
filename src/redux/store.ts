@@ -25,7 +25,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
       immutableCheck: {
-        warnAfter: 64, // Збільшити порогове значення до 64мс (або більше)
+        warnAfter: 64, 
       },
     }),
 });
@@ -34,15 +34,5 @@ export type RootState = ReturnType<typeof store.getState>;
 export const persistor = persistStore(store);
 // Визначаємо тип AppDispatch
 export type AppDispatch = typeof store.dispatch;
-// також створюємо типізовані версії хуків в окремому файлі hooks.ts 
-// export const useAppDispatch: () => AppDispatch = useDispatch;
-// export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 
-// type State = {
-// count: number;
-// };
-
-// type Action = 
-//  { type: 'increment' }
-// | { type: 'decrement' };
