@@ -19,3 +19,24 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </Provider>
   </React.StrictMode>
 );
+
+
+// 2. Імпортуємо створений раніше стор, який зберігається в файлі redux/filters/store
+// import { store, persistor } from "../src/redux/store";
+// import { PersistGate } from "redux-persist/integration/react";
+// import {  persistor } from "../src/redux/store";
+
+
+
+  // <React.StrictMode>
+  //   <Provider store={store}>
+  //     <PersistGate persistor={persistor} loading={null}>
+  //       <BrowserRouter>
+  //         <Suspense fallback={<div>Loading translations...</div>}>
+  //           <App />
+  //         </Suspense>
+  //       </BrowserRouter>
+  //     </PersistGate>
+  //   </Provider>
+  // </React.StrictMode>
+

@@ -1,0 +1,20 @@
+.cartPage {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartForm {
+    padding: 2px;
+    margin: 2px;
+    color: black;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.5;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}

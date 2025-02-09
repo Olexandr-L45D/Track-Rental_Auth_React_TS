@@ -3,12 +3,17 @@ import css from "./Navigation.module.css";
 import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
+import UserMenu from "../UserMenu/UserMenu";
+import { AuthNav } from "../AuthNav/AuthNav";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
 export const Navigation: React.FC = () => {
+  //  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { i18n } = useTranslation(); // Додано хук
   // Функція для зміни мови
   const changeLanguage = (language: string) => {
@@ -38,6 +43,9 @@ export const Navigation: React.FC = () => {
           </NavLink>
         </nav>
       </section>
+      {/* {isLoggedIn ? <UserMenu /> : <AuthNav />} */}
+      <UserMenu />
+      <AuthNav />
       <div className={css.languageSwitcher}>
         <button
           className={css.activeButton}

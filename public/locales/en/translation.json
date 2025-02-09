@@ -1,6 +1,10 @@
 
 {
   "navigation": {
+    
+    "contacts": "Contacts",
+    "login": "Login",
+    "register": "Register",
     "home": "Home",
     "catalog": "Catalog",
     "send": "Send",
@@ -33,11 +37,13 @@
    "titleLogin": "LOGIN FORM"
   },
   "auth": {
+    "finde": "Finde contact by name",
     "welcome": "Welcome",
     "username": "Username",
     "password": "Password",
     "submit": "Submit",
     "logout": "Logout",
+    "titleContactbook": "Contactbook",
     "btnLog": "Log In"
   },
   "loader": {

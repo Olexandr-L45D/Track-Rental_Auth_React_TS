@@ -1,0 +1,25 @@
+.blokLink {
+    margin: 30px;
+}
+
+.nav {
+    display: flex;
+}
+
+.logo {
+    font-weight: 700;
+    margin: 0;
+}
+
+.link {
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.active {
+    color: white;
+    background-color: rgb(30, 255, 0);
+}
