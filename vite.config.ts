@@ -1,3 +1,4 @@
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
@@ -7,3 +8,6 @@ export default defineConfig({
     sourcemap: true,
   }
 });
+
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';

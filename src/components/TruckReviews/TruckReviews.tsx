@@ -58,3 +58,5 @@ const TruckReviews: React.FC = () => {
     </div>
   );
 };
+
+export default TruckReviews;
