@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store"; 
 import { Truck, TruckDetailById } from "../../components/App/App.types";
 axios.defaults.baseURL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io";
+
 interface FetchAllTruckParams { page?: number; };
 
 export interface TruckListResponse {

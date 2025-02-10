@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import css from "./LoginPage.module.css";
 
-export default function LoginPage() {
+const LoginPage: React.FC = () => {
   const { t, ready } = useTranslation();
   if (!ready) {
     return <div>Loading translations...</div>;
@@ -15,7 +15,8 @@ export default function LoginPage() {
       </div>
     </main>
   );
-}
+};
+export default LoginPage;
 
 // const [products, setProduct] = useState([]);
 // const [loading, setLoading] = useState(false);

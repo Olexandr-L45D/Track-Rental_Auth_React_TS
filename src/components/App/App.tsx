@@ -6,12 +6,11 @@ const RegistrationPage = lazy(() =>
 );
 // import { refreshUser } from "../../redux/auth/operations";
 import RestrictedRoute from "../RestrictedRoute";
-// import PrivateRoute from "../../components/PrivateRoute";
-import { selectIsRefreshing } from "../../redux/auth/selectors";
+import PrivateRoute from "../PrivateRoute";
+import { selectIsLoggedIn, selectIsRefreshing } from "../../redux/auth/selectors";
 const TruckFeatures = lazy(() => import("../TruckFeatures/TruckFeatures"));
 const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-
 const TruckPageFilters = lazy(() =>
   import("../../pages/TruckPageFilters/TruckPageFilters")
 );
@@ -19,24 +18,46 @@ const TruckDetalsPage = lazy(() =>
   import("../../pages/TruckDetalsPage/TruckDetalsPage")
 );
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
-
 import { Layout } from "../Layout/Layout";
-// import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUser } from "../../redux/auth/operations";
+import { AppDispatch, RootState } from "../../redux/store";
 
 export default function App() {
   // const dispatch = useDispatch();
-  // const isRefreshing = useSelector(selectIsRefreshing);
-  // запит на ТОКЕН isRefreshing (чи валідний токен?)
-  // useEffect(() => {
-  //   dispatch(refreshUser());
-  // }, [dispatch]);
+  const dispatch: AppDispatch = useDispatch();
+const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
+  // запит на ТОКЕН isRefreshing (чи валідний токен?) Виконуємо refreshUser тільки якщо токен існує
+  useEffect(() => {
+    console.log('Token:', token);
+  console.log('Is Logged In:', isLoggedIn);
+  console.log('Is Refreshing:', isRefreshing);
+    if (token && !isLoggedIn && !isRefreshing) {
+      console.log('Dispatching refreshUser...');
+      dispatch(refreshUser());
+    }
+  }, [token, isLoggedIn, isRefreshing, dispatch]);
 
+  if (isRefreshing) {
+    return <b>Refreshing user ...</b>;  // Показуємо лоадер, поки триває перевірка токену
+  }
+
+  if (isRefreshing) {
+    return <b>Refreshing user ...</b>;  // Показуємо лоадер, поки токен перевіряється
+  }
+  console.log('User is logged in:', isLoggedIn); // Перевірка в консолі
   // return isRefreshing ? (
   //   <b>Refreshing user ...</b>
   // ) : (
   return (
+    
     <Layout>
-      <Suspense fallback={null}>
+      <Suspense fallback={<b>Loading...</b>}>
+        
+      <h2>{isLoggedIn ? 'Ви авторизовані' : 'Будь ласка, увійдіть'}</h2>
+    
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
@@ -57,14 +78,22 @@ export default function App() {
               />
             }
           />
-          <Route path="/catalog" element={<TruckPageFilters />} />
+         
+           <Route path="/catalog" element={ <PrivateRoute
+                 redirectTo="/login"
+                 component={<TruckPageFilters />}/> } /> 
           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
             <Route path="features" element={<TruckFeatures />} />
             <Route path="reviews" element={<TruckReviews />} />
           </Route>
+          
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </Layout>
   );
 };
+
+
+//  <Route path="/catalog" element={<TruckPageFilters />} />
+// component — це React-компонент, який буде відображатись, якщо користувач не залогінений (наприклад, <LoginPage />).

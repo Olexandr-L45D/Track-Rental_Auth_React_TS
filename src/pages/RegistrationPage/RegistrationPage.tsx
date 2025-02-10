@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import RegistrationForm from "../../components/RegistrationForm/RegistrationForm.module.css";
 import css from "./RegistrationPage.module.css";
+import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
 
-export default function RegistrationPage() {
+const RegistrationPage: React.FC = () => {
   const { t, ready } = useTranslation();
   if (!ready) {
     return <div>Loading translations...</div>;
@@ -15,6 +15,6 @@ export default function RegistrationPage() {
       </div>
     </main>
   );
-}
+};
 
-// RegistrationForm
+export default RegistrationPage;

@@ -1,30 +1,37 @@
 // LoginForm
 import css from "./LoginForm.module.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
+import { AppDispatch } from "../../redux/store";
 // import { selectIsLoading } from '../../redux/auth/selectors'
+ interface UsLoginVelues { 
+    email: string;
+    password: string;
+  }
+  // Початкові значення форми
+  const initialValues: UsLoginVelues = {
+    email: "",
+    password: "",
+};
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { t, ready } = useTranslation();
   if (!ready) {
     return <div>Loading translations...</div>;
   }
 
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = (values: UsLoginVelues, { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>) => {
     console.log(values);
     dispatch(logIn(values));
-    actions.resetForm();
+    resetForm();
   };
   return (
     <div className={css.item}>
       <Formik
-        initialValues={{
-          email: " ",
-          password: " ",
-        }}
+        initialValues={initialValues}
         onSubmit={handleSubmit}
       >
         <Form>

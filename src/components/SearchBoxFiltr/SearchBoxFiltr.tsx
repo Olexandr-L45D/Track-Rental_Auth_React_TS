@@ -3,8 +3,7 @@ import css from "./SearchBoxFiltr.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../redux/filters/slice";
 import { useSearchParams } from "react-router-dom";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { FormikHelpers } from "formik";  // Імпортуємо тип для допоміжних методів
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { selectFilters } from "../../redux/filters/selectors";
 import { useTranslation } from "react-i18next";

@@ -3,6 +3,40 @@
 // Це окей для розробки, але може викликати проблеми під час білду.
 //  створив додатковий файл .vscode/settings.json в корені проекту який допоміг прибрати багі в файлах конфігурації
 
+// типізувати початковий стан initialState для юзера в слайсі:
+export interface AuthStateUser {
+  user: { name: string; email: string } | null;
+  token: string | null;
+  isLoggedIn: boolean;
+  isRefreshing: boolean;
+  isError: boolean;
+  isLoading: boolean;
+}
+
+
+// export interface Users {
+//   id: string;
+//   name: string;
+//   email: string;
+// //   user: { name: string; email: string } | null;
+//   token: string | null;
+//   isLoggedIn: boolean;
+//   isRefreshing: boolean;
+//   isError: boolean;
+//   isLoading: boolean;
+// }
+// const initialState = {
+//     user: {
+//         name: null,
+//         email: null,
+//     },
+//     token: null,
+//     isLoggedIn: false,
+//     isRefreshing: false,
+//     isError: false,
+//     isLoading: false,
+// }
+
 export type Props = {
   children: React.ReactNode; // Типизация для children
 };
