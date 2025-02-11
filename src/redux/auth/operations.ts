@@ -2,14 +2,16 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from '../store'
+import { UsRegisterVelues } from '../../components/RegistrationForm/RegistrationForm';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 
-type AuthToken = {
-    token: string;
-};
-
 export interface UserData {
+  name: string;
+  email: string;
+}
+
+export interface UserRefreshToken {
   id: string;
   name: string;
   email: string;
@@ -48,12 +50,16 @@ const clearAuthHeader = () => {
 // POST @/users/signup
 export const register = createAsyncThunk<
     AuthResponse,                  // Тип даних, які повертаються після успішної реєстрації
-    AuthCredentials,               // Тип аргументів, які передаються у функцію
+    UsRegisterVelues,               // Тип аргументів, які передаються у функцію
     { rejectValue: string }        // Тип помилки, що повертається у випадку невдачі
 >( 'auth/register',
-    async (credentials, thunkAPI) => {
+    async (userData: UsRegisterVelues, thunkAPI) => {
         try {
-            const response = await axios.post<AuthResponse>('/users/signup', credentials);
+          const response = await axios.post<AuthResponse>('/users/signup', userData, {
+            headers: {
+              "Content-Type": "application/json",  // Додаємо заголовок тут
+            },
+          });
             // After successful registration, add the token to the HTTP header
           setAuthHeader(response.data.token);
           console.log('Registered user:', response.data); // Логування відповіді
@@ -119,6 +125,37 @@ export const logOut = createAsyncThunk<
     }
 });
 
+// нова версія щоб брати токен з локалсторедж:
+export const refreshUser = createAsyncThunk<
+  UserRefreshToken,
+  void,
+  { state: RootState }
+>(
+  "auth/refresh",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem('token');  // Токен з localStorage
+
+    if (!token) {
+      console.log('No token found in localStorage');
+      return thunkAPI.rejectWithValue("No token found");
+    }
+
+    setAuthHeader(token); 
+    console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
+
+    try {
+      const response = await axios.get<UserRefreshToken>("/users/current");
+      console.log('User data from refresh:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error refreshing user:', error);
+      return thunkAPI.rejectWithValue('Error refreshing user');
+    }
+  }
+);
+
+
+
 /*
  * GET @ /users/me
  * headers: Authorization: Bearer token
@@ -159,36 +196,6 @@ export const logOut = createAsyncThunk<
 //     },
 //   }
 // );
-
-// нова версія щоб брати токен з локалсторедж:
-export const refreshUser = createAsyncThunk<
-  UserData,
-  void,
-  { state: RootState }
->(
-  "auth/refresh",
-  async (_, thunkAPI) => {
-    const token = localStorage.getItem('token');  // Токен з localStorage
-
-    if (!token) {
-      console.log('No token found in localStorage');
-      return thunkAPI.rejectWithValue("No token found");
-    }
-
-    setAuthHeader(token); 
-    console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
-
-    try {
-      const response = await axios.get<UserData>("/users/current");
-      console.log('User data from refresh:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error refreshing user:', error);
-      return thunkAPI.rejectWithValue('Error refreshing user');
-    }
-  }
-);
-
 
 // export const refreshUser = createAsyncThunk(
 //     "auth/refresh",
@@ -234,7 +241,7 @@ export default axios
 
 
 
-// при регітрації бекенд працює і приходе такий обєкт вітповіді : {
+// при спробі регітрації в ПОСТМЕН бекенд працює і приходе такий обєкт вітповіді : {
 //     "user": {
 //         "name": "Joni Li",
 //         "email": "joni1978aleks@gmail.com"

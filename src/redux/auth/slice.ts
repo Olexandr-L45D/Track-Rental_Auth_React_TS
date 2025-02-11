@@ -1,12 +1,11 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { register, logIn, logOut, refreshUser } from "./operations";
+import { register, logIn, logOut, refreshUser, UserData, UserRefreshToken } from "./operations";
 
- interface UserData {
-  id: string;
-  name: string;
-  email: string;
-  token: string | null;
-}
+//  interface UserData {
+//   name: string;
+//   email: string;
+//  експортую з операцій
+// }
 
  interface AuthState {
   user: UserData | null;
@@ -49,7 +48,7 @@ const authSlice = createSlice({
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
       })
-      .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserData>) => {
+      .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
         state.user = action.payload;
         state.token = action.payload.token;
         state.isRefreshing = false;
