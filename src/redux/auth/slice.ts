@@ -1,11 +1,6 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { register, logIn, logOut, refreshUser, UserData, UserRefreshToken } from "./operations";
-
-//  interface UserData {
-//   name: string;
-//   email: string;
-//  експортую з операцій
-// }
+import { register, logIn, logOut, refreshUser, UserRefreshToken } from "./operations";
+import { UserData } from "../../components/App/App.types";
 
  interface AuthState {
   user: UserData | null;
@@ -71,9 +66,3 @@ const authSlice = createSlice({
 export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
 
-
-// .addCase(logIn.fulfilled, (state, action) => {
-//   state.user = action.payload;
-//   state.isLoggedIn = true;
-//   localStorage.setItem('token', action.payload.token); // Зберігаємо токен
-// })

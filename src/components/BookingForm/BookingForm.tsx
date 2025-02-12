@@ -1,5 +1,4 @@
 import css from "./BookingForm.module.css";
-// import { useState, useCallback } from 'react';
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,9 +7,17 @@ import { useTranslation } from "react-i18next";
 import { FormikHelpers } from 'formik';
 import { BookinFormVelues } from "../App/App.types";
 
+// Початкові значення форми
+  const initialBookinValues: BookinFormVelues = {
+    name: "",
+    email: "",
+   bookingDate: "",
+  comment: "",
+};
+
 export default function BookingForm() {
   const { t } = useTranslation();
-  const validationSchema = Yup.object().shape({
+ const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
       .email("Invalid email address")
@@ -39,12 +46,7 @@ export default function BookingForm() {
         pauseOnHover
       />
       <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          bookingDate: "",
-          comment: "",
-        }}
+        initialValues={initialBookinValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

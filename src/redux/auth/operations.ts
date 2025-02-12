@@ -2,14 +2,18 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from '../store'
-import { UsRegisterVelues } from '../../components/RegistrationForm/RegistrationForm';
 
-axios.defaults.baseURL = 'https://connections-api.goit.global/';
-
-export interface UserData {
-  name: string;
-  email: string;
-}
+const axiosInstanceUser = axios.create({
+  baseURL: "https://connections-api.goit.global/",
+});
+// Utility to add JWT - (token)
+const setAuthHeader = (token: string | null) => {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
+// Utility to remove JWT - token
+const clearAuthHeader = () => {
+    axios.defaults.headers.common.Authorization = '';
+};
 
 export interface UserRefreshToken {
   id: string;
@@ -18,8 +22,12 @@ export interface UserRefreshToken {
   token: string | null;  // Токен може приходити в деяких випадках
 };
 
+export interface UserDataRes {
+  name: string;
+  email: string;
+};
 export interface AuthState {
-  user: UserData | null;
+  user: UserDataRes | null;
   token: string | null;
   isLoggedIn: boolean;
   isRefreshing: boolean;
@@ -33,59 +41,52 @@ interface AuthCredentials {
     password: string;
 };
 
-// Тип для відповіді від API (user + token)
 interface AuthResponse {
-    user: UserData;
-    token: string;
-};
-// Utility to add JWT - (token)
-const setAuthHeader = (token: string | null) => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-// Utility to remove JWT - token
-const clearAuthHeader = () => {
-    axios.defaults.headers.common.Authorization = '';
-};
+  token: string;
+  user: {
+    name: string;
+    email: string;
+  };
+}
+// взяв сюда для наглядності UsRegisterVelues (пізніше імпортую з форми регістрації і приберу)
+export interface UsRegisterVelues {
+    name: string;
+    email: string;
+    password: string;
+  }
+  
 // POST @/users/signup
+// ThunkAPIConfig: Типізація для thunkAPI.Ми використовуємо { state: RootState }, щоб мати доступ до типізованого Redux стану.
 export const register = createAsyncThunk<
     AuthResponse,                  // Тип даних, які повертаються після успішної реєстрації
     UsRegisterVelues,               // Тип аргументів, які передаються у функцію
-    { rejectValue: string }        // Тип помилки, що повертається у випадку невдачі
->( 'auth/register',
-    async (userData: UsRegisterVelues, thunkAPI) => {
-        try {
-          const response = await axios.post<AuthResponse>('/users/signup', userData, {
-            headers: {
-              "Content-Type": "application/json",  // Додаємо заголовок тут
-            },
-          });
+    { rejectValue: string; state: RootState }  // Доступ до Redux стану та Тип помилки, що повертається у випадку невдачі
+  >('auth/register',
+  async (userDataValues, thunkAPI) => {
+    try {
+      const response = await axiosInstanceUser.post<AuthResponse>('/users/signup', userDataValues, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
             // After successful registration, add the token to the HTTP header
           setAuthHeader(response.data.token);
-          console.log('Registered user:', response.data); // Логування відповіді
-      console.log('Token set in header:', axios.defaults.headers.common.Authorization); // Перевірка заголовка
-            return response.data;
-        } catch (error) {
-            return thunkAPI.rejectWithValue('Error register !');
-        }
+         // Додаємо токен в заголовки для наступних запитів
+    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+          return response.data;
+        } catch (error: any) {
+  const errorMessage = error.response?.data?.message || 'Error register!';
+  // більше деталей про помилку в вітповіді з сервера в errorMessage
+  return thunkAPI.rejectWithValue(errorMessage);
+}
     }
 );
 
-// варіант з трохи простішою типізацією:
-// export const register = createAsyncThunk(
-//   "auth/register",
-//   async (userData: UsRegisterVelues, thunkAPI) => {
-//     try {
-//       const response = await api.post("/register", userData);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.response.data);
-//     }
-//   }
-// );
 /*
  * POST @ /users/login
- * body: { email, password } = credentials
+ * body: { email, password } = userInfo
  */
 export const logIn = createAsyncThunk<
     AuthResponse,                  
@@ -94,7 +95,7 @@ export const logIn = createAsyncThunk<
 >( 'auth/login',
     async (userInfo, thunkAPI) => {
         try {
-            const { data } = await axios.post<AuthResponse>('/users/login', userInfo);
+            const { data } = await axiosInstanceUser.post<AuthResponse>('/users/login', userInfo);
             // After successful login, add the token to the HTTP header
           setAuthHeader(data.token);
           // Збереження токену в localStorage
@@ -116,7 +117,7 @@ export const logOut = createAsyncThunk<
     { rejectValue: string }        // Тип помилки
 >('auth/logout', async (_, thunkAPI) => {
     try {
-        await axios.post('/users/logout');
+        await axiosInstanceUser.post('/users/logout');
         // After a successful logout, remove the token from the HTTP header
       clearAuthHeader();
       localStorage.removeItem('token');  // Видалення токену з localStorage
@@ -144,7 +145,7 @@ export const refreshUser = createAsyncThunk<
     console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
 
     try {
-      const response = await axios.get<UserRefreshToken>("/users/current");
+      const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
       console.log('User data from refresh:', response.data);
       return response.data;
     } catch (error) {
@@ -154,97 +155,35 @@ export const refreshUser = createAsyncThunk<
   }
 );
 
+export default axios;
 
 
-/*
- * GET @ /users/me
- * headers: Authorization: Bearer token
- */
-/**
- * Типізація відповіді від сервера (User) і стану Redux (RootState)
- * createAsyncThunk<ReturnedType, ThunkArg, ThunkAPIConfig>
- */
 
-// пояснення типізаціїї: createAsyncThunk<ReturnedType, ThunkArg, ThunkAPIConfig>
+
+//  Типізація відповіді від сервера (User) і стану Redux (RootState)
+  // createAsyncThunk<ReturnedType, ThunkArg, ThunkAPIConfig>
+ 
+// пояснення типізаціїї параметрів які додаю до createAsyncThunk<> : createAsyncThunk<ReturnedType, ThunkArg, ThunkAPIConfig>
 // ReturnedType: Тип, який повертається після успішного запиту. У нашому випадку це User.
 // ThunkArg: Аргументи, які функція приймає під час виклику. Ми не передаємо аргументів, тому використовуємо void.
-//     ThunkAPIConfig: Типізація для thunkAPI.Ми використовуємо { state: RootState }, щоб мати доступ до типізованого Redux стану.
+// ThunkAPIConfig: Типізація для thunkAPI.Ми використовуємо { state: RootState }, щоб мати доступ до типізованого Redux стану.
 
-// export const refreshUser = createAsyncThunk<
-//   UserData,              
-//   void,                  
-//   { state: RootState; rejectValue: string }  // Доступ до стану Redux + тип помилки
-// >(
-//   "auth/refresh",
-//   async (_, thunkAPI) => {
-//     const reduxState = thunkAPI.getState();
-//     const token = reduxState.auth.user?.token;
-
-//     if (token) {
-//       setAuthHeader(token);  // Встановлюємо токен у заголовок
-//     } else {
-//       return thunkAPI.rejectWithValue("No token found");  // Якщо токену немає, повертаємо помилку
-//     }
-
-//     const response = await axios.get<UserData>("/users/current");
-//     return response.data;  // Повертаємо лише дані користувача
-//   },
-//   {
-//     condition: (_, thunkAPI) => {
-//       const reduxState = thunkAPI.getState();
-//       return reduxState.auth.user?.token !== null; // Виконується тільки якщо токен існує
-//     },
-//   }
-// );
-
-// export const refreshUser = createAsyncThunk(
-//     "auth/refresh",
-//     async (_, thunkAPI) => {
-//         const reduxState = thunkAPI.getState();
-//         setAuthHeader(reduxState.auth.token);
-//         const response = await axios.get("/users/current");
-//         return response.data;
-//     },
-//     {
-//         condition: (_, thunkAPI) => {
-//             const reduxState = thunkAPI.getState();
-//             return reduxState.auth.token !== null;
-//         },
-//     }
-// );
-
-export default axios
-// приклад нижче ( з умовою)
-// export const refreshUser = createAsyncThunk(
-//     'auth/refresh',
-//     async (_, thunkAPI) => {
-//         // Reading the token from the state via getState()
-//         const state = thunkAPI.getState();
-//         const persistedToken = state.auth.token;
-
-//         if (persistedToken === null) {
-//             // If there is no token, exit without performing any request
-//             return thunkAPI.rejectWithValue('Unable to fetch user');
-//         }
-
-//         try {
-//             // If there is a token, add it to the HTTP header and perform the request
-//             setAuthHeader(persistedToken);
-//             const { data } = await axios.get('/users/me');
-//             return data;
-//         } catch (error) {
-//             return thunkAPI.rejectWithValue(error.message);
-//         }
-//     }
-// );
-
-
-
-
-// при спробі регітрації в ПОСТМЕН бекенд працює і приходе такий обєкт вітповіді : {
+// при спробі регітрації в ПОСТМЕН бекенд працює і приходе такий обєкт вітповіді :
+// {
 //     "user": {
 //         "name": "Joni Li",
 //         "email": "joni1978aleks@gmail.com"
 //     },
-//     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2FhNDRjNWM0OTVlZDZlMjVmM2RiMzYiLCJpYXQiOjE3MzkyMTE5NzN9.6ucfW4qeSjSszPuj5SFNgGc0A5h7YJ0BNMVar4kx5Ek"
+//     "token": "eyJhbGciOiJIUzI"
 // }
+
+// // this obgect correct Login end Refresh: 
+// email
+// : 
+// "4725NilaAleks@gmail.com"
+// name
+// : 
+// "AleksandrNIsa"
+// password
+// : 
+// "4725NilaAlex789"

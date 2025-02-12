@@ -13,7 +13,7 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   redirectTo,
 }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  console.log(isLoggedIn);
+  
   return isLoggedIn ? <Navigate to={redirectTo} /> : component;
 };
 

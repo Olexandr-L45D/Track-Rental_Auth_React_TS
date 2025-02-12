@@ -3,10 +3,8 @@ import css from "./RegistrationPage.module.css";
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
 
 const RegistrationPage: React.FC = () => {
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
+  const { t } = useTranslation();
+ 
   return (
     <main>
       <div className={css.cartPage}>

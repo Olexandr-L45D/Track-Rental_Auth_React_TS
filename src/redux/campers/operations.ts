@@ -2,7 +2,11 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store"; 
 import { Truck, TruckDetailById } from "../../components/App/App.types";
-axios.defaults.baseURL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io";
+// axios.defaults.baseURL = "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io";
+
+const axiosInstanceTruksOperations = axios.create({
+  baseURL: "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io", // Тут базовий URL для отримання даних
+});
 
 interface FetchAllTruckParams { page?: number; };
 
@@ -16,7 +20,7 @@ export const fetchAllTruck = createAsyncThunk
   async ({ page = 1 }, { getState, rejectWithValue }) => {
     try {
       const filter = getState().filters.filters;
-      const response = await axios.get<TruckListResponse>("/campers", {
+      const response = await axiosInstanceTruksOperations.get<TruckListResponse>("/campers", {
         params: { page, filter, limit: 4,},
       });
       return response.data;
@@ -30,7 +34,7 @@ export const findTruckById = createAsyncThunk<TruckDetailById, number>(
   'campers/findTruckById',
   async (id, thunkAPI) => {
     try {
-      const response = await axios.get(`/campers/${Number(id)}`);  // бекенд приймає число `/campers/${Number(id)}`
+      const response = await axiosInstanceTruksOperations.get(`/campers/${Number(id)}`);  // бекенд приймає число `/campers/${Number(id)}`
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue('Failed to fetch truck details');
@@ -55,7 +59,7 @@ export const fetchAllTruckLanguage = createAsyncThunk<
   "campers/fetchAllTruckLanguage",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.get("/campers");
+      const response = await axiosInstanceTruksOperations.get("/campers");
       const campers:Truck[] = response.data;
       // Отримуємо поточну мову з Redux (з дефолтним значенням)
       const currentLanguage = getState().language || "en";

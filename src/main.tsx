@@ -23,23 +23,3 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   </React.StrictMode>
 );
 
-
-// 2. Імпортуємо створений раніше стор, який зберігається в файлі redux/filters/store
-// import { store, persistor } from "../src/redux/store";
-// import { PersistGate } from "redux-persist/integration/react";
-// import {  persistor } from "../src/redux/store";
-
-
-
-// Так, додати PersistGate варто, особливо якщо ти використовуєш redux-persist для збереження токена та стану авторизації між сесіями.
-// PersistGate забезпечує завантаження збереженого стану перед рендерингом додатку. Це корисно для збереження токенів та статусу авторизації.
-// стара версія без авторизаціїї та стану для токенів:
-/* <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <Suspense fallback={<div>Loading translations...</div>}>
-          <App />
-        </Suspense>
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode> */

@@ -5,33 +5,44 @@ import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../redux/store";
-// import { selectIsLoading } from '../../redux/auth/selectors'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
  interface UsLoginVelues { 
     email: string;
     password: string;
   }
   // Початкові значення форми
-  const initialValues: UsLoginVelues = {
+  const initialLoginValues: UsLoginVelues = {
     email: "",
     password: "",
 };
 
 export default function LoginForm() {
   const dispatch: AppDispatch = useDispatch();
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
-
+  const { t } = useTranslation();
+ 
   const handleSubmit = (values: UsLoginVelues, { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>) => {
     console.log(values);
     dispatch(logIn(values));
+    toast.success("You have successfully logged in!");
     resetForm();
   };
   return (
     <div className={css.item}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000} // 5 seconds
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Formik
-        initialValues={initialValues}
+        initialValues={initialLoginValues}
         onSubmit={handleSubmit}
       >
         <Form>

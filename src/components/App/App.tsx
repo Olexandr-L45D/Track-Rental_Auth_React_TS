@@ -4,7 +4,6 @@ const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
   import("../../pages/RegistrationPage/RegistrationPage")
 );
-// import { refreshUser } from "../../redux/auth/operations";
 import RestrictedRoute from "../RestrictedRoute";
 import PrivateRoute from "../PrivateRoute";
 import { selectIsLoggedIn, selectIsRefreshing } from "../../redux/auth/selectors";
@@ -24,16 +23,13 @@ import { refreshUser } from "../../redux/auth/operations";
 import { AppDispatch, RootState } from "../../redux/store";
 
 export default function App() {
-  // const dispatch = useDispatch();
   const dispatch: AppDispatch = useDispatch();
 const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const isRefreshing = useSelector(selectIsRefreshing);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
   // запит на ТОКЕН isRefreshing (чи валідний токен?) Виконуємо refreshUser тільки якщо токен існує
   useEffect(() => {
-    console.log('Token:', token);
-  console.log('Is Logged In:', isLoggedIn);
-  console.log('Is Refreshing:', isRefreshing);
+    
     if (token && !isLoggedIn && !isRefreshing) {
       console.log('Dispatching refreshUser...');
       dispatch(refreshUser());
@@ -44,20 +40,10 @@ const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
     return <b>Refreshing user ...</b>;  // Показуємо лоадер, поки триває перевірка токену
   }
 
-  if (isRefreshing) {
-    return <b>Refreshing user ...</b>;  // Показуємо лоадер, поки токен перевіряється
-  }
-  console.log('User is logged in:', isLoggedIn); // Перевірка в консолі
-  // return isRefreshing ? (
-  //   <b>Refreshing user ...</b>
-  // ) : (
-  return (
-    
+  return ( 
+  
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
-        
-      <h2>{isLoggedIn ? 'Ви авторизовані' : 'Будь ласка, увійдіть'}</h2>
-    
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route
@@ -90,7 +76,7 @@ const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
-    </Layout>
+      </Layout> 
   );
 };
 

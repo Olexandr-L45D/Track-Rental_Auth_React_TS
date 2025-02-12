@@ -1,16 +1,13 @@
 import css from "./RegistrationForm.module.css";
-import { Formik, Form, Field, FormikHelpers } from "formik";
+import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { register } from "../../redux/auth/operations";
+import { register, UsRegisterVelues } from "../../redux/auth/operations";
 import { AppDispatch } from "../../redux/store";
-// register - запит на БЕКенд який повертає обєкт з даннними для регістрації (name: " ",email, password)
-// типізую для initialValues та values
-  export interface UsRegisterVelues {
-    name: string;
-    email: string;
-    password: string;
-  }
+import * as Yup from 'yup';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
   // Початкові значення форми
   const initialValues: UsRegisterVelues = {
     name: "",
@@ -20,20 +17,48 @@ import { AppDispatch } from "../../redux/store";
   
 export default function RegistrationForm() {
   const dispatch: AppDispatch = useDispatch();
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
+  const { t } = useTranslation();
+// Схема валідації для реєстраційної форми
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .min(3, 'Ім’я повинно бути не менше 3 символів')
+    .required('Ім’я є обов’язковим'),
+  email: Yup.string()
+    .email('Невірний формат електронної пошти')
+    .required('Електронна пошта є обов’язковою'),
+  password: Yup.string()
+    .min(6, 'Пароль повинен бути не менше 6 символів')
+    .required('Пароль є обов’язковим'),
+});
 
   const handleSubmit = (values: UsRegisterVelues, { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
-    console.log(values);
-    dispatch(register(values));
+    // Очищення пробілів перед відправкою
+  const trimmedValues = {
+    name: values.name.trim(),
+    email: values.email.trim(),
+    password: values.password.trim(),
+  };
+    
+    dispatch(register(trimmedValues));
     setSubmitting(false);
+    toast.success("You have successfully registered!");
     resetForm();
   };
   return (
     <div className={css.item}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000} // 5 seconds
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Formik
+        validationSchema={validationSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
@@ -46,6 +71,7 @@ export default function RegistrationForm() {
               name="name"
               placeholder="Enter name..."
             />
+             <ErrorMessage name="name" component="div" />
           </div>
           <div className={css.items}>
             <label className={css.label}>Email</label>
@@ -55,6 +81,7 @@ export default function RegistrationForm() {
               name="email"
               placeholder="Enter email..."
             />
+             <ErrorMessage name="email" component="div" />
           </div>
           <div className={css.items}>
             <label className={css.label}>Password</label>
@@ -64,6 +91,7 @@ export default function RegistrationForm() {
               name="password"
               placeholder="Please enter numbers and uppercase letters..."
             />
+            <ErrorMessage name="password" component="div" />
           </div>
 
           <div className={css.btn}>
@@ -76,3 +104,5 @@ export default function RegistrationForm() {
     </div>
   );
 };
+
+// successful registration

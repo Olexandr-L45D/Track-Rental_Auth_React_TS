@@ -3,10 +3,8 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import css from "./LoginPage.module.css";
 
 const LoginPage: React.FC = () => {
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
+  const { t } = useTranslation();
+ 
   return (
     <main>
       <div className={css.cartPage}>

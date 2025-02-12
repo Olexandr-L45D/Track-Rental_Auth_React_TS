@@ -8,10 +8,8 @@ const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
 };
 
 export const AuthNav: React.FC = () => {
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
+  const { t } = useTranslation();
+  
   return (
     <div className={css.blokLink}>
       <NavLink className={newLinkClass} to="/register">

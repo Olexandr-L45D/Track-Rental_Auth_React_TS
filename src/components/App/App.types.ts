@@ -13,30 +13,6 @@ export interface AuthStateUser {
   isLoading: boolean;
 }
 
-
-// export interface Users {
-//   id: string;
-//   name: string;
-//   email: string;
-// //   user: { name: string; email: string } | null;
-//   token: string | null;
-//   isLoggedIn: boolean;
-//   isRefreshing: boolean;
-//   isError: boolean;
-//   isLoading: boolean;
-// }
-// const initialState = {
-//     user: {
-//         name: null,
-//         email: null,
-//     },
-//     token: null,
-//     isLoggedIn: false,
-//     isRefreshing: false,
-//     isError: false,
-//     isLoading: false,
-// }
-
 export type Props = {
   children: React.ReactNode; // Типизация для children
 };
@@ -125,61 +101,14 @@ export interface TruckReview {
   description: string;
 };
 
-interface TruckDetailsProps {
-  id: number; // Приймаємо тільки id як пропс
-};
-
 export type PropsisActive = {
   isActive: boolean;
   language: string;
 };
 
-type Props2 = {
-  name: string;
-  age: number;
-  children: React.ReactNode; // Типизация для children
-};
-
-interface TruckPageProps {
-  id: number; 
-  page: number;
-  totalpages: number;
-  loading: boolean;
-}
-
-// export type TruckDetailById = {
-//   id: number;
-//   name: string;
-//   location: string;
-//   rating: number;
-//   price: number;
-//   gallery: { original: string, thumb: string }[];
-//   description: string;
-// };
-
-// export function User({ name, age, children }: Props2) {
-//   return (
-//     <div>
-//       <p>{`User name is ${name}`}</p>
-//       <p>{`User age is ${age}`}</p>
-//       {children} {/* Рендерим children */}
-//     </div>
-//   );
-// }
-
-// import React from 'react';
-
-type User = {
+export interface UserData {
   name: string;
   email: string;
+  // password: string;
 };
 
-type Props3 = {
-  user: User;
-  onUserUpdate: (user: User) => void;
-};
-
-// export function UserProfile({ user, onUserUpdate }: Props3) {
-//   // компонент UserProfile
-//   return null;
-// }

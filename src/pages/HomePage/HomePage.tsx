@@ -3,10 +3,8 @@ import css from "./HomePage.module.css";
 import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
-  }
+  const { t } = useTranslation();
+  
   return (
     <div className={css.background}>
       <section className={css.card}>

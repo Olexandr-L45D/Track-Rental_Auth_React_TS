@@ -5,25 +5,34 @@ import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
 import UserMenu from "../UserMenu/UserMenu";
 import { AuthNav } from "../AuthNav/AuthNav";
-import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
 export const Navigation: React.FC = () => {
-  //  const isLoggedIn = useSelector(selectIsLoggedIn);
   const { i18n } = useTranslation(); // Додано хук
-  // Функція для зміни мови
+   const { t } = useTranslation();
+  // Функція для зміни мови без зберігання в localStorage
+  // const changeLanguage = (language: string) => {
+  // i18n.changeLanguage(language);
+  // };
+//   const changeLanguage = (language: string) => {
+//   i18n.changeLanguage(language);
+//   localStorage.setItem('appLanguage', language);
+  // };
   const changeLanguage = (language: string) => {
-  i18n.changeLanguage(language);
-   };
-
-  const { t, ready } = useTranslation();
-  if (!ready) {
-    return <div>Loading translations...</div>;
+  if (i18n.language !== language) {
+    i18n.changeLanguage(language);
+    localStorage.setItem('appLanguage', language);
   }
+};
+
+// При ініціалізації
+const savedLanguage = localStorage.getItem('appLanguage') || 'en';
+i18n.changeLanguage(savedLanguage);
+
+
   return (
     <section className={css.container}>
       <div className={css.title}>
@@ -43,7 +52,6 @@ export const Navigation: React.FC = () => {
           </NavLink>
         </nav>
       </section>
-      {/* {isLoggedIn ? <UserMenu /> : <AuthNav />} */}
       <UserMenu />
       <AuthNav />
       <div className={css.languageSwitcher}>
