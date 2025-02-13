@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
 import UserMenu from "../UserMenu/UserMenu";
 import { AuthNav } from "../AuthNav/AuthNav";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -12,7 +14,8 @@ const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
 
 export const Navigation: React.FC = () => {
   const { i18n } = useTranslation(); // Додано хук
-   const { t } = useTranslation();
+  const { t } = useTranslation();
+   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
   // Функція для зміни мови без зберігання в localStorage
   // const changeLanguage = (language: string) => {
   // i18n.changeLanguage(language);
@@ -52,8 +55,8 @@ i18n.changeLanguage(savedLanguage);
           </NavLink>
         </nav>
       </section>
-      <UserMenu />
-      <AuthNav />
+      {/* Умовний рендеринг компонентів */}
+      {isLoggedIn ? <UserMenu /> : <AuthNav />}
       <div className={css.languageSwitcher}>
         <button
           className={css.activeButton}

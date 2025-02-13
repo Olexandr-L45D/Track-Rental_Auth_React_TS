@@ -15,35 +15,36 @@ const clearAuthHeader = () => {
     axios.defaults.headers.common.Authorization = '';
 };
 
-export interface UserRefreshToken {
-  id: string;
-  name: string;
-  email: string;
-  token: string | null;  // Токен може приходити в деяких випадках
-};
+// export interface UserRefreshToken {
+//   id: string;
+//   name: string;
+//   email: string;
+//   token: string | null;  // Токен може приходити в деяких випадках
+// };
 
 export interface UserDataRes {
   name: string;
   email: string;
 };
-export interface AuthState {
-  user: UserDataRes | null;
-  token: string | null;
-  isLoggedIn: boolean;
-  isRefreshing: boolean;
-  isError: boolean | string; // Якщо помилка повертає рядок
-  isLoading: boolean;
-};
+// export interface AuthState {
+//   user: UserDataRes | null;
+//   token: string | null;
+//   isLoggedIn: boolean;
+//   isRefreshing: boolean;
+//   isError: boolean | string; // Якщо помилка повертає рядок
+//   isLoading: boolean;
+// };
 
-// Тип для даних реєстрації/логіну
+// Тип для даних логіну
 interface AuthCredentials {
     email: string;
     password: string;
 };
 
-interface AuthResponse {
+export interface AuthResponse {
   token: string;
   user: {
+    // id?: string; // id може бути відсутнім
     name: string;
     email: string;
   };
@@ -126,39 +127,106 @@ export const logOut = createAsyncThunk<
     }
 });
 
-// нова версія щоб брати токен з локалсторедж:
+
+export interface UserRefreshToken {
+  id: string;
+  name: string;
+  email: string;
+  token: string | null; // Токен може приходити в деяких випадках
+}
+// ФУНКЦІЯ РЕФРЕШ токена з НОВОЮ логікою через стан getState();
+// Оновлена версія refreshUser:
 export const refreshUser = createAsyncThunk<
-  UserRefreshToken,
-  void,
-  { state: RootState }
+  UserRefreshToken, // Очікуваний результат
+  void, // Вхідні параметри (нічого)
+  { state: RootState } // Типізація для getState()
 >(
   "auth/refresh",
-  async (_, thunkAPI) => {
-    const token = localStorage.getItem('token');  // Токен з localStorage
-
-    if (!token) {
-      console.log('No token found in localStorage');
-      return thunkAPI.rejectWithValue("No token found");
-    }
-
-    setAuthHeader(token); 
-    console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
-
+  async (_, { getState, rejectWithValue }) => {
     try {
+      const state = getState();
+      const token = state.auth.token;
+
+      if (!token) {
+        return rejectWithValue("No token found");
+      }
+
+      axiosInstanceUser.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
-      console.log('User data from refresh:', response.data);
+
+      console.log("User data from refresh:", response.data);
       return response.data;
-    } catch (error) {
-      console.error('Error refreshing user:', error);
-      return thunkAPI.rejectWithValue('Error refreshing user');
+    } catch (error: any) {
+      console.error("Error refreshing user:", error.response?.status);
+      if (error.response?.status === 401) {
+        return rejectWithValue("Unauthorized");
+      }
+      return rejectWithValue("Error refreshing user");
     }
   }
 );
 
 export default axios;
+// нова версія щоб брати токен з локалсторедж:
+// export const refreshUser = createAsyncThunk<
+//   UserRefreshToken,
+//   void,
+//   { state: RootState }
+// >(
+//   "auth/refresh",
+//   async (_, thunkAPI) => {
+//     const token = localStorage.getItem('token');  // Токен з localStorage
+
+//     if (!token) {
+//       console.log('No token found in localStorage');
+//       return thunkAPI.rejectWithValue("No token found");
+//     }
+
+//     setAuthHeader(token); 
+//     console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
+
+//     try {
+//       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
+//       console.log('User data from refresh:', response.data);
+//       return response.data;
+//     } catch (error) {
+//       console.error('Error refreshing user:', error);
+//       return thunkAPI.rejectWithValue('Error refreshing user');
+//     }
+//   }
+// );
+
+// export default axios;
 
 
+// Функція для оновлення користувача (refresh)
+// export const refreshUsers = () => async (dispatch, getState: () => RootState) => {
+//   dispatch(setRefreshing(true));
 
+//   try {
+//     const state = getState();
+//     const token = state.auth.token;
+
+//     if (!token) {
+//       dispatch(logOut());
+//       return;
+//     }
+
+//     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//     const { data } = await axios.get('/users/current'); // Отримуємо дані юзера
+
+//     dispatch(updateUser(data));
+//     dispatch(setRefreshing(false));
+//   } catch (error: any) {
+//     console.error('Помилка оновлення користувача:', error.response?.status);
+
+//     if (error.response?.status === 401) {
+//       dispatch(logOut());
+//     }
+
+//     dispatch(setRefreshing(false));
+//   }
+// };
 
 //  Типізація відповіді від сервера (User) і стану Redux (RootState)
   // createAsyncThunk<ReturnedType, ThunkArg, ThunkAPIConfig>

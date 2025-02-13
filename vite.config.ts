@@ -4,12 +4,19 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
   server: {
+    port: 5173, // Ставимо стандартний порт
+  host: true, // Додає підтримку для інших мережевих пристроїв
+    // open: true, // Автоматично відкривати браузер прибираю щоб вайт не міг автоматично запустити і Антивірусник не сварився
     proxy: {
       '/users': {
         target: 'https://connections-api.goit.global',
         changeOrigin: true,
         secure: true,
-        rewrite: (path) => path,  // Без заміни
+        rewrite: (path) => {
+        console.log("Proxying request:", path);
+        return path;
+        },
+        // rewrite: (path) => path,  // Без заміни
         // rewrite: (path) => path.replace(/^\/users/, '/users'),
       },
     },
@@ -18,6 +25,19 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === 'development',  // Увімкнено тільки для розробки
   },
 }));
+
+// import { defineConfig } from "vite";
+// import react from "@vitejs/plugin-react";
+
+// export default defineConfig({
+//   plugins: [react()],
+//   server: {
+//     port: 5173, // Ставимо стандартний порт
+//     strictPort: true, // Вимикаємо автоматичний вибір порту
+//     open: true, // Автоматично відкривати браузер
+//   },
+// });
+
 
 // версія нижче без build: {
 //    sourcemap: mode === 'development',  // Увімкнено тільки для розробки

@@ -17,7 +17,7 @@ export type Props = {
   children: React.ReactNode; // Типизация для children
 };
 
-export interface Truck{
+export interface Truck {
   id: number;
   name: string;
   location: string;
@@ -34,7 +34,7 @@ export interface TruckDetailWithId extends Truck {
     comment: string;
   }[];
 }
-export interface State{
+export interface State {
   items: Truck[] | TruckDetailWithId[]; // Це має бути або список вантажівок, або деталі
   total: number;
   loading: boolean;
@@ -61,7 +61,7 @@ export type TruckDetailById = {
   }[];
 };
 
-export interface TruckAll{
+export interface TruckAll {
   id: number;
   name: string;
   location: string;
@@ -79,7 +79,7 @@ export interface TruckAll{
 export interface TruckDetailAll extends TruckAll {
   kitchen: boolean;
   AC: boolean;
-  transmission: string; 
+  transmission: string;
   engine: string;
   form: string;
   length: number;
@@ -90,10 +90,10 @@ export interface TruckDetailAll extends TruckAll {
 };
 
 export interface BookinFormVelues {
-    name: string;
-    email: string;
-    bookingDate: string;
-    comment: string;
+  name: string;
+  email: string;
+  bookingDate: string;
+  comment: string;
 };
 
 export interface TruckReview {
@@ -106,9 +106,13 @@ export type PropsisActive = {
   language: string;
 };
 
-export interface UserData {
-  name: string;
-  email: string;
-  // password: string;
-};
+// export interface UserData {
+//   name: string;
+//   email: string;
+//   // password: string;
+// };
 
+// export interface UserDataLogin {
+//   name: string;
+//   email: string;
+// };

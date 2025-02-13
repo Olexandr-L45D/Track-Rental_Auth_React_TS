@@ -1,23 +1,23 @@
-// UserMenu
+
 import css from "./UserMenu.module.css";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
-
 import { AppDispatch } from "../../redux/store";  // Імпорт типів
-
 
 const UserMenu: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  
   const { t } = useTranslation();
+
+  const handleLogout = () => {
+    dispatch(logOut());  // викликається тільки по кліку
+  };
 
   return (
     <div className={css.wrapper}>
-      
       <button
         className={css.button}
-        onClick={() => dispatch(logOut())}
+        onClick={handleLogout}  // додаємо обробник події
         type="button"
       >
         {t("auth.logout")}

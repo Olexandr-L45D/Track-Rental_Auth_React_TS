@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
@@ -6,7 +6,7 @@ const RegistrationPage = lazy(() =>
 );
 import RestrictedRoute from "../RestrictedRoute";
 import PrivateRoute from "../PrivateRoute";
-import { selectIsLoggedIn, selectIsRefreshing } from "../../redux/auth/selectors";
+// import { selectIsLoggedIn, selectIsRefreshing } from "../../redux/auth/selectors";
 const TruckFeatures = lazy(() => import("../TruckFeatures/TruckFeatures"));
 const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
@@ -25,27 +25,26 @@ import { AppDispatch, RootState } from "../../redux/store";
 export default function App() {
   const dispatch: AppDispatch = useDispatch();
 const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const isRefreshing = useSelector(selectIsRefreshing);
+  // const isRefreshing = useSelector(selectIsRefreshing);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
+  
   // запит на ТОКЕН isRefreshing (чи валідний токен?) Виконуємо refreshUser тільки якщо токен існує
-  useEffect(() => {
-    
-    if (token && !isLoggedIn && !isRefreshing) {
+ useEffect(() => {
+    // Викликаємо refreshUser тільки якщо є токен і користувач не залогінений
+    if (token && !isLoggedIn) {
       console.log('Dispatching refreshUser...');
       dispatch(refreshUser());
     }
-  }, [token, isLoggedIn, isRefreshing, dispatch]);
+  }, [token, isLoggedIn, dispatch]); // Додаємо залежності, щоб уникнути нескінченних рендерів
 
-  if (isRefreshing) {
-    return <b>Refreshing user ...</b>;  // Показуємо лоадер, поки триває перевірка токену
-  }
 
   return ( 
   
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
         <Routes>
-            <Route path="/" element={<HomePage />} />
+          
+          <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/register" />} />
             <Route
             path="/register"
             element={
@@ -81,5 +80,6 @@ const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 };
 
 
+/* <Route path="/" element={<HomePage />} /> */
 //  <Route path="/catalog" element={<TruckPageFilters />} />
 // component — це React-компонент, який буде відображатись, якщо користувач не залогінений (наприклад, <LoginPage />).
