@@ -12,7 +12,7 @@ import ButtonLoadMore from "../../components/ButtonLoadMore/ButtonLoadMore";
 import { setChangeFilter } from "../../redux/filters/slice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-export default function TruckPageFilters() {
+export default function TruckPageFilters(): JSX.Element {
   const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
   const isLoading = useAppSelector((state) => state.campers.loading);
   const filteres = useSelector(selectFilters);

@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    sourcemap: mode === 'development',  // Увімкнено тільки для розробки
+    sourcemap: true,  // Завжди вмикає карти джерел, навіть у продакшн
   },
 }));
 

@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { selectFilters } from "../../redux/filters/selectors";
 import { useTranslation } from "react-i18next";
 
-export default function SearchBoxFiltr() {
+export default function SearchBoxFiltr(): JSX.Element {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const filters = useSelector(selectFilters);

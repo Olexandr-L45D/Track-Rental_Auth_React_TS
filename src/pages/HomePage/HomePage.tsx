@@ -1,16 +1,22 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import css from "./HomePage.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { RootState } from "../../redux/store";
+import { AuthNav } from "../../components/AuthNav/AuthNav";
 
-export default function HomePage() {
+export default function HomePage(): JSX.Element {
   const { t } = useTranslation();
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);  // Перевірка залогіненого статусу
-
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />; // Якщо не залогінений, перенаправляємо на логін
-  }
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
+  const [showAuth, setShowAuth] = useState(false);
+// Якщо користувач залогінений  перекидаємо на /catalog
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/catalog");
+    }
+  }, [isLoggedIn, navigate]);
   
   return (
     <div className={css.background}>
@@ -18,13 +24,18 @@ export default function HomePage() {
         <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
         <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>
         <section className={css.cartBtn}>
-          <Link to="/catalog">
+
+      <button onClick={() => setShowAuth(true)}>Identify Yourself</button>
+
+      {/* Відображаємо AuthNav тільки після натискання кнопки */}
+      {showAuth && <AuthNav />}
+          {/* <Link to="/catalog">
             <div className={css.buttonViews}>
               <button className={css.btnVie} type="submit">
                 {t("navigation.View")}
               </button>
             </div>
-          </Link>
+          </Link> */}
         </section>
       </section>
     </div>

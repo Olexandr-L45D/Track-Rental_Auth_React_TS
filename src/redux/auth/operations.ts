@@ -1,40 +1,23 @@
 // auth - autorizations
 import axios from 'axios';
+import { axiosInstanceUser } from '../../axiosInstance';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from '../store'
 
-const axiosInstanceUser = axios.create({
-  baseURL: "https://connections-api.goit.global/",
-});
+
 // Utility to add JWT - (token)
 const setAuthHeader = (token: string | null) => {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 // Utility to remove JWT - token
 const clearAuthHeader = () => {
-    axios.defaults.headers.common.Authorization = '';
+  delete axiosInstanceUser.defaults.headers.common["Authorization"];
 };
-
-// export interface UserRefreshToken {
-//   id: string;
-//   name: string;
-//   email: string;
-//   token: string | null;  // Токен може приходити в деяких випадках
-// };
 
 export interface UserDataRes {
   name: string;
   email: string;
 };
-// export interface AuthState {
-//   user: UserDataRes | null;
-//   token: string | null;
-//   isLoggedIn: boolean;
-//   isRefreshing: boolean;
-//   isError: boolean | string; // Якщо помилка повертає рядок
-//   isLoading: boolean;
-// };
-
 // Тип для даних логіну
 interface AuthCredentials {
     email: string;
@@ -73,9 +56,6 @@ export const register = createAsyncThunk<
       });
             // After successful registration, add the token to the HTTP header
           setAuthHeader(response.data.token);
-         // Додаємо токен в заголовки для наступних запитів
-    axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-
           return response.data;
         } catch (error: any) {
   const errorMessage = error.response?.data?.message || 'Error register!';
@@ -103,7 +83,7 @@ export const logIn = createAsyncThunk<
       localStorage.setItem('token', data.token);
             return data;
         } catch (error) {
-            return thunkAPI.rejectWithValue('Error login !');
+            return thunkAPI.rejectWithValue("Error during login!");
         }
     }
 );
@@ -136,11 +116,36 @@ export interface UserRefreshToken {
 }
 // ФУНКЦІЯ РЕФРЕШ токена з НОВОЮ логікою через стан getState();
 // Оновлена версія refreshUser:
-export const refreshUser = createAsyncThunk<
-  UserRefreshToken, // Очікуваний результат
-  void, // Вхідні параметри (нічого)
-  { state: RootState } // Типізація для getState()
->(
+// export const refreshUser = createAsyncThunk<
+//   UserRefreshToken, // Очікуваний результат
+//   void, // Вхідні параметри (нічого)
+//   { state: RootState } // Типізація для getState()
+// >(
+//   "auth/refresh",
+//   async (_, { getState, rejectWithValue }) => {
+//     try {
+//       const state = getState();
+//       const token = state.auth.token;
+
+//       if (!token) {
+//         return rejectWithValue("No token found");
+//       }
+
+//       axiosInstanceUser.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+//       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
+
+//       console.log("User data from refresh:", response.data);
+//       return response.data;
+//     } catch (error: any) {
+//       if (error.response?.status === 401) {
+//         console.error("Unauthorized, logging out...");
+//         return rejectWithValue("Unauthorized");
+//       }
+//       return rejectWithValue("Error refreshing user");
+//     }
+//   }
+// );
+export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: RootState; rejectValue: string }>(
   "auth/refresh",
   async (_, { getState, rejectWithValue }) => {
     try {
@@ -151,20 +156,21 @@ export const refreshUser = createAsyncThunk<
         return rejectWithValue("No token found");
       }
 
-      axiosInstanceUser.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      setAuthHeader(token); // Використовуємо `axiosInstanceUser`
       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
 
       console.log("User data from refresh:", response.data);
       return response.data;
     } catch (error: any) {
-      console.error("Error refreshing user:", error.response?.status);
       if (error.response?.status === 401) {
+        console.error("Unauthorized, logging out...");
         return rejectWithValue("Unauthorized");
       }
       return rejectWithValue("Error refreshing user");
     }
   }
 );
+
 
 export default axios;
 // нова версія щоб брати токен з локалсторедж:

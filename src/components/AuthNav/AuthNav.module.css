@@ -2,24 +2,19 @@
     margin: 30px;
 }
 
-.nav {
-    display: flex;
-}
-
-.logo {
-    font-weight: 700;
-    margin: 0;
-}
-
-.link {
+.btnLink {
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
     color: black;
     font-weight: 500;
+    background-color: transparent;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.active {
+.btnLink.active {
     color: white;
     background-color: rgb(30, 255, 0);
 }

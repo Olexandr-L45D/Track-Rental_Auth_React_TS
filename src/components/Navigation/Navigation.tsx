@@ -5,37 +5,41 @@ import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
 import UserMenu from "../UserMenu/UserMenu";
 import { AuthNav } from "../AuthNav/AuthNav";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
-export const Navigation: React.FC = () => {
+export const Navigation = (): JSX.Element => {
+
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
-  // Функція для зміни мови без зберігання в localStorage
-  // const changeLanguage = (language: string) => {
-  // i18n.changeLanguage(language);
-  // };
-//   const changeLanguage = (language: string) => {
-//   i18n.changeLanguage(language);
-//   localStorage.setItem('appLanguage', language);
-  // };
-  const changeLanguage = (language: string) => {
-  if (i18n.language !== language) {
-    i18n.changeLanguage(language);
-    localStorage.setItem('appLanguage', language);
+  
+const navigate = useNavigate();
+
+useEffect(() => {
+  if (!isLoggedIn) {
+    navigate("/login"); // Перенаправляємо без диспатчу до лоігну
   }
-};
+}, [isLoggedIn, navigate]);
 
-// При ініціалізації
-const savedLanguage = localStorage.getItem('appLanguage') || 'en';
-i18n.changeLanguage(savedLanguage);
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("appLanguage") || "en";
+    i18n.changeLanguage(savedLanguage);
+  }, []);
 
-
+  const changeLanguage = (language: string) => {
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+      localStorage.setItem("appLanguage", language);
+    }
+  };
+  
   return (
     <section className={css.container}>
       <div className={css.title}>
@@ -55,8 +59,8 @@ i18n.changeLanguage(savedLanguage);
           </NavLink>
         </nav>
       </section>
-      {/* Умовний рендеринг компонентів */}
-      {isLoggedIn ? <UserMenu /> : <AuthNav />}
+     
+      {isLoggedIn && <UserMenu /> }
       <div className={css.languageSwitcher}>
         <button
           className={css.activeButton}

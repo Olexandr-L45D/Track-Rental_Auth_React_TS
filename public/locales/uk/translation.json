@@ -42,7 +42,9 @@
     "submit": "Надіслати",
     "logout": "Вийти",
     "titleContactbook": "Книга контактів",
-    "btnLog": "Увійти"
+    "btnLog": "Увійти",
+    "btnLogerr": "Немає аккаунта?",
+    "btnLogLink": "Клікні тут щоб зарегеструватися"
   },
   
   "loader": {

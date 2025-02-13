@@ -44,7 +44,9 @@
     "submit": "Submit",
     "logout": "Logout",
     "titleContactbook": "Contactbook",
-    "btnLog": "Log In"
+    "btnLog": "Log In",
+    "btnLogerr": "Don't have an account?",
+    "btnLogLink": "Click here to register"
   },
   "loader": {
     "shortTextMessage": "Text must be longer than 3 characters"

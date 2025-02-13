@@ -1,15 +1,6 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
 import { register, logIn, logOut, refreshUser, UserRefreshToken, AuthResponse } from "./operations";
-// import { UserData } from "../../components/App/App.types";
 
-//  interface AuthState {
-//   user: UserData | null;
-//   token: string | null;
-//   isLoggedIn: boolean;
-//   isRefreshing: boolean;
-//   isError: boolean | string;
-//   isLoading: boolean;
-// }
 export interface User {
   id?: string; // id не обов'язковий
   name: string;
@@ -24,15 +15,6 @@ export interface AuthState {
   isError: boolean | string;
   isLoading: boolean;
 }
-
-// export interface AuthState {
-//   user: { name: string; email: string } | null;
-//   token: string | null;
-//   isLoggedIn: boolean;
-//   isRefreshing: boolean;
-//   isError: boolean | string;
-//   isLoading: boolean;
-// }
 
 const initialState: AuthState = {
   user: null,
@@ -51,9 +33,7 @@ const authSlice = createSlice({
     builder
       .addCase(register.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
         console.log("REGISTER SUCCESS:", action.payload); // Додаємо лог
-        // state.user = action.payload.user;
         state.user = {
-    // id: action.payload.user.id ?? "", // Якщо id немає, ставимо пустий рядок
     name: action.payload.user.name,
     email: action.payload.user.email,
   };
@@ -62,9 +42,7 @@ const authSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(logIn.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        // state.user = action.payload.user;
         state.user = {
-    // id: action.payload.user.id ?? "", // Якщо id немає, ставимо пустий рядок
     name: action.payload.user.name,
     email: action.payload.user.email,
   };
@@ -105,11 +83,3 @@ export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
 
 
-
-// версія не явним обєктом а просто:
- // .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
-      //   state.user = action.payload;
-      //   state.token = action.payload.token;
-      //   state.isRefreshing = false;
-      //   state.isLoggedIn = true;
-      // })

@@ -9,8 +9,9 @@ import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"; // Імпортуйте нові хуки
 // Тепер в компоненті TruckDetails.tsx замість стандартного useDispatch, використовуйте useAppDispatch:
- const TruckDetails: React.FC = () => {
- const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
+ 
+  const TruckDetails = (): JSX.Element => {
+  const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
   const { t } = useTranslation();
   const { selectedTruck, loading, error } = useAppSelector((state) => state.campers);
   const [open, setOpen] = useState(false);

@@ -7,7 +7,7 @@ import { selectFilteredByLocation } from "../../redux/filters/selectors";
 import { TruckDetailAll } from "../App/App.types";
 
 // використовую дженерік <as TruckDetailAll>
-export default function AllTruckList() {
+export default function AllTruckList(): JSX.Element {
   const { t } = useTranslation();
   // Використовуємо мемоізований селектор а саме Селектор фільтрації вантажівок за локацією
   const trucks = useSelector(selectFilteredByLocation) as TruckDetailAll[];

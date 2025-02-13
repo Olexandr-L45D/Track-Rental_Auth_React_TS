@@ -3,7 +3,7 @@ import { fetchAllTruck } from "../../redux/campers/operations";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-const ButtonLoadMore: React.FC = ()=> {
+   const ButtonLoadMore = (): JSX.Element => {
    const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
   const { page, totalpages, loading } = useAppSelector((state) => state.campers);
   const { t } = useTranslation();

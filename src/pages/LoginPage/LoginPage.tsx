@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import css from "./LoginPage.module.css";
 
-const LoginPage: React.FC = () => {
+const LoginPage = (): JSX.Element => {
   const { t } = useTranslation();
  
   return (

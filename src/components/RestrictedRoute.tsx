@@ -1,23 +1,30 @@
 // navigation to father
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../redux/auth/selectors";
+// import { selectIsLoggedIn } from "../redux/auth/selectors";
+import { RootState } from "../redux/store";
 
-export interface RestrictedRouteProps {
-  component: JSX.Element;
-  redirectTo: string;
+export default function RestrictedRoute({ component, redirectTo }: { component: JSX.Element; redirectTo: string }) {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  return isLoggedIn ? <Navigate to={redirectTo} /> : component;
 }
 
-const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
-  component,
-  redirectTo,
-}) => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  
-  return isLoggedIn ? <Navigate to={redirectTo} /> : component;
-};
+// Якщо isLoggedIn === true, переспрямовуємо на redirectTo, інакше показуємо компонент.
+// export interface RestrictedRouteProps {
+//   component: JSX.Element;
+//   redirectTo: string;
+// }
 
-export default RestrictedRoute;
+// const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
+//   component,
+//   redirectTo,
+// }) => {
+//   const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+//   return isLoggedIn ? <Navigate to={redirectTo} /> : component;
+// };
+
+// export default RestrictedRoute;
 
 // const isLoggedIn = useSelector(selectIsLoggedIn); = Отримуємо статус авторизації з Redux.
 // return isLoggedIn ? <Navigate to={redirectTo} /> : component;
@@ -54,3 +61,6 @@ export default RestrictedRoute;
 
 //     return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
 // };
+
+
+// register: user {name: "SidorovIlly", email: "sidorovillyaleks@gmail.com"}

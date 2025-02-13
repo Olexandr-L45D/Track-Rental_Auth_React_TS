@@ -15,7 +15,7 @@ import { BookinFormVelues } from "../App/App.types";
   comment: "",
 };
 
-export default function BookingForm() {
+export default function BookingForm(): JSX.Element {
   const { t } = useTranslation();
  const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),

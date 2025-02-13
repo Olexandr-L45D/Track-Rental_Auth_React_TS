@@ -6,7 +6,7 @@ type CustomRotatingLinesProps = RotatingLinesProps & {
   height?: string;
 };
 
-export default function Loader() {
+export default function Loader(): JSX.Element {
   const loaderProps: CustomRotatingLinesProps = {
     visible: true,
     height: "96",

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
@@ -19,53 +19,38 @@ const TruckDetalsPage = lazy(() =>
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 import { Layout } from "../Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshUser } from "../../redux/auth/operations";
+import { logOut, refreshUser } from "../../redux/auth/operations";
 import { AppDispatch, RootState } from "../../redux/store";
 
 export default function App() {
   const dispatch: AppDispatch = useDispatch();
-const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  // const isRefreshing = useSelector(selectIsRefreshing);
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
+  console.log("isLoggedIn:", isLoggedIn);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
-  
-  // запит на ТОКЕН isRefreshing (чи валідний токен?) Виконуємо refreshUser тільки якщо токен існує
- useEffect(() => {
-    // Викликаємо refreshUser тільки якщо є токен і користувач не залогінений
-    if (token && !isLoggedIn) {
-      console.log('Dispatching refreshUser...');
-      dispatch(refreshUser());
-    }
-  }, [token, isLoggedIn, dispatch]); // Додаємо залежності, щоб уникнути нескінченних рендерів
-
+useEffect(() => {
+  if (!token) {
+    console.warn("No token found. Skipping refreshUser.");
+    return;
+  }
+  if (!isLoggedIn) {
+    dispatch(refreshUser()).unwrap().catch((error) => {
+      if (error === "Unauthorized") {
+        dispatch(logOut());
+        navigate("/");
+      }
+    });
+  }
+}, [token, isLoggedIn, dispatch, navigate]);
 
   return ( 
-  
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           
-          <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate to="/register" />} />
-            <Route
-            path="/register"
-            element={
-              <RestrictedRoute
-                redirectTo="/catalog"
-                component={<RegistrationPage />}
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute
-                redirectTo="/catalog"
-                component={<LoginPage />}
-              />
-            }
-          />
-         
            <Route path="/catalog" element={ <PrivateRoute
-                 redirectTo="/login"
+                 redirectTo="/"
                  component={<TruckPageFilters />}/> } /> 
           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
             <Route path="features" element={<TruckFeatures />} />
@@ -79,6 +64,25 @@ const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   );
 };
 
+
+          //   <Route
+          //   path="/register"
+          //   element={
+          //     <RestrictedRoute
+          //       redirectTo="/catalog"
+          //       component={<RegistrationPage />}
+          //     />
+          //   }
+          // />
+          // <Route
+          //   path="/login"
+          //   element={
+          //     <RestrictedRoute
+          //       redirectTo="/catalog"
+          //       component={<LoginPage />}
+          //     />
+          //   }
+          // />
 
 /* <Route path="/" element={<HomePage />} /> */
 //  <Route path="/catalog" element={<TruckPageFilters />} />

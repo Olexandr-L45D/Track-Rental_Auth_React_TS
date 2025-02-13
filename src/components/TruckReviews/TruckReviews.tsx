@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../redux/hooks";
 import { TruckReview } from "../App/App.types";
 
-const TruckReviews: React.FC = () => {
+const TruckReviews = (): JSX.Element => {
   const { selectedTruck } = useAppSelector(
     (state) => state.campers as { selectedTruck: TruckReview | null }
   );

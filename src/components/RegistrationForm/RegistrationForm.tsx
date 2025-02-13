@@ -7,6 +7,8 @@ import { AppDispatch } from "../../redux/store";
 import * as Yup from 'yup';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
   // Початкові значення форми
   const initialValues: UsRegisterVelues = {
@@ -15,9 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
     password: "",
 };
   
-export default function RegistrationForm() {
+export default function RegistrationForm(): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 // Схема валідації для реєстраційної форми
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -31,19 +35,27 @@ const validationSchema = Yup.object({
     .required('Пароль є обов’язковим'),
 });
 
-  const handleSubmit = (values: UsRegisterVelues, { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
+  const handleSubmit = async (values: UsRegisterVelues,
+    { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
     // Очищення пробілів перед відправкою
   const trimmedValues = {
     name: values.name.trim(),
     email: values.email.trim(),
     password: values.password.trim(),
+    };
+    try {
+      // Чекаємо на результат реєстрації
+      await dispatch(register(trimmedValues));
+      toast.success("You have successfully registered!");
+      navigate("/catalog"); // Переходимо на каталог після успішної реєстрації
+    } catch (error) {
+      setError("Try again more carefully!");
+    } finally {
+      setSubmitting(false);
+      resetForm();
+    }
   };
-    
-    dispatch(register(trimmedValues));
-    setSubmitting(false);
-    toast.success("You have successfully registered!");
-    resetForm();
-  };
+
   return (
     <div className={css.item}>
       <ToastContainer

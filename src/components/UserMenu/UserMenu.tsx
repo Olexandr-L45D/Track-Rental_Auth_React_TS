@@ -5,7 +5,7 @@ import { logOut } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../redux/store";  // Імпорт типів
 
-const UserMenu: React.FC = () => {
+  const UserMenu = (): JSX.Element => {
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation();
 

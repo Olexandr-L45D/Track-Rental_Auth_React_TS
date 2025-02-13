@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import css from "./RegistrationPage.module.css";
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
 
-const RegistrationPage: React.FC = () => {
+const RegistrationPage = (): JSX.Element => {
   const { t } = useTranslation();
  
   return (

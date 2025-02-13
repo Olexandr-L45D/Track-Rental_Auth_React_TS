@@ -5,7 +5,7 @@ import BookingForm from "../BookingForm/BookingForm";
 import { useTranslation } from "react-i18next";
 import { TruckDetailAll } from "../App/App.types";
 
-const TruckFeatures: React.FC = () => {
+const TruckFeatures = (): JSX.Element => {
   const { selectedTruck } = useAppSelector(
     (state) => state.campers as { selectedTruck: TruckDetailAll | null }
   );
