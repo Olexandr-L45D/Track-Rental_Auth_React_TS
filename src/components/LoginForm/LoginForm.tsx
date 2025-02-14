@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
  interface UsLoginVelues { 
@@ -20,35 +20,85 @@ import { useNavigate } from "react-router-dom";
     password: "",
 };
 
-export default function LoginForm(): JSX.Element {
+interface LoginFormProps {
+  attempts: number;
+  setAttempts: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const [attempts, setAttempts] = useState(0);
- 
-  const handleSubmit = async (values: UsLoginVelues, { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>) => {
-    try {
-    await dispatch(logIn(values)).unwrap(); // Додаємо .unwrap() для коректного оброблення;
+  const { t } = useTranslation();
+
+  useEffect(() => {
+  if (attempts >= 3) {
+    // Використовуємо setTimeout для затримки редіректу
+    setTimeout(() => {
+      console.log("Navigating to /register");
+      navigate("/register");
+    }, 300); // Затримка в 300 мс
+  }
+}, [attempts, navigate]);
+// useEffect(() => {
+//   if (attempts >= 3 && !error) { // Перевіряємо, щоб редірект не спрацьовував більше одного разу
+//     console.log("Navigating to /register");
+//     navigate("/register");
+//   }
+// }, [attempts, error, navigate]);
+//   useEffect(() => {
+//   if (attempts >= 3) {
+//     console.log("Navigating to /register");
+//     navigate("/register"); // виконуємо редірект без затримки
+//   }
+// }, [attempts, navigate]);
+  
+  const handleSubmit = async (
+  values: UsLoginVelues,
+  { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+) => {
+  try {
+    await dispatch(logIn(values)).unwrap();
     toast.success("You have successfully logged in!");
-      navigate("/catalog"); // Якщо успіх - перекидаємо до каталогу
-    } 
-    catch (error) {
-  setAttempts(prevAttempts => {
-    const newAttempts = prevAttempts + 1;
+    navigate("/catalog");
+  } catch (error) {
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts); // Оновлюємо attempts
 
     if (newAttempts >= 3) {
+      console.log("Setting attempts to 3, triggering redirect...");
       navigate("/register");
-      return newAttempts; // Повертаємо нове значення
     } else {
       setError(`Incorrect password or email. Attempts left: ${3 - newAttempts}`);
     }
+  }
+  resetForm();
+};
+//   const handleSubmit = async (
+//     values: UsLoginVelues,
+//     { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+//   ) => {
+//     try {
+//       await dispatch(logIn(values)).unwrap();
+//       toast.success("You have successfully logged in!");
+//       navigate("/catalog");
+//     } catch (error) {
+      
+//       setAttempts((prev) => {
+//   const newAttempts = prev + 1;
+//   if (newAttempts >= 3) {
+//     console.log("Setting attempts to 3, triggering redirect...");
+//     navigate("/register");
+//   }
+//   return newAttempts;
+// });
 
-    return newAttempts; // Повертаємо нове значення в setAttempts
-  });
-}
-    resetForm();
-  };
+//       if (attempts + 1 < 3) {
+//         setError(`Incorrect password or email. Attempts left: ${3 - (attempts + 1)}`);
+//       }
+//     }
+//     resetForm();
+//   };
 
   return (
     <div className={css.item}>
@@ -94,8 +144,63 @@ export default function LoginForm(): JSX.Element {
           
           {error && <p style={{ color: "red" }}>{error}</p>}
       {/* <p className={css.btn}> {t("auth.btnLogerr")} <button className={css.LoginForm} onClick={() => navigate("/register")}>{t("auth.btnLogLink")}</button></p> */}
+       <button onClick={() => navigate("/register")}>Перейти на реєстрацію</button>
         </Form>
       </Formik>
     </div>
   );
-}
+};
+
+// useEffect(() => {
+  //   console.log("Checking attempts in useEffect:", attempts);
+  //   if (attempts >= 3) {
+  //     console.log("Navigating to /register");
+  //     setTimeout(() => navigate("/register"), 0);
+  //   }
+// }, [attempts, navigate]);
+  
+// setAttempts(prev => {
+      //   const newAttempts = prev + 1;
+      //   if (newAttempts >= 3) {
+      //     console.log("Setting attempts to 3, triggering redirect...");
+      //     setTimeout(() => navigate("/register"), 0);
+      //   }
+      //   return newAttempts;
+      // });
+
+// export default function LoginForm(): JSX.Element {
+//   const dispatch: AppDispatch = useDispatch();
+//   const { t } = useTranslation();
+//   const navigate = useNavigate();
+//   const [error, setError] = useState("");
+//   const [attempts, setAttempts] = useState(0);
+ 
+//  // Перевіряємо, якщо спроб більше 3 -> редірект на реєстрацію
+//   useEffect(() => {
+//     console.log("Attempts:", attempts); // Додаю ЛОГ для перевірки лічильника
+//     if (attempts >= 3) {
+//       // navigate("/register");
+//       console.log("Navigating to /register");
+//     setTimeout(() => {
+//       navigate("/register");
+//     }, 0);
+//     }
+//   }, [attempts, navigate]);
+
+//   const handleSubmit = async (
+//   values: UsLoginVelues,
+//   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+// ) => {
+//   try {
+//     await dispatch(logIn(values)).unwrap();
+//     toast.success("You have successfully logged in!");
+//     navigate("/catalog");
+//   } catch (error) {
+//     setAttempts(prev => prev + 1); // 🔹 Просто збільшуємо лічильник
+  
+//     if (attempts + 1 < 3) {
+//       setError(`Incorrect password or email. Attempts left: ${3 - (attempts + 1)}`);
+//     }
+//   }
+//   resetForm();
+// };

@@ -1,5 +1,4 @@
 import { RootState } from "../store"; // Шлях до store.ts
-// export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
 

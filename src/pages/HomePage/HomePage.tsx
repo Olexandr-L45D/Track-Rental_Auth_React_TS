@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import css from "./HomePage.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ export default function HomePage(): JSX.Element {
       <button onClick={() => setShowAuth(true)}>Identify Yourself</button>
 
       {/* Відображаємо AuthNav тільки після натискання кнопки */}
-      {showAuth && <AuthNav />}
+      {/* {showAuth && <AuthNav />} */}
           {/* <Link to="/catalog">
             <div className={css.buttonViews}>
               <button className={css.btnVie} type="submit">

@@ -2,8 +2,9 @@
 import css from "./AuthNav.module.css";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
-import LoginPage from "../../pages/LoginPage/LoginPage";
+// import RegistrationPage from "../../pages/RegistrationPage/RegistrationPage";
+// import LoginPage from "../../pages/LoginPage/LoginPage";
+import { Link } from "react-router-dom";
 
 export const AuthNav = (): JSX.Element => {
   const { t } = useTranslation();
@@ -11,18 +12,20 @@ export const AuthNav = (): JSX.Element => {
   
   return (
     <div className={css.blokLink}>
-      <div>
-        <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}
-          onClick={() => setIsRegister(false)} disabled={!isRegister}>
-          {t("navigation.login")}
-        </button>
-        <button className={`${css.btnLink} ${isRegister ? css.active : ""}`}
-          onClick={() => setIsRegister(true)} disabled={isRegister}>
-          {t("navigation.register")}
-        </button>
+     <div>
+        {/* <Link to="/login">
+          <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
+            {t("navigation.login")}
+          </button>
+        </Link> */}
+        <Link to="/register">
+          <button className={`${css.btnLink} ${isRegister ? css.active : ""}`}>
+            {t("navigation.register")}
+          </button>
+        </Link>
       </div>
 
-      {isRegister ? <RegistrationPage /> : <LoginPage />}
+      {/* {isRegister ? <RegistrationPage /> : <LoginPage />} */}
      
     </div>
   );

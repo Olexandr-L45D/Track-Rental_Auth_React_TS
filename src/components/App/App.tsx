@@ -28,7 +28,9 @@ export default function App() {
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
   console.log("isLoggedIn:", isLoggedIn);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
-useEffect(() => {
+  
+  useEffect(() => {
+  
   if (!token) {
     console.warn("No token found. Skipping refreshUser.");
     return;
@@ -37,7 +39,7 @@ useEffect(() => {
     dispatch(refreshUser()).unwrap().catch((error) => {
       if (error === "Unauthorized") {
         dispatch(logOut());
-        navigate("/");
+        navigate("/register");
       }
     });
   }
@@ -47,11 +49,13 @@ useEffect(() => {
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />  
           
-           <Route path="/catalog" element={ <PrivateRoute
-                 redirectTo="/"
-                 component={<TruckPageFilters />}/> } /> 
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/catalog" element={<TruckPageFilters />} />
+          
+          
           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
             <Route path="features" element={<TruckFeatures />} />
             <Route path="reviews" element={<TruckReviews />} />
@@ -60,30 +64,48 @@ useEffect(() => {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
-      </Layout> 
+    </Layout>
   );
 };
 
+//  <Route path="/" element={<HomePage />} />
 
-          //   <Route
-          //   path="/register"
-          //   element={
-          //     <RestrictedRoute
-          //       redirectTo="/catalog"
-          //       component={<RegistrationPage />}
-          //     />
-          //   }
-          // />
-          // <Route
-          //   path="/login"
-          //   element={
-          //     <RestrictedRoute
-          //       redirectTo="/catalog"
-          //       component={<LoginPage />}
-          //     />
-          //   }
-          // />
+// <Route path="/" element={<HomePage />}>
+ 
+//           </Route>
+  
+            
 
 /* <Route path="/" element={<HomePage />} /> */
 //  <Route path="/catalog" element={<TruckPageFilters />} />
 // component — це React-компонент, який буде відображатись, якщо користувач не залогінений (наприклад, <LoginPage />).
+
+// <Route
+//             path="/register"
+//             element={
+//               <RestrictedRoute
+//                 redirectTo="/catalog"
+//                 component={<RegistrationPage />}
+//               />
+//             }
+//           />
+          
+//           <Route
+//             path="/login"
+//             element={
+//               <RestrictedRoute
+//                 redirectTo="/catalog"
+//                 component={<LoginPage />}
+//               />
+//             }
+//           />
+
+/* <Route
+            path="/catalog"
+            element={
+              <PrivateRoute
+                redirectTo="/"
+                component={<TruckPageFilters />}
+              />
+            }
+          /> */

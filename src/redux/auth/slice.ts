@@ -36,16 +36,16 @@ const authSlice = createSlice({
         state.user = {
     name: action.payload.user.name,
     email: action.payload.user.email,
-  };
+   };
         state.token = action.payload.token;
         state.isLoggedIn = true;
         state.isLoading = false;
       })
       .addCase(logIn.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
         state.user = {
-    name: action.payload.user.name,
-    email: action.payload.user.email,
-  };
+      name: action.payload.user.name,
+      email: action.payload.user.email,
+     };
         state.token = action.payload.token;
         localStorage.setItem('token', action.payload.token); // Зберігаємо токен
         state.isLoggedIn = true;
@@ -56,23 +56,26 @@ const authSlice = createSlice({
         state.isRefreshing = true;
       })
       .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
-  state.user = {
-    id: action.payload.id,
-    name: action.payload.name,
-    email: action.payload.email,
-  };
-  state.token = action.payload.token;
-  state.isRefreshing = false;
-  state.isLoggedIn = true;
-})
+         state.user = {
+           id: action.payload.id,
+           name: action.payload.name,
+           email: action.payload.email,
+         };
+         state.token = action.payload.token;
+         state.isRefreshing = false;
+         state.isLoggedIn = true;
+       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
+        state.isLoggedIn = false;
       })
       .addMatcher(isAnyOf(register.pending, logIn.pending), (state) => {
         state.isLoading = true;
       })
       .addMatcher(isAnyOf(register.rejected, logIn.rejected), (state, action: PayloadAction<unknown>) => {
+        console.log("LOGIN ERROR:", action.payload); // ДОДАю ЛОГ щоб побачити чи чи коректно приходить помилка з unwrap()
         state.isLoading = false;
+         state.isLoggedIn = false; // ОБОВ'ЯЗКОВО! Щоб коректно зчитувалося в селекторі
         state.isError = typeof action.payload === "string" ? action.payload : "Unknown error";
       });
   },
@@ -83,3 +86,11 @@ export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
 
 
+// Оскільки у файлі axiosInstance.ts ти імпортуєш store, а у store.ts 
+// ймовірно імпортується authSlice.ts, де використовується register, це може призводити до проблеми.
+// Цикл виглядає так:
+// store.ts імпортує authSlice.ts
+// authSlice.ts імпортує operations.ts
+// operations.ts імпортує axiosInstance.ts
+// axiosInstance.ts імпортує store.ts → циклічний імпорт!
+// Це може спричинити помилку, коли register ще не ініціалізований.
