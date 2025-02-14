@@ -29,7 +29,8 @@
     "register": "Реєстрація"
   },
   "register": {
-   "titleRegistr": "Форма регістрації"
+   "titleRegistr": "Форма Авторизації",
+   "registerBtn": "Зареєструватись"
   },
   "login": {
    "titleLogin": "ФОРМА ЛОГІНУ"

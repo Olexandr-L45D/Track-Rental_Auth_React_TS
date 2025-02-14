@@ -143,8 +143,7 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
           </div>
           
           {error && <p style={{ color: "red" }}>{error}</p>}
-      {/* <p className={css.btn}> {t("auth.btnLogerr")} <button className={css.LoginForm} onClick={() => navigate("/register")}>{t("auth.btnLogLink")}</button></p> */}
-       <button onClick={() => navigate("/register")}>Перейти на реєстрацію</button>
+     
         </Form>
       </Formik>
     </div>

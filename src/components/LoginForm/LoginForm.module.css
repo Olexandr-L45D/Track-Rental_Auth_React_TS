@@ -1,4 +1,4 @@
-/* LoginForm */
+
 .item {
     width: 250px;
     height: auto;
@@ -28,6 +28,7 @@
 .label {
     margin-bottom: 16px;
     padding: 10px;
+    color: white;
 }
 
 .btn {

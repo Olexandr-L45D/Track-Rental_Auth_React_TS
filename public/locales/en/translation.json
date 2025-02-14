@@ -31,7 +31,8 @@
 
   },
   "register": {
-   "titleRegistr": "RegistrationForm"
+   "titleRegistr": "Authorization form",
+   "registerBtn": "to register"
   },
   "login": {
    "titleLogin": "LOGIN FORM"

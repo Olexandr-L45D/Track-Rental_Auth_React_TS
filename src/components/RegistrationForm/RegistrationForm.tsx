@@ -108,7 +108,7 @@ const validationSchema = Yup.object({
 
           <div className={css.btn}>
             <button className={css.regForm} type="submit">
-              {t("contacts.create")}
+              {t("register.registerBtn")}
             </button>
           </div>
         </Form>

@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
@@ -28,31 +28,58 @@ export default function App() {
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
   console.log("isLoggedIn:", isLoggedIn);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
-  
+ 
   useEffect(() => {
-  
+  console.log("Effect triggered with token:", token, "isLoggedIn:", isLoggedIn);
+
   if (!token) {
-    console.warn("No token found. Skipping refreshUser.");
+    console.warn("No token found. Redirecting to /register...");
+    navigate("/register", { replace: true });
     return;
   }
+
   if (!isLoggedIn) {
-    dispatch(refreshUser()).unwrap().catch((error) => {
-      if (error === "Unauthorized") {
-        dispatch(logOut());
-        navigate("/register");
-      }
-    });
+    dispatch(refreshUser())
+      .unwrap()
+      .catch((error) => {
+        console.error("Error refreshing user:", error);
+        if (error === "Unauthorized") {
+          dispatch(logOut());
+          navigate("/register", { replace: true });
+        }
+      });
   }
 }, [token, isLoggedIn, dispatch, navigate]);
+
+
+//   useEffect(() => {
+  
+//   if (!token) {
+//     console.warn("No token found. Skipping refreshUser.");
+//     return;
+//   }
+//   if (!isLoggedIn) {
+//     dispatch(refreshUser()).unwrap().catch((error) => {
+//       if (error === "Unauthorized") {
+//         dispatch(logOut());
+//         navigate("/register");
+//       }
+//     });
+//   }
+// }, [token, isLoggedIn, dispatch, navigate]);
 
   return ( 
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
         <Routes>
-          <Route path="/" element={<HomePage />} />  
+           {/* Якщо користувач залогінений → ведемо його в каталог */}
+          <Route path="/" element={isLoggedIn ? <TruckPageFilters /> : <HomePage />} />
+
+          {/* Автоматичне перенаправлення на реєстрацію, якщо користувач не має токена */}
+          {!isLoggedIn && <Route path="/login" element={<Navigate to="/register" />} />}
           
           <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          
           <Route path="/catalog" element={<TruckPageFilters />} />
           
           

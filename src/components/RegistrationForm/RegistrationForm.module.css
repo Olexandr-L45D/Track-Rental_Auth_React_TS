@@ -27,6 +27,7 @@
 .label {
     margin-bottom: 16px;
     padding: 10px;
+    color: white;
 }
 
 .btn {
@@ -38,7 +39,7 @@
 }
 
 .regForm {
-    width: 100px;
+    width: 180px;
     height: auto;
     margin: 2px;
     padding: 2px;
