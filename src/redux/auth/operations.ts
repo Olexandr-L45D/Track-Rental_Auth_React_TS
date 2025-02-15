@@ -114,37 +114,42 @@ export interface UserRefreshToken {
   email: string;
   token: string | null; // Токен може приходити в деяких випадках
 }
-// ФУНКЦІЯ РЕФРЕШ токена з НОВОЮ логікою через стан getState();
-// Оновлена версія refreshUser:
-// export const refreshUser = createAsyncThunk<
-//   UserRefreshToken, // Очікуваний результат
-//   void, // Вхідні параметри (нічого)
-//   { state: RootState } // Типізація для getState()
-// >(
-//   "auth/refresh",
-//   async (_, { getState, rejectWithValue }) => {
-//     try {
-//       const state = getState();
-//       const token = state.auth.token;
 
-//       if (!token) {
-//         return rejectWithValue("No token found");
-//       }
 
-//       axiosInstanceUser.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-//       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
+// функція відправки листа на пошту для авторизації (використовую власний бекенд)
+interface ResetEmailResponse {
+  email: string;
+}
 
-//       console.log("User data from refresh:", response.data);
-//       return response.data;
-//     } catch (error: any) {
-//       if (error.response?.status === 401) {
-//         console.error("Unauthorized, logging out...");
-//         return rejectWithValue("Unauthorized");
-//       }
-//       return rejectWithValue("Error refreshing user");
-//     }
-//   }
-// );
+export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
+  "auth/sendResetEmail",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstanceUser.post("/api/auth/send-reset-email", { email });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Error sending email");
+    }
+  }
+);
+
+// функція ресет пароля для сміни пароля та утентифікації (використовую власний бекенд)
+export const resetPassword = createAsyncThunk<
+  { message: string }, // Очікуваний формат відповіді
+  { newPassword: string; token: string }, // Вхідні параметри
+  { rejectValue: string } // Помилка
+>(
+  "auth/resetPassword",
+  async ({ newPassword, token }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstanceUser.post("/api/auth/reset-pwd", { newPassword, token });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "Error resetting password");
+    }
+  }
+);
+
 export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: RootState; rejectValue: string }>(
   "auth/refresh",
   async (_, { getState, rejectWithValue }) => {

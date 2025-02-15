@@ -31,6 +31,8 @@ axiosInstanceUser.interceptors.response.use(
 //   baseURL: "https://connections-api.goit.global",
 // });
 
+// baseURL: "https://nodejs-hw-mongodb-6-1-xj46.onrender.com",
+
 // // Глобальна обробка 401 (Unauthorized)
 // axiosInstanceUser.interceptors.response.use(
 //   (response) => response,

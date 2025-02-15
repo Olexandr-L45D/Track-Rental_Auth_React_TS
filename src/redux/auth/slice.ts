@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { register, logIn, logOut, refreshUser, UserRefreshToken, AuthResponse } from "./operations";
+import { register, logIn, logOut, refreshUser, UserRefreshToken, AuthResponse, resetPassword, sendResetEmail } from "./operations";
 
 export interface User {
   id?: string; // id не обов'язковий
@@ -24,6 +24,7 @@ const initialState: AuthState = {
   isError: false,
   isLoading: false,
 };
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -68,6 +69,31 @@ const authSlice = createSlice({
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
         state.isLoggedIn = false;
+      })
+      // **Відновлення пароля (надсилання листа)**
+      .addCase(sendResetEmail.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(sendResetEmail.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(sendResetEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload as string;
+      })
+
+      // **Скидання пароля (зміна пароля через токен)**
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.payload as string;
       })
       .addMatcher(isAnyOf(register.pending, logIn.pending), (state) => {
         state.isLoading = true;
