@@ -165,6 +165,8 @@ export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: Roo
       const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
 
       console.log("User data from refresh:", response.data);
+       // Зберігаємо оновлений токен localStorage
+      localStorage.setItem("token", response.data.token || ""); //Додаємо перевірку
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 401) {

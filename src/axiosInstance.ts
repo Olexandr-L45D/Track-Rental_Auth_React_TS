@@ -18,6 +18,48 @@ axiosInstanceUser.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+const axiosInstanceTruksOperations = axios.create({
+  baseURL: "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io", // Тут базовий URL для отримання даних TRUCK-Auto
+});
+
+// 1. ПОКИ прибираю цей axiosInstanceTruksOperations.interceptors.request.use( Додаємо токен перед кожним запитом якщо він потрібен при запитах до бекенду по автивкам (раніше був не потрібен)
+// axiosInstanceTruksOperations.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
+
+// 2. Обробляємо помилки у відповіді
+axiosInstanceTruksOperations.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.error("Unauthorized, logging out...");
+
+      localStorage.removeItem("token");
+      window.location.href = "/"; // Перекидаємо на головну
+    }
+    return Promise.reject(error);
+  }
+);
+
+
+// const axiosInstanceTruksOperations = axios.create({
+//   baseURL: "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io", // Тут базовий URL для отримання даних TRUCK-Auto
+// });
+// axiosInstanceTruksOperations.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
 
 
 // Тепер він лише очищає localStorage і перекидає на /, а Redux займається виходом Якщо Юзер не авторизован - 401 еррор!!!.

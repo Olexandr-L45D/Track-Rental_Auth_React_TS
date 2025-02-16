@@ -57,15 +57,28 @@ const authSlice = createSlice({
         state.isRefreshing = true;
       })
       .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
-         state.user = {
-           id: action.payload.id,
-           name: action.payload.name,
-           email: action.payload.email,
-         };
-         state.token = action.payload.token;
-         state.isRefreshing = false;
-         state.isLoggedIn = true;
-       })
+  console.log("REFRESH SUCCESS:", action.payload);
+  state.user = {
+    id: action.payload.id,
+    name: action.payload.name,
+    email: action.payload.email,
+  };
+  state.token = action.payload.token; // Оновлюємо тільки якщо він змінився
+  localStorage.setItem("token", action.payload.token || "");
+  state.isRefreshing = false;
+  state.isLoggedIn = true;
+})
+
+      // .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
+      //    state.user = {
+      //      id: action.payload.id,
+      //      name: action.payload.name,
+      //      email: action.payload.email,
+      //    };
+      //    state.token = action.payload.token;
+      //    state.isRefreshing = false;
+      //    state.isLoggedIn = true;
+      //  })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
         state.isLoggedIn = false;

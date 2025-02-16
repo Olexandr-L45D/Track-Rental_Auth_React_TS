@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useRef } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegistrationPage = lazy(() =>
   import("../../pages/RegistrationPage/RegistrationPage")
@@ -18,7 +18,7 @@ const TruckDetalsPage = lazy(() =>
 );
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 import { Layout } from "../Layout/Layout";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { logOut, refreshUser } from "../../redux/auth/operations";
 import { AppDispatch, RootState } from "../../redux/store";
 
@@ -26,19 +26,24 @@ export default function App() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
-  console.log("isLoggedIn:", isLoggedIn);
+  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing, shallowEqual);
+  // console.log("isLoggedIn:", isLoggedIn);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
  
-  useEffect(() => {
-  console.log("Effect triggered with token:", token, "isLoggedIn:", isLoggedIn);
+ const firstRender = useRef(true);
 
+useEffect(() => {
+  if (firstRender.current) {
+    firstRender.current = false;
+    return;
+  }
+  console.log("Effect triggered with token:", token, "isLoggedIn:", isLoggedIn);
   if (!token) {
     console.warn("No token found. Redirecting to /register...");
     navigate("/register", { replace: true });
     return;
   }
-
-  if (!isLoggedIn) {
+  if (!isLoggedIn && !isRefreshing) {  // Додаємо умову isRefreshing
     dispatch(refreshUser())
       .unwrap()
       .catch((error) => {
@@ -49,24 +54,8 @@ export default function App() {
         }
       });
   }
-}, [token, isLoggedIn, dispatch, navigate]);
-
-
-//   useEffect(() => {
-  
-//   if (!token) {
-//     console.warn("No token found. Skipping refreshUser.");
-//     return;
-//   }
-//   if (!isLoggedIn) {
-//     dispatch(refreshUser()).unwrap().catch((error) => {
-//       if (error === "Unauthorized") {
-//         dispatch(logOut());
-//         navigate("/register");
-//       }
-//     });
-//   }
-// }, [token, isLoggedIn, dispatch, navigate]);
+}, [token, isLoggedIn, isRefreshing, dispatch, navigate]);
+ 
 
   return ( 
     <Layout>
@@ -137,4 +126,43 @@ export default function App() {
             }
           /> */
 
-          // sendResetEmail and resetPassword
+// sendResetEmail and resetPassword
+          
+//   useEffect(() => {
+//   console.log("Effect triggered with token:", token, "isLoggedIn:", isLoggedIn);
+
+//   if (!token) {
+//     console.warn("No token found. Redirecting to /register...");
+//     navigate("/register", { replace: true });
+//     return;
+//   }
+
+//   if (!isLoggedIn) {
+//     dispatch(refreshUser())
+//       .unwrap()
+//       .catch((error) => {
+//         console.error("Error refreshing user:", error);
+//         if (error === "Unauthorized") {
+//           dispatch(logOut());
+//           navigate("/register", { replace: true });
+//         }
+//       });
+//   }
+// }, [token, isLoggedIn, dispatch, navigate]);
+
+
+//   useEffect(() => {
+  
+//   if (!token) {
+//     console.warn("No token found. Skipping refreshUser.");
+//     return;
+//   }
+//   if (!isLoggedIn) {
+//     dispatch(refreshUser()).unwrap().catch((error) => {
+//       if (error === "Unauthorized") {
+//         dispatch(logOut());
+//         navigate("/register");
+//       }
+//     });
+//   }
+// }, [token, isLoggedIn, dispatch, navigate]);
