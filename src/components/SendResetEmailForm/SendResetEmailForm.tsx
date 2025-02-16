@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
  interface UsEmailVelues { 
     email: string;
@@ -72,7 +72,7 @@ export default function SendResetEmailForm(): JSX.Element {
                           
           <div className={css.btn}>
             <button className={css.LoginForm} type="submit">
-              {t("auth.btnLog")}
+              {t("auth.btnsend")}
             </button>
           </div>
           

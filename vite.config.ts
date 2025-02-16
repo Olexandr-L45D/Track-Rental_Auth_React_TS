@@ -8,8 +8,8 @@ export default defineConfig(({ mode }) => ({
   host: true, // Додає підтримку для інших мережевих пристроїв
     // open: true, // Автоматично відкривати браузер прибираю щоб вайт не міг автоматично запустити і Антивірусник не сварився
     proxy: {
-      '/users': {
-        target: 'https://nodejs-hw-mongodb-6-1-xj46.onrender.com',
+      '/auth': {
+        target: ' https://nodejs-hw-mongodb-7-v54v.onrender.com',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => {

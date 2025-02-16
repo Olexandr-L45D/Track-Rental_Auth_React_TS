@@ -39,21 +39,9 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
       navigate("/register");
     }, 300); // Затримка в 300 мс
   }
-}, [attempts, navigate]);
-// useEffect(() => {
-//   if (attempts >= 3 && !error) { // Перевіряємо, щоб редірект не спрацьовував більше одного разу
-//     console.log("Navigating to /register");
-//     navigate("/register");
-//   }
-// }, [attempts, error, navigate]);
-//   useEffect(() => {
-//   if (attempts >= 3) {
-//     console.log("Navigating to /register");
-//     navigate("/register"); // виконуємо редірект без затримки
-//   }
-// }, [attempts, navigate]);
+  }, [attempts, navigate]);
   
-  const handleSubmit = async (
+const handleSubmit = async (
   values: UsLoginVelues,
   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
 ) => {
@@ -63,42 +51,42 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
     navigate("/catalog");
   } catch (error) {
     const newAttempts = attempts + 1;
-    setAttempts(newAttempts); // Оновлюємо attempts
+    setAttempts(newAttempts);
 
     if (newAttempts >= 3) {
-      console.log("Setting attempts to 3, triggering redirect...");
-      navigate("/register");
+      console.log("Too many failed login attempts, redirecting to /register...");
+      toast.error("Too many failed login attempts. Redirecting to registration.");
+      setTimeout(() => {
+        navigate("/register");
+      }, 500); // Невелика затримка перед редіректом
     } else {
-      setError(`Incorrect password or email. Attempts left: ${3 - newAttempts}`);
+      setError(`Incorrect email or password. Attempts left: ${3 - newAttempts}`);
     }
   }
   resetForm();
 };
-//   const handleSubmit = async (
-//     values: UsLoginVelues,
-//     { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
-//   ) => {
-//     try {
-//       await dispatch(logIn(values)).unwrap();
-//       toast.success("You have successfully logged in!");
-//       navigate("/catalog");
-//     } catch (error) {
-      
-//       setAttempts((prev) => {
-//   const newAttempts = prev + 1;
-//   if (newAttempts >= 3) {
-//     console.log("Setting attempts to 3, triggering redirect...");
-//     navigate("/register");
-//   }
-//   return newAttempts;
-// });
 
-//       if (attempts + 1 < 3) {
-//         setError(`Incorrect password or email. Attempts left: ${3 - (attempts + 1)}`);
-//       }
+//   const handleSubmit = async (
+//   values: UsLoginVelues,
+//   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+// ) => {
+//   try {
+//     await dispatch(logIn(values)).unwrap();
+//     toast.success("You have successfully logged in!");
+//     navigate("/catalog");
+//   } catch (error) {
+//     const newAttempts = attempts + 1;
+//     setAttempts(newAttempts); // Оновлюємо attempts
+
+//     if (newAttempts >= 3) {
+//       console.log("Setting attempts to 3, triggering redirect...");
+//       navigate("/register");
+//     } else {
+//       setError(`Incorrect password or email. Attempts left: ${3 - newAttempts}`);
 //     }
-//     resetForm();
-//   };
+//   }
+//   resetForm();
+// };
 
   return (
     <div className={css.item}>
@@ -149,6 +137,12 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
     </div>
   );
 };
+
+
+
+
+
+
 
 // useEffect(() => {
   //   console.log("Checking attempts in useEffect:", attempts);

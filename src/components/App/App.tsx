@@ -166,3 +166,10 @@ useEffect(() => {
 //     });
 //   }
 // }, [token, isLoggedIn, dispatch, navigate]);
+
+
+// реальні данні до Олениної пошти: {
+//   "name": "Olenushka",
+//   "email": "litvinenko.alena1502@gmail.com",
+//   "password": "1234OlenaLi"
+// }

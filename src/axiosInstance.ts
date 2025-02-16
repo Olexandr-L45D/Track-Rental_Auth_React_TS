@@ -4,7 +4,7 @@ import axios from "axios";
 //   baseURL: "https://connections-api.goit.global",
 // });
 export const axiosInstanceUser = axios.create({
-  baseURL: "https://nodejs-hw-mongodb-6-1-xj46.onrender.com",
+  baseURL: " https://nodejs-hw-mongodb-7-v54v.onrender.com",
 });
 
 

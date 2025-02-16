@@ -32,6 +32,7 @@
 }
 
 .btn {
+    width: 200px;
     margin: 5px;
     display: flex;
     flex-direction: column;
@@ -40,7 +41,7 @@
 }
 
 .LoginForm {
-    width: 100px;
+    width: 200px;
     height: auto;
     margin: 2px;
     padding: 2px;

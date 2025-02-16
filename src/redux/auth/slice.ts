@@ -39,6 +39,7 @@ const authSlice = createSlice({
     email: action.payload.user.email,
    };
         state.token = action.payload.token;
+         localStorage.setItem('token', action.payload.token);
         state.isLoggedIn = true;
         state.isLoading = false;
       })
@@ -49,8 +50,13 @@ const authSlice = createSlice({
      };
         state.token = action.payload.token;
         localStorage.setItem('token', action.payload.token); // Зберігаємо токен
-        state.isLoggedIn = true;
-        state.isLoading = false;
+       return {
+          ...state,
+          isLoggedIn: true,
+          token: action.payload.token,
+        };
+        // state.isLoggedIn = true;
+        // state.isLoading = false;
       })
       .addCase(logOut.fulfilled, () => initialState)
       .addCase(refreshUser.pending, (state) => {
@@ -68,17 +74,6 @@ const authSlice = createSlice({
   state.isRefreshing = false;
   state.isLoggedIn = true;
 })
-
-      // .addCase(refreshUser.fulfilled, (state, action: PayloadAction<UserRefreshToken>) => {
-      //    state.user = {
-      //      id: action.payload.id,
-      //      name: action.payload.name,
-      //      email: action.payload.email,
-      //    };
-      //    state.token = action.payload.token;
-      //    state.isRefreshing = false;
-      //    state.isLoggedIn = true;
-      //  })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
         state.isLoggedIn = false;

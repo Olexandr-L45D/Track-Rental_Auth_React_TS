@@ -48,17 +48,21 @@ const validationSchema = Yup.object({
       await dispatch(register(trimmedValues));
       toast.success("You have successfully registered!");
       navigate("/catalog"); // Переходимо на каталог після успішної реєстрації
-    } catch (error) {
-      setError("Try again more carefully!");
-    } finally {
-      setSubmitting(false);
-      resetForm();
+    } catch (error: any) {
+    if (error.response?.status === 409) {
+      toast.error("This email is already in use. Try logging in.");
+    } else {
+      toast.error("Try again more carefully!");
     }
+  } finally {
+    setSubmitting(false);
+    resetForm();
+  }
   };
 
   return (
     <div className={css.item}>
-      <ToastContainer
+      <ToastContainer className="custom-toast-container"
         position="top-right"
         autoClose={5000} // 5 seconds
         hideProgressBar={false}
@@ -68,6 +72,7 @@ const validationSchema = Yup.object({
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        
       />
       <Formik
         validationSchema={validationSchema}

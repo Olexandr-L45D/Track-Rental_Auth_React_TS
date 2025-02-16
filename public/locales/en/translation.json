@@ -46,6 +46,8 @@
     "logout": "Logout",
     "titleContactbook": "Contactbook",
     "btnLog": "Log In",
+    "btnsend": "Send to email",
+    "btnsendNewPassw": "Send new password",
     "btnLogerr": "Don't have an account?",
     "btnLogLink": "Click here to register"
   },

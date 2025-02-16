@@ -39,7 +39,7 @@ export interface UsRegisterVelues {
     password: string;
   }
   
-// POST @/users/signup
+
 // ThunkAPIConfig: Типізація для thunkAPI.Ми використовуємо { state: RootState }, щоб мати доступ до типізованого Redux стану.
 export const register = createAsyncThunk<
     AuthResponse,                  // Тип даних, які повертаються після успішної реєстрації
@@ -48,7 +48,7 @@ export const register = createAsyncThunk<
   >('auth/register',
   async (userDataValues, thunkAPI) => {
     try {
-      const response = await axiosInstanceUser.post<AuthResponse>('/users/signup', userDataValues, {
+      const response = await axiosInstanceUser.post<AuthResponse>('/auth/register', userDataValues, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const logIn = createAsyncThunk<
 >( 'auth/login',
     async (userInfo, thunkAPI) => {
         try {
-            const { data } = await axiosInstanceUser.post<AuthResponse>('/users/login', userInfo);
+            const { data } = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
             // After successful login, add the token to the HTTP header
           setAuthHeader(data.token);
           // Збереження токену в localStorage
@@ -98,7 +98,7 @@ export const logOut = createAsyncThunk<
     { rejectValue: string }        // Тип помилки
 >('auth/logout', async (_, thunkAPI) => {
     try {
-        await axiosInstanceUser.post('/users/logout');
+        await axiosInstanceUser.post('/auth/logout');
         // After a successful logout, remove the token from the HTTP header
       clearAuthHeader();
       localStorage.removeItem('token');  // Видалення токену з localStorage
@@ -125,7 +125,7 @@ export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
   "auth/sendResetEmail",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axiosInstanceUser.post("/api/auth/send-reset-email", { email });
+      const response = await axiosInstanceUser.post("/auth/send-reset-email", { email });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Error sending email");
@@ -142,7 +142,7 @@ export const resetPassword = createAsyncThunk<
   "auth/resetPassword",
   async ({ newPassword, token }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstanceUser.post("/api/auth/reset-pwd", { newPassword, token });
+      const response = await axiosInstanceUser.post("/auth/reset-pwd", { newPassword, token });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Error resetting password");
@@ -162,7 +162,7 @@ export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: Roo
       }
 
       setAuthHeader(token); // Використовуємо `axiosInstanceUser`
-      const response = await axiosInstanceUser.get<UserRefreshToken>("/users/current");
+      const response = await axiosInstanceUser.get<UserRefreshToken>("/auth/current");
 
       console.log("User data from refresh:", response.data);
        // Зберігаємо оновлений токен localStorage
