@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     // open: true, // Автоматично відкривати браузер прибираю щоб вайт не міг автоматично запустити і Антивірусник не сварився
     proxy: {
       '/users': {
-        target: 'https://connections-api.goit.global',
+        target: 'https://nodejs-hw-mongodb-6-1-xj46.onrender.com',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => {
