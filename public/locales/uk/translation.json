@@ -29,8 +29,11 @@
     "register": "Реєстрація"
   },
   "register": {
-   "titleRegistr": "Форма Авторизації",
-   "registerBtn": "Зареєструватись"
+   "titleRegistr": "АВТОРИЗАЦІЯ",
+   "registerBtn": "ЗАРЕЄСТРУВАТИСЬ",
+   "titleAuthen": "АУТЕНТИФІКАЦІЯ",
+   "titleEmail": "Електронний Лист",
+   "titlePassword": "Новий Пароь"
   },
   "login": {
    "titleLogin": "ФОРМА ЛОГІНУ"
@@ -45,7 +48,7 @@
     "titleContactbook": "Книга контактів",
     "btnLog": "Увійти",
     "btnsend": "Відправити лист",
-    "btnsendNewPassw": "Відправити новий пароль",
+    "btnsendNewPassw": "Відправити пароль",
     "btnLogerr": "Немає аккаунта?",
     "btnLogLink": "Клікні тут щоб зарегеструватися"
   },

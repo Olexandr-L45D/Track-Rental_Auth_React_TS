@@ -1,12 +1,9 @@
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
-const RegistrationPage = lazy(() =>
-  import("../../pages/RegistrationPage/RegistrationPage")
+const AuthorizationAuthenticPage = lazy(() =>
+  import("../../pages/AuthorizationAuthenticPage/AuthorizationAuthenticPage")
 );
-import RestrictedRoute from "../RestrictedRoute";
-import PrivateRoute from "../PrivateRoute";
-// import { selectIsLoggedIn, selectIsRefreshing } from "../../redux/auth/selectors";
 const TruckFeatures = lazy(() => import("../TruckFeatures/TruckFeatures"));
 const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
@@ -27,7 +24,7 @@ export default function App() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing, shallowEqual);
-  // console.log("isLoggedIn:", isLoggedIn);
+  console.log("isLoggedIn:", isLoggedIn);
   const token = useSelector((state: RootState) => state.auth.token); // Додаємо перевірку токену
  
  const firstRender = useRef(true);
@@ -56,7 +53,6 @@ useEffect(() => {
   }
 }, [token, isLoggedIn, isRefreshing, dispatch, navigate]);
  
-
   return ( 
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
@@ -67,11 +63,10 @@ useEffect(() => {
           {/* Автоматичне перенаправлення на реєстрацію, якщо користувач не має токена */}
           {!isLoggedIn && <Route path="/login" element={<Navigate to="/register" />} />}
           
-          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/register" element={<AuthorizationAuthenticPage />} />
           
           <Route path="/catalog" element={<TruckPageFilters />} />
-          
-          
+                    
           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
             <Route path="features" element={<TruckFeatures />} />
             <Route path="reviews" element={<TruckReviews />} />
@@ -84,13 +79,7 @@ useEffect(() => {
   );
 };
 
-//  <Route path="/" element={<HomePage />} />
-
-// <Route path="/" element={<HomePage />}>
- 
-//           </Route>
-  
-            
+       
 
 /* <Route path="/" element={<HomePage />} /> */
 //  <Route path="/catalog" element={<TruckPageFilters />} />

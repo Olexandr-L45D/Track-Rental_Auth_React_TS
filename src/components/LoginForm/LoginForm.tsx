@@ -1,6 +1,7 @@
 
 import css from "./LoginForm.module.css";
-import { Formik, Form, Field, FormikHelpers } from "formik";
+import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
+import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
@@ -40,6 +41,16 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
     }, 300); // Затримка в 300 мс
   }
   }, [attempts, navigate]);
+
+  // Схема валідації для реєстраційної форми
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email")
+      .required(" Email is Required"),
+    password: Yup.string()
+      .min(6, "Min 6 chars")
+      .required(" Password is Required"),
+  });
   
 const handleSubmit = async (
   values: UsLoginVelues,
@@ -102,6 +113,7 @@ const handleSubmit = async (
         pauseOnHover
       />
       <Formik
+        validationSchema={validationSchema}
         initialValues={initialLoginValues}
         onSubmit={handleSubmit}
       >
@@ -115,15 +127,17 @@ const handleSubmit = async (
               placeholder="Enter login..."
             />
           </div>
+           <ErrorMessage name="email" component="div" className={css.errorMessage} />
           <div className={css.items}>
             <label className={css.label}>Password</label>
             <Field
               className={css.inp}
               type="password"
               name="password"
-              placeholder="Enter password..."
+              placeholder="Please enter a strong password..."
             />
           </div>
+                      <ErrorMessage name="password" component="div" className={css.errorMessage} />
           <div className={css.btn}>
             <button className={css.LoginForm} type="submit">
               {t("auth.btnLog")}

@@ -1,10 +1,10 @@
 import css from "./RegistrationForm.module.css";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
+import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { register, UsRegisterVelues } from "../../redux/auth/operations";
 import { AppDispatch } from "../../redux/store";
-import * as Yup from 'yup';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -25,14 +25,14 @@ export default function RegistrationForm(): JSX.Element {
 // Схема валідації для реєстраційної форми
 const validationSchema = Yup.object({
   name: Yup.string()
-    .min(3, 'Ім’я повинно бути не менше 3 символів')
-    .required('Ім’я є обов’язковим'),
+    .min(3, "Min 3 chars")
+    .required("Name is Required"),
   email: Yup.string()
-    .email('Невірний формат електронної пошти')
-    .required('Електронна пошта є обов’язковою'),
+    .email("Invalid email")
+    .required(" Email is Required"),
   password: Yup.string()
-    .min(6, 'Пароль повинен бути не менше 6 символів')
-    .required('Пароль є обов’язковим'),
+    .min(6, "Min 6 chars")
+    .required(" Password is Required"),
 });
 
   const handleSubmit = async (values: UsRegisterVelues,
@@ -88,7 +88,7 @@ const validationSchema = Yup.object({
               name="name"
               placeholder="Enter name..."
             />
-             <ErrorMessage name="name" component="div" />
+             <ErrorMessage name="name" component="div" className={css.errorMessage} />
           </div>
           <div className={css.items}>
             <label className={css.label}>Email</label>
@@ -98,7 +98,7 @@ const validationSchema = Yup.object({
               name="email"
               placeholder="Enter email..."
             />
-             <ErrorMessage name="email" component="div" />
+            <ErrorMessage name="email" component="div" className={css.errorMessage} />
           </div>
           <div className={css.items}>
             <label className={css.label}>Password</label>
@@ -106,14 +106,14 @@ const validationSchema = Yup.object({
               className={css.inp}
               type="password"
               name="password"
-              placeholder="Please enter numbers and uppercase letters..."
+              placeholder="Please enter a strong password..."
             />
-            <ErrorMessage name="password" component="div" />
+            <ErrorMessage name="password" component="div" className={css.errorMessage} />
           </div>
 
           <div className={css.btn}>
             <button className={css.regForm} type="submit">
-              {t("register.registerBtn")}
+              {t("navigation.register")}
             </button>
           </div>
         </Form>

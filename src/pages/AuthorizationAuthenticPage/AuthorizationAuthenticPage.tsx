@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import css from "./RegistrationPage.module.css";
+import css from "./AuthorizationAuthenticPage.module.css";
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
 import {  useEffect, useState } from "react";
 import LoginForm from "../../components/LoginForm/LoginForm";
@@ -9,7 +9,7 @@ import { RootState } from "../../redux/store";
 import SendResetEmailForm from "../../components/SendResetEmailForm/SendResetEmailForm";
 import ResetPasswordForm from "../../components/ResetPasswordForm/ResetPasswordForm";
 
-const RegistrationPage = (): JSX.Element => {
+const AuthorizationAuthenticPage = (): JSX.Element => {
   const [isRegistering, setIsRegistering] = useState(true);
   const { t } = useTranslation();
   const [attempts, setAttempts] = useState(0);
@@ -36,7 +36,7 @@ const RegistrationPage = (): JSX.Element => {
         <div className={css.card}>
           
           <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
-          <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>
+          <h2 className={css.cartText}>{t("navigation.titleWelcom")}</h2>
   
         </div>
         <section className={css.cartFormSection}>
@@ -48,14 +48,14 @@ const RegistrationPage = (): JSX.Element => {
             <button 
               className={isRegistering ? css.active : ""} 
               onClick={() => setIsRegistering(true)}
-            >
-              Register
+            >    
+                {t("navigation.register")}
             </button>
             <button 
               className={!isRegistering ? css.active : ""} 
               onClick={() => setIsRegistering(false)}
             >
-              Log In
+                {t("navigation.login")}
             </button>
           </div>
   
@@ -64,20 +64,20 @@ const RegistrationPage = (): JSX.Element => {
 
           
         <div className={css.cartPageApply}>
-            <h3 className={css.cartForm}>Autorization to mail</h3>
+            <h3 className={css.cartForm}>{t("register.titleAuthen")}</h3>
             
           <div className={css.switchButtons}>
             <button 
               className={isRegistering ? css.active : ""} 
               onClick={() => setIsRegistering(true)}
             >
-              ResetEmail
+             {t("register.titleEmail")}
             </button>
             <button 
               className={!isRegistering ? css.active : ""} 
               onClick={() => setIsRegistering(false)}
             >
-              ResetPassword
+            {t("register.titlePassword")}
             </button>
           </div>
   
@@ -91,8 +91,7 @@ const RegistrationPage = (): JSX.Element => {
   );
 };
    
-
-  export default RegistrationPage;
+  export default AuthorizationAuthenticPage;
   
   //  <div className={css.background}>
   //     <section className={css.card}>

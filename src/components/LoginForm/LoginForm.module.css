@@ -1,6 +1,6 @@
 
 .item {
-    width: 250px;
+    width: 280px;
     height: auto;
     margin: 5px;
     padding: 5px;
@@ -17,7 +17,7 @@
 }
 
 .items {
-    width: 220px;
+    width: 250px;
     margin: 5px;
     margin-bottom: 16px;
     padding: 5px;
@@ -40,19 +40,32 @@
 }
 
 .LoginForm {
-    width: 100px;
-    height: auto;
+    width: 150px;
+    height: 45px;
     margin: 2px;
     padding: 2px;
     border: 1px solid rgb(104, 102, 102);
     border-radius: 5px;
     color: rgb(14, 15, 15);
+    background-color: white;
+    transition: color 0.3s ease-in-out;
+    /* Плавна зміна кольору текту кнопки на червоний */
+}
+
+.LoginForm:hover {
+    color: red;
 }
 
 .messag {
     margin: 5px;
     margin-bottom: 16px;
     padding: 10px;
+}
+
+.errorMessage {
+    color: #4dabf7;
+    font-size: 14px;
+    margin-top: 4px;
 }
 
 .inp {

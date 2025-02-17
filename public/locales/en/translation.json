@@ -31,8 +31,11 @@
 
   },
   "register": {
-   "titleRegistr": "Authorization form",
-   "registerBtn": "to register"
+   "titleRegistr": "AUTHORIZATION",
+   "registerBtn": "to register",
+   "titleAuthen": "AUTHENTICATION",
+   "titleEmail": "Reset Email",
+   "titlePassword": "Reset Password"
   },
   "login": {
    "titleLogin": "LOGIN FORM"
@@ -46,8 +49,8 @@
     "logout": "Logout",
     "titleContactbook": "Contactbook",
     "btnLog": "Log In",
-    "btnsend": "Send to email",
-    "btnsendNewPassw": "Send new password",
+    "btnsend": "Send email",
+    "btnsendNewPassw": "Send password",
     "btnLogerr": "Don't have an account?",
     "btnLogLink": "Click here to register"
   },
