@@ -4,11 +4,12 @@ import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
 import UserMenu from "../UserMenu/UserMenu";
-import { AuthNav } from "../AuthNav/AuthNav";
+// import { AuthNav } from "../AuthNav/AuthNav";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import  AuthorizationAuthentic  from "../AuthorizationAuthentic/AuthorizationAuthentic";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -19,10 +20,11 @@ export const Navigation = (): JSX.Element => {
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
-  
-const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
-useEffect(() => {
+  const navigate = useNavigate();
+
+   useEffect(() => {
   if (!isLoggedIn) {
     navigate("/login"); // Перенаправляємо без диспатчу до лоігну
   }
@@ -39,6 +41,15 @@ useEffect(() => {
       localStorage.setItem("appLanguage", language);
     }
   };
+
+  // const handleResetNavigation = () => {
+  //   if (isLoggedIn) {
+  //     navigate("/auth/send-reset-email");
+  //   } else {
+  //     navigate("/register");
+  //   }
+  // };
+
   
   return (
     <section className={css.container}>
@@ -49,6 +60,14 @@ useEffect(() => {
           </svg>
         </Link>
       </div>
+
+       {/* при натисканні на кнопку має перекинути на AuthorizationAuthentic - Авторизації через лист та сміну паролю */}
+        <nav className={css.nav}> 
+        <button onClick={() => setIsOpen(true)}>ResEmeilPass</button>
+
+        {isOpen && <AuthorizationAuthentic onClose={() => setIsOpen(false)} />}
+         </nav>
+        
       <section className={css.card}>
         <nav className={css.nav}>
           <NavLink to="/" className={newLinkClass}>
