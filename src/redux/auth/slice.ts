@@ -29,35 +29,43 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},  // Додаємо порожній об'єкт reducers - обовьязкове!
+   reducers: {
+    loginSuccess: (state: AuthState, action: PayloadAction<{ token: string; user: User }>) => { 
+      console.log("🟢 LOGIN SUCCESS REDUCER TRIGGERED", action.payload);
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
+    },
+  },// Додаємо порожній об'єкт reducers - обовьязкове!
   extraReducers: (builder) => {
     builder
-      .addCase(register.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        console.log("REGISTER SUCCESS:", action.payload); // Додаємо лог
-        state.user = {
-    name: action.payload.user.name,
-    email: action.payload.user.email,
-   };
-        state.token = action.payload.token;
-         localStorage.setItem('token', action.payload.token);
-        state.isLoggedIn = true;
-        state.isLoading = false;
-      })
-      .addCase(logIn.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
-        state.user = {
-      name: action.payload.user.name,
-      email: action.payload.user.email,
-     };
-        state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token); // Зберігаємо токен
-       return {
-          ...state,
-          isLoggedIn: true,
-          token: action.payload.token,
-        };
-        // state.isLoggedIn = true;
-        // state.isLoading = false;
-      })
+        .addCase(register.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
+  console.log("REGISTER SUCCESS:", action.payload);
+  console.log("TOKEN RECEIVED:", action.payload.data.token);
+
+  state.user = {
+    name: action.payload.data.user.name,
+    email: action.payload.data.user.email,
+  };
+  state.token = action.payload.data.token;
+  localStorage.setItem('token', action.payload.data.token);
+  state.isLoggedIn = true;
+  state.isLoading = false;
+})
+.addCase(logIn.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
+  console.log("LOGIN SUCCESS:", action.payload);
+  console.log("TOKEN RECEIVED:", action.payload.data.token);
+
+  state.user = {
+    name: action.payload.data.user.name,
+    email: action.payload.data.user.email,
+  };
+  state.token = action.payload.data.token;
+  localStorage.setItem('token', action.payload.data.token);
+
+  state.isLoggedIn = true;
+  state.isLoading = false;
+})
       .addCase(logOut.fulfilled, () => initialState)
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
@@ -68,7 +76,13 @@ const authSlice = createSlice({
     id: action.payload.id,
     name: action.payload.name,
     email: action.payload.email,
-  };
+        };
+
+    //     if (!action.payload.data.token) {
+    // console.warn("Token not received, attempting to log in...");
+    // await dispatch(logIn({ email: action.payload.data.user.email, password: userDataValues.password }));
+    // return;
+    //    }
   state.token = action.payload.token; // Оновлюємо тільки якщо він змінився
   localStorage.setItem("token", action.payload.token || "");
   state.isRefreshing = false;
@@ -115,7 +129,7 @@ const authSlice = createSlice({
   },
 });
 
-
+export const { loginSuccess } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
 

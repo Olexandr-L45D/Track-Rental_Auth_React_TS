@@ -42,6 +42,125 @@
 }
 
 
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* затемнення фону */
+    z-index: 9999;
+}
+
+.modalContent {
+    position: relative;
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+}
+
+.switchButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.switchButtons button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+button {
+    padding: 12px 10px;
+    border: none;
+    cursor: pointer;
+    background: #eee;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+button.active {
+    background: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.sectinPage {
+    display: flex;
+    margin: 0px;
+    margin-top: 50px;
+    padding: 0px;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+}
+
+.card {
+    width: 200px;
+    display: flex;
+    margin-left: 50px;
+    margin-right: 50px;
+    flex-direction: column;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+}
+
+.cartTitle {
+    padding: 2px;
+    margin: 2px;
+    color: #fff;
+    font-size: 2em;
+    font-weight: 900;
+    line-height: 2;
+    display: flex;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+}
+
+.cartText {
+    padding: 2px;
+    margin: 2px;
+    color: #fff;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+}
+
+
+.background {
+    min-height: calc(100vh - 56px);
+    overflow: hidden;
+    background-image: url('../../images/Picture.jpg');
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100%, 280px 210px;
+
+}
+
+/* 
 .switchButtons {
     display: flex;
     justify-content: center;
@@ -61,7 +180,7 @@ button.active {
     background: #007bff;
     color: white;
     font-weight: bold;
-}
+} */
 
 .sectinPage {
     display: flex;

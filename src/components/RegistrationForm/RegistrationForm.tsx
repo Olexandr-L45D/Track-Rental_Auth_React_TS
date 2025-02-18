@@ -3,7 +3,7 @@ import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { register, UsRegisterVelues } from "../../redux/auth/operations";
+import { logIn, register, UsRegisterVelues } from "../../redux/auth/operations";
 import { AppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
     .required(" Password is Required"),
 });
 
-  const handleSubmit = async (values: UsRegisterVelues,
+  const handleRegister = async (values: UsRegisterVelues,
     { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
     // Очищення пробілів перед відправкою
   const trimmedValues = {
@@ -43,11 +43,22 @@ const validationSchema = Yup.object({
     email: values.email.trim(),
     password: values.password.trim(),
     };
-    try {
-      // Чекаємо на результат реєстрації
-      await dispatch(register(trimmedValues));
-      toast.success("You have successfully registered!");
-      navigate("/catalog"); // Переходимо на каталог після успішної реєстрації
+   try {
+    const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+
+    if (registerResponse.status === 201) {
+      console.log("REGISTER SUCCESS:", registerResponse);
+        toast.success("You have successfully registered!");
+      // Після реєстрації одразу виконуємо логін
+      const loginResponse = await dispatch(
+        logIn({ email: values.email, password: values.password })).unwrap();
+      if (loginResponse.status === 200) {
+        console.log("LOGIN SUCCESS:", loginResponse);
+        console.log("🔥 REDIRECTING TO CATALOG...");
+        // Якщо цей лог не з’явиться в консолі, значить, navigate("/catalog") взагалі не виконується
+        navigate("/catalog"); // або будь-яка інша сторінка після логіну
+      }
+    }
     } catch (error: any) {
     if (error.response?.status === 409) {
       toast.error("This email is already in use. Try logging in.");
@@ -77,7 +88,7 @@ const validationSchema = Yup.object({
       <Formik
         validationSchema={validationSchema}
         initialValues={initialValues}
-        onSubmit={handleSubmit}
+        onSubmit={handleRegister}
       >
         <Form>
           <div className={css.items}>
@@ -122,4 +133,5 @@ const validationSchema = Yup.object({
   );
 };
 
-// successful registration
+
+

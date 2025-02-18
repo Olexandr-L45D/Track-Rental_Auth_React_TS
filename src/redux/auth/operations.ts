@@ -4,11 +4,25 @@ import { axiosInstanceUser } from '../../axiosInstance';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {RootState} from '../store'
 
+// це токені які я далі використовую:
+// const accessToken = response.data.accessToken; - короткоживучий - 15хв
+// const token = response.data.refreshToken; - довгоживучий  - 30дн
+
+// localStorage.setItem("accessToken", accessToken);
+// localStorage.setItem("token", token);
+
+
+// axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
 // Utility to add JWT - (token)
+// const setAuthHeader = (token: string | null) => {
+//     axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
 const setAuthHeader = (token: string | null) => {
-    axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
+  axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
+  console.log("AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
 };
+// Якщо вивід AUTH HEADER SET: Bearer null, значить токен не встановлюється в заголовок!
 // Utility to remove JWT - token
 const clearAuthHeader = () => {
   delete axiosInstanceUser.defaults.headers.common["Authorization"];
@@ -42,7 +56,7 @@ export interface UsRegisterVelues {
 
 // ThunkAPIConfig: Типізація для thunkAPI.Ми використовуємо { state: RootState }, щоб мати доступ до типізованого Redux стану.
 export const register = createAsyncThunk<
-    AuthResponse,                  // Тип даних, які повертаються після успішної реєстрації
+ { status: number; data: AuthResponse }, // Оновлено тип повернення   
     UsRegisterVelues,               // Тип аргументів, які передаються у функцію
     { rejectValue: string; state: RootState }  // Доступ до Redux стану та Тип помилки, що повертається у випадку невдачі
   >('auth/register',
@@ -54,9 +68,17 @@ export const register = createAsyncThunk<
           'Content-Type': 'application/json',
         },
       });
-            // After successful registration, add the token to the HTTP header
-          setAuthHeader(response.data.token);
-          return response.data;
+      // After successful registration, add the token to the HTTP header
+      // const token = response.data?.token ?? response.data?.data?.token;
+// setAuthHeader(token);
+// localStorage.setItem("token", token);
+
+      console.log("REGISTER RESPONSE:", response.data); // Додати це для перевірки чи приходе токен?
+      setAuthHeader(response.data.token);
+      localStorage.setItem("token", response.data.token);
+      
+       return { status: response.status, data: response.data }; // Оновлено повернення
+          // return response.data;
         } catch (error: any) {
   const errorMessage = error.response?.data?.message || 'Error register!';
   // більше деталей про помилку в вітповіді з сервера в errorMessage
@@ -70,18 +92,19 @@ export const register = createAsyncThunk<
  * body: { email, password } = userInfo
  */
 export const logIn = createAsyncThunk<
-    AuthResponse,                  
+   { status: number; data: AuthResponse }, // Оновлено тип повернення                 
     AuthCredentials,               
     { rejectValue: string }        
->( 'auth/login',
-    async (userInfo, thunkAPI) => {
+>( 'auth/login',   async (userInfo, thunkAPI) => {
         try {
-            const { data } = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
-            // After successful login, add the token to the HTTP header
-          setAuthHeader(data.token);
-          // Збереження токену в localStorage
-      localStorage.setItem('token', data.token);
-            return data;
+            const response = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
+         // After successful login, add the token to the HTTP header
+            setAuthHeader(response.data.token);
+
+            // Збереження токену в localStorage
+            localStorage.setItem('token', response.data.token);
+
+            return { status: response.status, data: response.data }; // Оновлено повернення
         } catch (error) {
             return thunkAPI.rejectWithValue("Error during login!");
         }
@@ -195,7 +218,7 @@ export default axios;
 //       return thunkAPI.rejectWithValue("No token found");
 //     }
 
-//     setAuthHeader(token); 
+//     setAuthHeader(token);
 //     console.log('Token set in refreshUser:', axios.defaults.headers.common.Authorization);
 
 //     try {
@@ -258,13 +281,65 @@ export default axios;
 //     "token": "eyJhbGciOiJIUzI"
 // }
 
-// // this obgect correct Login end Refresh: 
+// // this obgect correct Login end Refresh:
 // email
-// : 
+// :
 // "4725NilaAleks@gmail.com"
 // name
-// : 
+// :
 // "AleksandrNIsa"
 // password
-// : 
+// :
 // "4725NilaAlex789"
+
+// //  обєкт вірної вітповіді при регістраціїї: {
+
+//     "user": {
+//         "name": "Joni Alex",
+//         "email": "1litvgo1978aleks@gmail.com"
+//     },
+//     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2I0N2NjMGM0OTVlZDZlMjVmM2RmN2EiLCJpYXQiOjE3Mzk4ODE2NjR9.WXm6lNGEUIlARAtR08FqkTlseC_RnqBGNX6TYE5kObk"
+// }
+
+// // обєкт вітповіді с ПОСТМАН на зараз при Логіні
+// {
+//     "status": 200,
+//     "message": "Successfully logged in an user!",
+//     "data": {
+//         "accessToken": "u9t2bah2t2VCNks2NiBmktzzZxPK4ZmLEtI6GVnw"
+//     }
+// }
+// Приклад як я ма.ю отримувати 2 токена в вітповідях при 201 та 200
+//  "user": {
+//         "name": "Joni Alex",
+//         "email": "1litvgo1978aleks@gmail.com"
+//     },
+// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2I0N2NjMGM0OTVlZDZlMjVmM2RmN2EiLCJpYXQiOjE3Mzk4ODE2NjR9.WXm6lNGEUIlARAtR08FqkTlseC_RnqBGNX6TYE5kObk",
+//       "data": {
+//         "accessToken": "u9t2bah2t2VCNks2NiBmktzzZxPK4ZmLEtI6GVnw"
+//     }
+// }
+
+// Це приклад як маю отримати при Регістр:
+// {
+//     "status": 201,
+//     "message": "Successfully registered a user!",
+//     "data": {
+//         "user": {
+//             "name": "Joni Alex",
+//             "email": "1litvgo1978aleks@gmail.com"
+//         },
+//         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+//         "token": "u9t2bah2t2VCNks2NiBmktzzZxPK4ZmLEtI6GVnw"
+//     }
+// }
+
+// Це приклад від ЖПТ як я маю отримати при ЛОГІНІ: 
+// {
+//     "status": 200,
+//     "message": "Successfully logged in an user!",
+//     "data": {
+//         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+//         "token": "u9t2bah2t2VCNks2NiBmktzzZxPK4ZmLEtI6GVnw"
+//     }
+// }

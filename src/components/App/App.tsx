@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate, Navigate, Outlet } from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef } from "react";
-const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
+// const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const AuthorizationAuthenticPage = lazy(() => import("../../pages/AuthorizationAuthenticPage/AuthorizationAuthenticPage"));
 const TruckFeatures = lazy(() => import("../TruckFeatures/TruckFeatures"));
 const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
@@ -14,28 +14,30 @@ const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 
 import { Layout } from "../Layout/Layout";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { logOut, refreshUser } from "../../redux/auth/operations";
+import { logIn, logOut, refreshUser } from "../../redux/auth/operations";
 import { AppDispatch, RootState } from "../../redux/store";
-import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import LoginForm from "../LoginForm/LoginForm";
-import PrivateRoute from "../PrivateRoute";
-import AuthLayout from "../AuthLayout";
 
 
 export default function App() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
-  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing, shallowEqual);
+  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
   const token = useSelector((state: RootState) => state.auth.token);
   const firstRender = useRef(true);
 
+  // useEffect(() => {
+  // console.log(" isLoggedIn CHANGED:", isLoggedIn);
+  // }, [isLoggedIn]);
+  
   useEffect(() => {
+    console.log(" isLoggedIn CHANGED:", isLoggedIn);
     if (firstRender.current) {
       firstRender.current = false;
       return;
     }
-
+  console.log("TOKEN FROM REDUX:", token); // Додати для перевірки - Чи взагалі є токен?
     if (!token) {
       console.warn("No token found. Redirecting to /register...");
       navigate("/register", { replace: true });
@@ -44,6 +46,8 @@ export default function App() {
 
     if (!isLoggedIn && !isRefreshing) {
       dispatch(refreshUser())
+    //  if (!isLoggedIn ) {
+      // dispatch(logIn())
         .unwrap()
         .catch((error) => {
           console.error("Error refreshing user:", error);
@@ -58,42 +62,118 @@ export default function App() {
   return (
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
+        <Routes>
+          {/* Якщо залогінений → Каталог, якщо ні → Головна */}
+          <Route path="/" element={isLoggedIn ? <TruckPageFilters /> : <HomePage />} />
+
+          {/* Редірект з логіну на реєстрацію */}
+          {!isLoggedIn && <Route path="/login" element={<Navigate to="/register" />} />}
+
+          {/* Модалка для авторизації (якщо не залогінений) */}
+          {!isLoggedIn && (
+            <Route path="/" element={<AuthorizationAuthentic />}>
+            
+              {/* примінив передачу пропсів до Логінформи так як має рахувати кількість невдалих спроб авторизації */}
+              <Route path="login" element={<LoginForm attempts={0} setAttempts={() => {}} />} />
+
+              <Route path="send-reset-email" element={<SendResetEmailForm />} />
+              <Route path="reset-pwd" element={<ResetPasswordForm />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </Route>
+          )}
+
         
-       <Routes>
-  {!isLoggedIn ? (
-    <>
-      
-      <Route path="/" element={<AuthLayout />}>
-        <Route path="register" element={<AuthorizationAuthenticPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="send-reset-email" element={<SendResetEmailForm />} />
-        <Route path="reset-pwd" element={<ResetPasswordForm />} />
-      </Route>
+          <Route path="/register" element={<AuthorizationAuthenticPage />} />
 
-      {/*  Редірект з /login на /register */}
-      <Route path="/login" element={<Navigate to="/register" />} />
-      <Route path="/register" element={<Navigate to="/register" />} />
-    </>
-  ) : (
-    <>
-      <Route element={<PrivateRoute redirectTo="/register" />}>
-        <Route path="/" element={<TruckPageFilters />} />
-        <Route path="/catalog" element={<TruckPageFilters />} />
-        <Route path="/catalog/:id" element={<TruckDetalsPage />}>
-          <Route path="features" element={<TruckFeatures />} />
-          <Route path="reviews" element={<TruckReviews />} />
-        </Route>
-      </Route>
-    </>
-  )}
+          <Route path="/catalog" element={<TruckPageFilters />} />
+          <Route path="/catalog/:id" element={<TruckDetalsPage />}>
+            <Route path="features" element={<TruckFeatures />} />
+            <Route path="reviews" element={<TruckReviews />} />
+          </Route>
 
-  <Route path="*" element={<NotFoundPage />} />
-</Routes>
-
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </Suspense>
     </Layout>
   );
 }
+
+// Раніше був без пропсів і підкреслювало
+/* <Route path="login" element={<LoginForm />} /> */
+  
+// ВАРІАНТ АПП що не перекидав на КАТАЛОГ із - за редіректа:
+// export default function App() {
+//   const dispatch: AppDispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
+//   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing, shallowEqual);
+//   const token = useSelector((state: RootState) => state.auth.token);
+//   const firstRender = useRef(true);
+
+//   useEffect(() => {
+//     if (firstRender.current) {
+//       firstRender.current = false;
+//       return;
+//     }
+
+//     if (!token) {
+//       console.warn("No token found. Redirecting to /register...");
+//       navigate("/register", { replace: true });
+//       return;
+//     }
+
+//     if (!isLoggedIn && !isRefreshing) {
+//       dispatch(refreshUser())
+//         .unwrap()
+//         .catch((error) => {
+//           console.error("Error refreshing user:", error);
+//           if (error === "Unauthorized") {
+//             dispatch(logOut());
+//             navigate("/register", { replace: true });
+//           }
+//         });
+//     }
+//   }, [token, isLoggedIn, isRefreshing, dispatch, navigate]);
+
+//   return (
+//     <Layout>
+//       <Suspense fallback={<b>Loading...</b>}>
+        
+//        <Routes>
+//   {!isLoggedIn ? (
+//     <>
+      
+//       <Route path="/" element={<AuthLayout />}>
+//         <Route path="register" element={<AuthorizationAuthenticPage />} />
+//         <Route path="login" element={<LoginPage />} />
+//         <Route path="send-reset-email" element={<SendResetEmailForm />} />
+//         <Route path="reset-pwd" element={<ResetPasswordForm />} />
+//       </Route>
+
+//       {/*  Редірект з /login на /register */}
+//       <Route path="/login" element={<Navigate to="/register" />} />
+      
+//     </>
+//   ) : (
+//     <>
+//       <Route element={<PrivateRoute redirectTo="/register" />}>
+//         <Route path="/" element={<TruckPageFilters />} />
+//         <Route path="/catalog" element={<TruckPageFilters />} />
+//         <Route path="/catalog/:id" element={<TruckDetalsPage />}>
+//           <Route path="features" element={<TruckFeatures />} />
+//           <Route path="reviews" element={<TruckReviews />} />
+//         </Route>
+//       </Route>
+//     </>
+//   )}
+
+//   <Route path="*" element={<NotFoundPage />} />
+// </Routes>
+
+//       </Suspense>
+//     </Layout>
+//   );
+// }
 
 
 
@@ -335,3 +415,135 @@ export default function App() {
 //   "email": "litvinenko.alena1502@gmail.com",
 //   "password": "1234OlenaLi"
 // }
+
+
+// перероблюю на старий варіант тільки вкладую 3 маршрути повьзані з логіном як вкладені в нього 
+// і додаю за замовчуванням шлях до логін якщо нічого не знайдено = <Route path="*" element={<Navigate to="/login" />} />
+
+// пропозиція без вкладених маршрутів в ПРИВАТРОУТ
+// <Routes>
+//   {!isLoggedIn ? (
+//     <>
+//       <Route path="/login" element={<AuthorizationAuthentic />} />
+//       <Route path="/register" element={<AuthorizationAuthenticPage />} />
+//       <Route path="*" element={<Navigate to="/login" />} />
+//     </>
+//   ) : (
+//     <>
+//       <Route path="/" element={<HomePage />} />
+//       <Route path="/profile" element={<UserProfile />} />
+//       <Route path="*" element={<Navigate to="/" />} />
+//     </>
+//   )}
+
+  {/* варіант вкладених в модалку
+</Routes path="/login" element={<AuthorizationAuthentic />}>
+        <Route path="login" element={<LoginForm />} />
+        <Route path="send-reset-email" element={<SendResetEmailForm />} />
+        <Route path="reset-pwd" element={<ResetPasswordForm />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+</Route> 
+ */}
+
+  
+//   // це старий варіант який точно працював!!!  НЕ ЧИПАЮ!!!
+// return (
+//     <Layout>
+//       <Suspense fallback={<b>Loading...</b>}>
+//         <Routes>
+//            {/* Якщо користувач залогінений → ведемо його в каталог */}
+//           <Route path="/" element={isLoggedIn ? <TruckPageFilters /> : <HomePage />} />
+//           {/* Автоматичне перенаправлення на реєстрацію, якщо користувач не має токена */}
+//           {!isLoggedIn && <Route path="/login" element={<Navigate to="/register" />} />}
+      
+//           <Route path="/auth" element={<AuthorizationAuthentic />} />
+//           <Route path="/register" element={<AuthorizationAuthenticPage />} />
+          
+//           <Route path="/catalog" element={<TruckPageFilters />} />
+                    
+//           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
+//             <Route path="features" element={<TruckFeatures />} />
+//             <Route path="reviews" element={<TruckReviews />} />
+//           </Route>
+          
+//           <Route path="*" element={<NotFoundPage />} />
+//         </Routes>
+//       </Suspense>
+//     </Layout>
+//   );
+// };
+
+
+// return (
+//     <Layout>
+//       <Suspense fallback={<b>Loading...</b>}>
+//         <Route>
+//            {/* Якщо користувач залогінений → ведемо його в каталог */}
+//           <Route path="/" element={isLoggedIn ? <TruckPageFilters /> : <HomePage />} />
+//           {/* Автоматичне перенаправлення на реєстрацію, якщо користувач не має токена */}
+//           {!isLoggedIn && <Route path="/login" element={<Navigate to="/register" />} />}
+      
+//           <Route path="/" element={!isLoggedIn ? <AuthorizationAuthentic />}>
+//                <Route path="login" element={<LoginForm />} />
+//                <Route path="send-reset-email" element={<SendResetEmailForm />} />
+//                <Route path="reset-pwd" element={<ResetPasswordForm />} />
+//                <Route path="*" element={<Navigate to="/login" />} />
+//           </Route>
+
+//           <Route path="/register" element={<AuthorizationAuthenticPage />} />
+          
+//           <Route path="/catalog" element={<TruckPageFilters />} />
+                    
+//           <Route path="/catalog/:id" element={<TruckDetalsPage />}>
+//             <Route path="features" element={<TruckFeatures />} />
+//             <Route path="reviews" element={<TruckReviews />} />
+//           </Route>
+          
+//           <Route path="*" element={<NotFoundPage />} />
+//         </Routes>
+//       </Suspense>
+//     </Layout>
+//   );
+// };
+
+// остання вдала регістрація на {
+//     "status": 201,
+//     "message": "Successfully registered a user!",
+//     "data": {
+//         "name": "Anna",
+//         "email": "Annlitvinenko1978aleks@gmail.com",
+// її пароль щоб був для тесту: ANN123Li
+//         "verify": false,
+//         "_id": "67b42d5a168b00a55eaf9490",
+//         "createdAt": "2025-02-18T06:48:58.437Z",
+//         "updatedAt": "2025-02-18T06:48:58.437Z"
+//     }
+// }
+
+// email
+// :
+// "Annlitvinenko1978aleks@gmail.com"
+// name
+// :
+// "Anna"
+// password
+// :
+// "ANN123Li"
+
+// варіант без рефрешу а перекидати на логін якщо не прийшов токен:
+// useEffect(() => {
+//   console.log(" isLoggedIn CHANGED:", isLoggedIn);
+//   if (firstRender.current) {
+//     firstRender.current = false;
+//     return;
+//   }
+
+//   console.log("TOKEN FROM REDUX:", token);
+
+//   if (!token) {
+//     console.warn("No token found. Redirecting to /login...");
+//     navigate("/login", { replace: true });
+//     return;
+//   }
+
+// }, [token, isLoggedIn, navigate]);

@@ -26,6 +26,7 @@ interface LoginFormProps {
   setAttempts: React.Dispatch<React.SetStateAction<number>>;
 };
 
+// export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
 export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const handleSubmit = async (
   try {
     await dispatch(logIn(values)).unwrap();
     toast.success("You have successfully logged in!");
-    navigate("/catalog");
+    navigate("/catalog"); // Редірект = переходимо на каталог після успішної логінізації
   } catch (error) {
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
@@ -76,28 +77,6 @@ const handleSubmit = async (
   }
   resetForm();
 };
-
-//   const handleSubmit = async (
-//   values: UsLoginVelues,
-//   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
-// ) => {
-//   try {
-//     await dispatch(logIn(values)).unwrap();
-//     toast.success("You have successfully logged in!");
-//     navigate("/catalog");
-//   } catch (error) {
-//     const newAttempts = attempts + 1;
-//     setAttempts(newAttempts); // Оновлюємо attempts
-
-//     if (newAttempts >= 3) {
-//       console.log("Setting attempts to 3, triggering redirect...");
-//       navigate("/register");
-//     } else {
-//       setError(`Incorrect password or email. Attempts left: ${3 - newAttempts}`);
-//     }
-//   }
-//   resetForm();
-// };
 
   return (
     <div className={css.item}>
@@ -155,6 +134,15 @@ const handleSubmit = async (
 
 
 
+//  Реакт-ТайпСкрипт очікує пропси тому підкреслювало в АПП - я додав в сам РОУТ але якщо не працює то треба передати в сам ЛОГІН-Форм в аргументах
+// так як має працювати лічильник спроб авторизаціїї до 3 -х разів і якщо ні то перекидати на регістрацію
+// export default function LoginForm({
+//   attempts = 0,
+//   setAttempts = () => {}
+// }: LoginFormProps): JSX.Element {
+
+// Було так без стрілочної функціїї як пропс в аргументах: 
+// export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
 
 
 
