@@ -18,10 +18,20 @@ import {RootState} from '../store'
 // const setAuthHeader = (token: string | null) => {
 //     axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
 // };
-const setAuthHeader = (token: string | null) => {
-  axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
-  console.log("AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
+const setAuthHeader = (accessToken: string | null) => {
+  if (!accessToken) {
+    console.warn("⚠️ No access token provided. Authorization header NOT set.");
+    return;
+  }
+  
+  axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  console.log("✅ AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
 };
+
+// const setAuthHeader = (accessToken: string | null) => {
+//   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   console.log("AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
+// };
 // Якщо вивід AUTH HEADER SET: Bearer null, значить токен не встановлюється в заголовок!
 // Utility to remove JWT - token
 const clearAuthHeader = () => {
@@ -39,9 +49,8 @@ interface AuthCredentials {
 };
 
 export interface AuthResponse {
-  token: string;
+  accessToken: string;
   user: {
-    // id?: string; // id може бути відсутнім
     name: string;
     email: string;
   };
@@ -70,12 +79,10 @@ export const register = createAsyncThunk<
       });
       // After successful registration, add the token to the HTTP header
       // const token = response.data?.token ?? response.data?.data?.token;
-// setAuthHeader(token);
-// localStorage.setItem("token", token);
 
       console.log("REGISTER RESPONSE:", response.data); // Додати це для перевірки чи приходе токен?
-      setAuthHeader(response.data.token);
-      localStorage.setItem("token", response.data.token);
+      setAuthHeader(response.data.accessToken);
+      localStorage.setItem("token", response.data.accessToken);
       
        return { status: response.status, data: response.data }; // Оновлено повернення
           // return response.data;
@@ -99,10 +106,12 @@ export const logIn = createAsyncThunk<
         try {
             const response = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
          // After successful login, add the token to the HTTP header
-            setAuthHeader(response.data.token);
+            setAuthHeader(response.data.accessToken);
 
             // Збереження токену в localStorage
-            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('token', response.data.accessToken);
+
+          
 
             return { status: response.status, data: response.data }; // Оновлено повернення
         } catch (error) {
@@ -135,7 +144,7 @@ export interface UserRefreshToken {
   id: string;
   name: string;
   email: string;
-  token: string | null; // Токен може приходити в деяких випадках
+  accessToken: string | null; // Токен може приходити в деяких випадках
 }
 
 
@@ -189,7 +198,7 @@ export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: Roo
 
       console.log("User data from refresh:", response.data);
        // Зберігаємо оновлений токен localStorage
-      localStorage.setItem("token", response.data.token || ""); //Додаємо перевірку
+      localStorage.setItem("token", response.data.accessToken || ""); //Додаємо перевірку
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 401) {

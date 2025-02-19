@@ -18,11 +18,15 @@ import {
 } from "redux-persist";
 import { logOut } from "./auth/operations";
 
+const persistedToken = localStorage.getItem("token");
+console.log("🔍 LOADED TOKEN FROM STORAGE (before persist):", persistedToken);
+
+
 const persistedAuthReducer = persistReducer(
   {
     key: "jwt-token",
     storage,
-    whitelist: ["token", "user"],
+    whitelist: ["accessToken", "user"],
   },
   authReducer
 );

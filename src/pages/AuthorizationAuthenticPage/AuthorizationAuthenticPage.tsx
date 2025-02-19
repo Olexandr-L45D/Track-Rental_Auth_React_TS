@@ -39,58 +39,6 @@ const AuthorizationAuthenticPage = (): JSX.Element => {
   export default AuthorizationAuthenticPage;
 
 
-// остання вдала регістрація:
-//   email
-// :
-// "A.litvinenko.alena1502@gmail.com"
-// name
-// :
-// "Olena"
-// password
-// :
-// "AL123LI45"
-
-// Це обєкт вітповіді:
-// {
-//     "status": 201,
-//     "message": "Successfully registered a user!",
-//     "data": {
-//         "name": "Olena",
-//         "email": "A.litvinenko.alena1502@gmail.com",
-//         "verify": false,
-//         "_id": "67b438c18a4413e1ba2fda32",
-//         "createdAt": "2025-02-18T07:37:37.970Z",
-//         "updatedAt": "2025-02-18T07:37:37.970Z"
-//     }
-// }
-
-
-// //
-// {
-//   "name": "Olenaka",
-//   "email": "Al.litvinenko.alena1502@gmail.com",
-//   "password": "1234Olena"
-// }
-// Нова проба регістрації
-// {
-//   "name": "Olenka",
-//   "email": "Olena.alena1502@gmail.com",
-//   "password": "1234Olena"
-// }
-
-// {
-//     "status": 201,
-//     "message": "Successfully registered a user!",
-//     "data": {
-//         "name": "Aleksandr",
-//         "email": "litvinenko1947@gmail.com",
-//         "verify": false,
-//         "_id": "67b46d2f9347e72c800fe878",
-//         "createdAt": "2025-02-18T11:21:19.653Z",
-//         "updatedAt": "2025-02-18T11:21:19.653Z"
-//     }
-// }
-
   // кнопка перемикання не потрібна так як я залишив тільки форму логіну!
           // <div className={css.switchButtons}>
           //   <button onClick={() => navigate("/register")}>    

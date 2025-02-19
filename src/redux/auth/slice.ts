@@ -10,6 +10,7 @@ export interface User {
 export interface AuthState {
   user: User | null;
   token: string | null;
+  accessToken: string | null;
   isLoggedIn: boolean;
   isRefreshing: boolean;
   isError: boolean | string;
@@ -19,6 +20,7 @@ export interface AuthState {
 const initialState: AuthState = {
   user: null,
   token: null,
+  accessToken: null,
   isLoggedIn: false,
   isRefreshing: false,
   isError: false,
@@ -26,46 +28,79 @@ const initialState: AuthState = {
 };
 
 
+
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
    reducers: {
-    loginSuccess: (state: AuthState, action: PayloadAction<{ token: string; user: User }>) => { 
+    loginSuccess: (state: AuthState, action: PayloadAction<{ accessToken: string; user: User }>) => { 
       console.log("🟢 LOGIN SUCCESS REDUCER TRIGGERED", action.payload);
-      state.token = action.payload.token;
+      // state.token = action.payload.token;
+       // state.isLoggedIn = true;
+       state.accessToken = action.payload.accessToken;
       state.isLoggedIn = true;
-      state.user = action.payload.user;
+    
+       state.user = action.payload.user;
+       // 🔹 Збереження в LocalStorage
+  localStorage.setItem("jwt-token", action.payload.accessToken);
+
+  console.log("✅ Token set in Redux & LocalStorage:", state.accessToken);
+     },
+     setToken: (state, action: PayloadAction<string | null>) => {
+      state.accessToken = action.payload;
+      state.isLoggedIn = !!action.payload; // Якщо токен є → isLoggedIn = true
+    },
+    logOut: (state) => {
+      state.accessToken = null;
+      state.isLoggedIn = false;
+      localStorage.removeItem("jwt-token"); // При виході видаляємо токен
     },
   },// Додаємо порожній об'єкт reducers - обовьязкове!
   extraReducers: (builder) => {
     builder
         .addCase(register.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
   console.log("REGISTER SUCCESS:", action.payload);
-  console.log("TOKEN RECEIVED:", action.payload.data.token);
+  console.log("TOKEN RECEIVED:", action.payload.data.accessToken);
 
   state.user = {
     name: action.payload.data.user.name,
     email: action.payload.data.user.email,
-  };
-  state.token = action.payload.data.token;
-  localStorage.setItem('token', action.payload.data.token);
+          };
+          console.log("✅ REGISTER TOKEN RECEIVED:", action.payload.data.accessToken);
+
+if (action.payload.data.accessToken) {
+  state.token = action.payload.data.accessToken;
+  localStorage.setItem('token', action.payload.data.accessToken);
+} else {
+  console.warn("⚠️ Register response does not contain accessToken!");
+}
+
+  // state.token = action.payload.data.accessToken;
+  // localStorage.setItem('token', action.payload.data.accessToken);
   state.isLoggedIn = true;
   state.isLoading = false;
 })
 .addCase(logIn.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
   console.log("LOGIN SUCCESS:", action.payload);
-  console.log("TOKEN RECEIVED:", action.payload.data.token);
+  console.log("TOKEN RECEIVED:", action.payload.data.accessToken);
 
   state.user = {
     name: action.payload.data.user.name,
     email: action.payload.data.user.email,
   };
-  state.token = action.payload.data.token;
-  localStorage.setItem('token', action.payload.data.token);
+  if (!action.payload.data.accessToken) {
+    console.error("❌ No accessToken in payload!");
+    return;
+  }
+  
+  state.token = action.payload.data.accessToken;
+  localStorage.setItem('token', action.payload.data.accessToken);
 
   state.isLoggedIn = true;
   state.isLoading = false;
 })
+      // Новий приклад з accessToken; замість token - скрізь міняю!!!
       .addCase(logOut.fulfilled, () => initialState)
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
@@ -77,14 +112,19 @@ const authSlice = createSlice({
     name: action.payload.name,
     email: action.payload.email,
         };
+  // state.token = action.payload.token; // Оновлюємо тільки якщо він змінився
+        // localStorage.setItem("token", action.payload.token || "");
+  //       state.token = action.payload.accessToken; // Виправлено
+        // localStorage.setItem("token", action.payload.accessToken || "");
+        console.log("✅ REFRESH TOKEN RECEIVED:", action.payload.accessToken);
 
-    //     if (!action.payload.data.token) {
-    // console.warn("Token not received, attempting to log in...");
-    // await dispatch(logIn({ email: action.payload.data.user.email, password: userDataValues.password }));
-    // return;
-    //    }
-  state.token = action.payload.token; // Оновлюємо тільки якщо він змінився
-  localStorage.setItem("token", action.payload.token || "");
+if (action.payload.accessToken) {
+  state.token = action.payload.accessToken;
+  localStorage.setItem("token", action.payload.accessToken);
+} else {
+  console.warn("⚠️ Refresh response does not contain accessToken!");
+}
+
   state.isRefreshing = false;
   state.isLoggedIn = true;
 })
@@ -129,7 +169,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess } = authSlice.actions;
+export const { loginSuccess, setToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
 

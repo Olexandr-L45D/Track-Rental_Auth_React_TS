@@ -49,9 +49,14 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: rgba(0, 0, 0, 0.5); */
     /* затемнення фону */
     z-index: 9999;
+    min-height: calc(100vh - 56px);
+        overflow: hidden;
+        background-image: url('../../images/Pic.jpg');
+        background-repeat: no-repeat, no-repeat;
+        background-size: 100%, 280px 210px;
 }
 
 .modalContent {
@@ -151,18 +156,3 @@ button.active {
     text-align: left;
 }
 
-
-.background {
-    min-height: calc(100vh - 56px);
-    overflow: hidden;
-    background-image: url('../../images/Picture.jpg');
-    background-repeat: no-repeat, no-repeat;
-    background-size: 100%, 280px 210px;
-
-}
-
-.cartTitle {
-    color: #fff;
-    font-size: 1em;
-    font-weight: 700;
-}
