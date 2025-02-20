@@ -75,3 +75,24 @@ export type AppDispatch = typeof store.dispatch;
 // TypeScript не може автоматично визначити, що store.dispatch підтримує AsyncThunk.
 // store.dispatch за замовчуванням має загальний тип Dispatch<AnyAction>, і він не знає про logOut().
 // Ми явно приводимо store.dispatch до AppDispatch, який уже містить всі типізовані thunks.
+
+// email
+// :
+// "litvinAl1978aleks@gmail.com"
+// name
+// :
+// "Aleksandr"
+// password
+// :
+// "Al123LitV"
+
+
+// email
+// : 
+// "Alina.litvine1234.LenaOl1552@gmail.com"
+// name
+// : 
+// "Anna"
+// password
+// : 
+// "1234Olenjkghj565"

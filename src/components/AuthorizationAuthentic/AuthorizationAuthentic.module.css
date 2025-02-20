@@ -1,10 +1,12 @@
 
 .cartFormSection {
+    margin-top: 5px;
+    padding-top: 0px;
     display: flex;
     flex-direction: row;
-    text-align: center;
+    text-align: top;
     justify-content: center;
-    align-items: center;
+    align-items: top;
 }
 
 .cartPage {
@@ -52,19 +54,22 @@
     /* background-color: rgba(0, 0, 0, 0.5); */
     /* затемнення фону */
     z-index: 9999;
-    min-height: calc(100vh - 56px);
-        overflow: hidden;
+    /* min-height: calc(100vh - 56px); */
+        /* overflow: hidden;
         background-image: url('../../images/Pic.jpg');
         background-repeat: no-repeat, no-repeat;
-        background-size: 100%, 280px 210px;
+        background-size: 100%, 280px 210px; */
 }
 
 .modalContent {
     position: relative;
     max-width: 500px;
-    margin: 50px auto;
+    max-height: 500px;
+    margin-top: 20px;
+    margin: 20px auto;
     background-color: white;
-    padding: 20px;
+    padding-top: 0px;
+    /* padding: 20px; */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 10000;
@@ -73,7 +78,7 @@
 .switchButtons {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .switchButtons button {
@@ -111,7 +116,7 @@ button.active {
 .sectinPage {
     display: flex;
     margin: 0px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     padding: 0px;
     flex-direction: row;
     justify-content: start;
@@ -120,7 +125,7 @@ button.active {
 }
 
 .card {
-    width: 200px;
+    width: 220px;
     display: flex;
     margin-left: 50px;
     margin-right: 50px;

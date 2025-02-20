@@ -14,7 +14,7 @@ const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 
 import { Layout } from "../Layout/Layout";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { logIn, logOut, refreshUser } from "../../redux/auth/operations";
+import { logIn, logOut, refreshUser, setAuthHeader } from "../../redux/auth/operations";
 import { AppDispatch, RootState } from "../../redux/store";
 import LoginForm from "../LoginForm/LoginForm";
 import { setToken } from "../../redux/auth/slice";
@@ -25,38 +25,32 @@ export default function App() {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
-  // const token = useSelector((state: RootState) => state.auth.token);
+  const user = useSelector((state: RootState) => state.auth.user);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const firstRender = useRef(true);
  
-  console.log("🔍 TOKEN FROM REDUX (after useSelector):", accessToken);
-  
+
   useEffect(() => {
   console.log("🟢 useEffect TRIGGERED");
 
-  // 1️⃣ Завантажуємо токен із localStorage при першому рендері (якщо його ще немає в Redux)
-  if (!accessToken) {
-    const savedToken = localStorage.getItem("jwt-token");
-    if (savedToken) {
-      console.log("📦 Loaded token from LocalStorage:", savedToken);
-      dispatch(setToken(savedToken)); // Додай цей action у slice
-    }
+  const savedToken = localStorage.getItem("jwt-token");
+
+  if (savedToken && !accessToken) {
+    console.log("📦 Loaded token from LocalStorage:", savedToken);
+    dispatch(setToken({ accessToken: savedToken, user }));
   }
 
-  // 2️⃣ Зберігаємо токен у localStorage при зміні
   if (accessToken) {
     console.log("📦 Saving token to LocalStorage:", accessToken);
     localStorage.setItem("jwt-token", accessToken);
   }
 
-  // 3️⃣ Якщо токена немає, перекидаємо на /register
-  if (!accessToken) {
+  if (!accessToken && !isRefreshing) {
     console.warn("❌ No token found. Redirecting to /register...");
     navigate("/register", { replace: true });
     return;
   }
 
-  // 4️⃣ Викликаємо refreshUser(), якщо не залогінений і немає активного рефрешу
   if (!isLoggedIn && !isRefreshing) {
     console.log("🔄 Dispatching refreshUser...");
     dispatch(refreshUser())
@@ -67,11 +61,15 @@ export default function App() {
           navigate("/register", { replace: true });
         }
       });
+    }
+    // 🔥 Якщо залогінений і не рефрешиться, перенаправляємо на каталог
+  if (isLoggedIn && !isRefreshing) {
+    console.log("🚀 User is logged in! Navigating to /catalog");
+    navigate("/catalog", { replace: true });
   }
 }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate]);
 
- 
-  return (
+  return isRefreshing ? (<b>Refreshing user ...</b>) : (
     <Layout>
       <Suspense fallback={<b>Loading...</b>}>
         <Routes>

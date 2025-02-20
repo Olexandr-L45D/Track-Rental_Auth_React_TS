@@ -3,10 +3,8 @@ import css from "./Navigation.module.css";
 import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
 import {Link, NavLink, NavLinkProps } from "react-router-dom";
-import UserMenu from "../UserMenu/UserMenu";
-// import { AuthNav } from "../AuthNav/AuthNav";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import {  useSelector } from "react-redux";
+import {  RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import  AuthorizationAuthentic  from "../AuthorizationAuthentic/AuthorizationAuthentic";
@@ -79,7 +77,6 @@ export const Navigation = (): JSX.Element => {
         </nav>
       </section>
      
-      {isLoggedIn && <UserMenu /> }
       <div className={css.languageSwitcher}>
         <button
           className={css.activeButton}

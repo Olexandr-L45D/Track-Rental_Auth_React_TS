@@ -18,15 +18,28 @@ import {RootState} from '../store'
 // const setAuthHeader = (token: string | null) => {
 //     axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${token}`;
 // };
-const setAuthHeader = (accessToken: string | null) => {
+export const setAuthHeader = (accessToken: string | null) => {
+  console.log("🔎 Checking accessToken in setAuthHeader:", accessToken);
+  
   if (!accessToken) {
     console.warn("⚠️ No access token provided. Authorization header NOT set.");
     return;
   }
-  
+
   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   console.log("✅ AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
 };
+
+
+// export const setAuthHeader = (accessToken: string | null) => {
+//   if (!accessToken) {
+//     console.warn("⚠️ No access token provided. Authorization header NOT set.");
+//     return;
+//   }
+  
+//   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+//   console.log("✅ AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
+// };
 
 // const setAuthHeader = (accessToken: string | null) => {
 //   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -49,12 +62,21 @@ interface AuthCredentials {
 };
 
 export interface AuthResponse {
+data : {
   accessToken: string;
   user: {
     name: string;
     email: string;
-  };
+  };}
+
 }
+// export interface AuthResponse {
+//   accessToken: string;
+//   user: {
+//     name: string;
+//     email: string;
+//   };
+// }
 // взяв сюда для наглядності UsRegisterVelues (пізніше імпортую з форми регістрації і приберу)
 export interface UsRegisterVelues {
     name: string;
@@ -79,10 +101,15 @@ export const register = createAsyncThunk<
       });
       // After successful registration, add the token to the HTTP header
       // const token = response.data?.token ?? response.data?.data?.token;
+      //  console.log("📩 REGISTER RESPONSE:", response);
+
+      // if (!response.data.accessToken) {
+      //   console.warn("⚠️ REGISTER RESPONSE DOES NOT CONTAIN accessToken!", response.data);
+      // }
 
       console.log("REGISTER RESPONSE:", response.data); // Додати це для перевірки чи приходе токен?
-      setAuthHeader(response.data.accessToken);
-      localStorage.setItem("token", response.data.accessToken);
+      setAuthHeader(response.data.data.accessToken);
+      localStorage.setItem("token", response.data.data.accessToken);
       
        return { status: response.status, data: response.data }; // Оновлено повернення
           // return response.data;
@@ -106,10 +133,10 @@ export const logIn = createAsyncThunk<
         try {
             const response = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
          // After successful login, add the token to the HTTP header
-            setAuthHeader(response.data.accessToken);
+            setAuthHeader(response.data.data.accessToken);
 
             // Збереження токену в localStorage
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem('token', response.data.data.accessToken);
 
           
 
@@ -187,28 +214,59 @@ export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: Roo
   async (_, { getState, rejectWithValue }) => {
     try {
       const state = getState();
-      const token = state.auth.token;
+      const token = state.auth.accessToken;
 
       if (!token) {
         return rejectWithValue("No token found");
       }
 
-      setAuthHeader(token); // Використовуємо `axiosInstanceUser`
-      const response = await axiosInstanceUser.get<UserRefreshToken>("/auth/current");
+      setAuthHeader(token);
+      const response = await axiosInstanceUser.get<UserRefreshToken>("/auth/refresh");
 
-      console.log("User data from refresh:", response.data);
-       // Зберігаємо оновлений токен localStorage
-      localStorage.setItem("token", response.data.accessToken || ""); //Додаємо перевірку
+      console.log("🟢 User data from refresh:", response.data);
+
+      // Оновлюємо локальне сховище
+      localStorage.setItem("jwt-token", response.data.accessToken || "");
+
       return response.data;
     } catch (error: any) {
       if (error.response?.status === 401) {
-        console.error("Unauthorized, logging out...");
+        console.error("❌ Unauthorized, logging out...");
         return rejectWithValue("Unauthorized");
       }
       return rejectWithValue("Error refreshing user");
     }
   }
 );
+
+
+// export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: RootState; rejectValue: string }>(
+//   "auth/refresh",
+//   async (_, { getState, rejectWithValue }) => {
+//     try {
+//       const state = getState();
+//       const token = state.auth.accessToken;
+
+//       if (!token) {
+//         return rejectWithValue("No token found");
+//       }
+
+//       setAuthHeader(token); // Використовуємо `axiosInstanceUser`
+//       const response = await axiosInstanceUser.get<UserRefreshToken>("/auth/current");
+
+//       console.log("User data from refresh:", response.data);
+//        // Зберігаємо оновлений токен localStorage
+//       localStorage.setItem("token", response.data.accessToken || ""); //Додаємо перевірку
+//       return response.data;
+//     } catch (error: any) {
+//       if (error.response?.status === 401) {
+//         console.error("Unauthorized, logging out...");
+//         return rejectWithValue("Unauthorized");
+//       }
+//       return rejectWithValue("Error refreshing user");
+//     }
+//   }
+// );
 
 
 export default axios;
