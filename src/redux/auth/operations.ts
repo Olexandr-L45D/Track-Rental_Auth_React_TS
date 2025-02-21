@@ -30,22 +30,6 @@ export const setAuthHeader = (accessToken: string | null) => {
   console.log("✅ AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
 };
 
-
-// export const setAuthHeader = (accessToken: string | null) => {
-//   if (!accessToken) {
-//     console.warn("⚠️ No access token provided. Authorization header NOT set.");
-//     return;
-//   }
-  
-//   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   console.log("✅ AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
-// };
-
-// const setAuthHeader = (accessToken: string | null) => {
-//   axiosInstanceUser.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-//   console.log("AUTH HEADER SET:", axiosInstanceUser.defaults.headers.common.Authorization);
-// };
-// Якщо вивід AUTH HEADER SET: Bearer null, значить токен не встановлюється в заголовок!
 // Utility to remove JWT - token
 const clearAuthHeader = () => {
   delete axiosInstanceUser.defaults.headers.common["Authorization"];

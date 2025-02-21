@@ -39,7 +39,7 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
     setTimeout(() => {
       console.log("Navigating to /register");
       navigate("/register");
-    }, 300); // Затримка в 300 мс
+    }, 500); // Затримка в 300 мс
   }
   }, [attempts, navigate]);
 

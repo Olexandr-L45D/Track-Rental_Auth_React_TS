@@ -4,6 +4,7 @@ import UserMenu from "../UserMenu/UserMenu";
 import { AuthNav } from "../AuthNav/AuthNav";
 import { RootState } from "../../redux/store";
 import { Navigation } from "../Navigation/Navigation";
+// import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
 
 export const AppBar = (): JSX.Element => {

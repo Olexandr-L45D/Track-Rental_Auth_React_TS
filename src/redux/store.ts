@@ -26,7 +26,7 @@ const persistedAuthReducer = persistReducer(
   {
     key: "jwt-token",
     storage,
-    whitelist: ["accessToken", "user"],
+    whitelist: ["accessToken", "user", "isLoggedIn"],
   },
   authReducer
 );

@@ -55,7 +55,7 @@ const authSlice = createSlice({
     },
     setToken: (state: AuthState, action: PayloadAction<{ accessToken: string; user?: User | null }>) => {
       
-      state.isLoggedIn = !!action.payload;
+      state.isLoggedIn = !!action.payload.accessToken;
       console.log("🔄 setToken action received:", action.payload);
       state.accessToken = action.payload.accessToken;
       console.log("✅ New accessToken in Redux state:", state.accessToken);

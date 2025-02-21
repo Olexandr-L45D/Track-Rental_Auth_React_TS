@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { selectFilteredByLocation } from "../../redux/filters/selectors";
 import { TruckDetailAll } from "../App/App.types";
 
-// використовую дженерік <as TruckDetailAll>
+
 export default function AllTruckList(): JSX.Element {
   const { t } = useTranslation();
   // Використовуємо мемоізований селектор а саме Селектор фільтрації вантажівок за локацією
@@ -89,11 +89,11 @@ export default function AllTruckList(): JSX.Element {
                   <strong>AC</strong> {truck.AC}
                 </div>
 
-                <button className={css.buttonIconShowe}>
+                 <button className={css.buttonIconShowe}>
                   <NavLink className={css.btnShowe} to={`/catalog/${truck.id}`}>
                     {t("navigation.show_more")}
                   </NavLink>
-                </button>
+                </button> 
               </section>
             </article>
           </li>

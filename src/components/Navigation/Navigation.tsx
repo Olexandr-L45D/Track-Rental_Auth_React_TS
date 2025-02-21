@@ -7,7 +7,7 @@ import {  useSelector } from "react-redux";
 import {  RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import  AuthorizationAuthentic  from "../AuthorizationAuthentic/AuthorizationAuthentic";
+// import  AuthorizationAuthentic  from "../AuthorizationAuthentic/AuthorizationAuthentic";
 
 const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -18,8 +18,6 @@ export const Navigation = (): JSX.Element => {
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
    const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
-  const [isOpen, setIsOpen] = useState(false);
-
   const navigate = useNavigate();
 
    useEffect(() => {
@@ -40,14 +38,6 @@ export const Navigation = (): JSX.Element => {
     }
   };
 
-  // const handleResetNavigation = () => {
-  //   if (isLoggedIn) {
-  //     navigate("/auth/send-reset-email");
-  //   } else {
-  //     navigate("/register");
-  //   }
-  // };
-
   
   return (
     <section className={css.container}>
@@ -59,21 +49,18 @@ export const Navigation = (): JSX.Element => {
         </Link>
       </div>
 
-       {/* при натисканні на кнопку має перекинути на AuthorizationAuthentic - Авторизації через лист та сміну паролю */}
-        <nav className={css.nav}> 
-        <button onClick={() => setIsOpen(true)}>ResEmeilPass</button>
-
-        {isOpen && <AuthorizationAuthentic onClose={() => setIsOpen(false)} />}
-         </nav>
-        
       <section className={css.card}>
         <nav className={css.nav}>
           <NavLink to="/" className={newLinkClass}>
             {t("navigation.home")}
           </NavLink>
+          {
+            isLoggedIn && (
           <NavLink to="/catalog" className={newLinkClass}>
             {t("navigation.catalog")}
           </NavLink>
+            )
+          }
         </nav>
       </section>
      

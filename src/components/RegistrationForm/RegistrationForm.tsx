@@ -3,12 +3,15 @@ import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { logIn, register, UsRegisterVelues } from "../../redux/auth/operations";
+import { logIn, register, setAuthHeader, UsRegisterVelues } from "../../redux/auth/operations";
 import { AppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { setToken } from "../../redux/auth/slice";
+// import { setToken } from "../../redux/authSlice"; // перевір правильний шлях
+
 
   // Початкові значення форми
   const initialValues: UsRegisterVelues = {
@@ -22,6 +25,7 @@ export default function RegistrationForm(): JSX.Element {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
 // Схема валідації для реєстраційної форми
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -35,31 +39,78 @@ const validationSchema = Yup.object({
     .required(" Password is Required"),
 });
 
-  const handleRegister = async (values: UsRegisterVelues,
-    { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
-    // Очищення пробілів перед відправкою
+//   const handleRegister = async (values: UsRegisterVelues,
+//     { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
+//     // Очищення пробілів перед відправкою
+//   const trimmedValues = {
+//     name: values.name.trim(),
+//     email: values.email.trim(),
+//     password: values.password.trim(),
+//     };
+//    try {
+//      const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+//      toast.success("You have successfully registered!");
+    
+//   //    if (registerResponse && "payload" in registerResponse && registerResponse.payload?.data?.accessToken) {
+//   // window.location.reload();
+//   //    }
+     
+//      if (registerResponse && "payload" in registerResponse && registerResponse.payload?.accessToken) {
+//   window.location.reload();
+// }
+
+//     if (registerResponse.status === 201) {
+//       console.log("REGISTER SUCCESS:", registerResponse);
+//       toast.success("You have successfully registered!");
+//       navigate("/catalog");
+//       console.log("Auth response:", registerResponse); // Перевіримо, що приходить
+  
+//      }
+     
+//     } catch (error: any) {
+//     if (error.response?.status === 409) {
+//       toast.error("This email is already in use. Try logging in.");
+//     } else {
+//       toast.error("Try again more carefully!");
+//     }
+//   } finally {
+//     setSubmitting(false);
+//     resetForm();
+//   }
+  //   };
+  
+  const handleRegister = async (
+  values: UsRegisterVelues,
+  { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>
+) => {
   const trimmedValues = {
     name: values.name.trim(),
     email: values.email.trim(),
     password: values.password.trim(),
-    };
-   try {
-    const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+  };
 
-    if (registerResponse.status === 201) {
-      console.log("REGISTER SUCCESS:", registerResponse);
-        toast.success("You have successfully registered!");
-      // Після реєстрації одразу виконуємо логін
-      const loginResponse = await dispatch(
-        logIn({ email: values.email, password: values.password })).unwrap();
-      if (loginResponse.status === 200) {
-        console.log("LOGIN SUCCESS:", loginResponse);
-        console.log("🔥 REDIRECTING TO CATALOG...");
-        // Якщо цей лог не з’явиться в консолі, значить, navigate("/catalog") взагалі не виконується
-        navigate("/catalog"); // або будь-яка інша сторінка після логіну
-      }
+  try {
+    const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+    console.log("🔵 Реєстрація успішна, відповідь API:", registerResponse);
+    if (registerResponse && registerResponse?.data?.data?.accessToken) {
+      toast.success("You have successfully registered!");
+      console.log("🟢 Отримано токен:", registerResponse.data.data.accessToken);
+      // Зберігаємо токен у LocalStorage
+      localStorage.setItem("token", registerResponse?.data?.data?.accessToken);
+      
+      // Оновлюємо стан Redux
+  dispatch(setToken({
+    accessToken: registerResponse?.data?.data?.accessToken,
+    user: registerResponse?.data?.data?.user || {}, // якщо є користувач у відповіді
+      }));
+     
+      // Оновлюємо сторінку або переходимо на каталог
+      navigate("/catalog", { replace: true });
+      
+    } else {
+      throw new Error("Access token is missing!");
     }
-    } catch (error: any) {
+  } catch (error: any) {
     if (error.response?.status === 409) {
       toast.error("This email is already in use. Try logging in.");
     } else {
@@ -69,7 +120,8 @@ const validationSchema = Yup.object({
     setSubmitting(false);
     resetForm();
   }
-  };
+};
+
 
   return (
     <div className={css.item}>
@@ -133,5 +185,22 @@ const validationSchema = Yup.object({
   );
 };
 
+// email
+// :
+// "Alina.Iva.Sidora234.LenaOl1552@gmail.com"
+// name
+// :
+// "Anna Ivanivna"
+// password
+// :
+// "123Sidor552g"
 
-
+// email
+// : 
+// "Alina_Sidora234.LenaOl1552@gmail.com"
+// name
+// : 
+// "Olena"
+// password
+// : 
+// "123Sidor55"

@@ -13,20 +13,27 @@ export const AuthNav = (): JSX.Element => {
   return (
     <div className={css.blokLink}>
      <div>
-        {/* <Link to="/login">
+        <Link to="/login">
           <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
             {t("navigation.login")}
           </button>
-        </Link> */}
+        </Link>
         <Link to="/register">
           <button className={`${css.btnLink} ${isRegister ? css.active : ""}`}>
             {t("navigation.register")}
           </button>
         </Link>
+         <Link to="/send-reset-email">
+          <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
+            {t("register.titleEmail")}
+          </button>
+        </Link>
+         <Link to="/reset-pwd">
+          <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
+            {t("register.titlePassword")}
+          </button>
+        </Link>
       </div>
-
-      {/* {isRegister ? <RegistrationPage /> : <LoginPage />} */}
-     
     </div>
   );
 };

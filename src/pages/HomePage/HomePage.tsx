@@ -25,10 +25,6 @@ export default function HomePage(): JSX.Element {
         <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>
         <section className={css.cartBtn}>
 
-      <button onClick={() => setShowAuth(true)}>Identify Yourself</button>
-
-      {/* Відображаємо AuthNav тільки після натискання кнопки */}
-      {/* {showAuth && <AuthNav />} */}
           {/* <Link to="/catalog">
             <div className={css.buttonViews}>
               <button className={css.btnVie} type="submit">
@@ -36,6 +32,7 @@ export default function HomePage(): JSX.Element {
               </button>
             </div>
           </Link> */}
+          
         </section>
       </section>
     </div>

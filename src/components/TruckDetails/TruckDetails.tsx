@@ -17,10 +17,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks"; // Імпо�
   const [open, setOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const { id } = useParams<{ id: string }>();  
+    console.log("🚛 Отримано ID вантажівки:", id);
     if (!id) {
     return <div>No Truck ID provided</div>;
   }
     useEffect(() => {
+       console.log("🚀 Викликаємо findTruckById для ID:", id);
      dispatch(findTruckById(Number(id)));
   }, [dispatch, id]);
 

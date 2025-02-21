@@ -1,12 +1,9 @@
-
 .cartFormSection {
-    margin-top: 5px;
-    padding-top: 0px;
     display: flex;
     flex-direction: row;
-    text-align: top;
+    text-align: center;
     justify-content: center;
-    align-items: top;
+    align-items: center;
 }
 
 .cartPage {
@@ -15,20 +12,6 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-}
-
-.cartPageApply {
-    width: 350px;
-    margin: 5px;
-    margin-left: 50px;
-    padding: 5px;
-    padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
 }
 
 .cartForm {
@@ -45,58 +28,6 @@
     align-items: center;
 }
 
-.modalBackdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /* background-color: rgba(0, 0, 0, 0.5); */
-    /* затемнення фону */
-    z-index: 9999;
-    /* min-height: calc(100vh - 56px); */
-        /* overflow: hidden;
-        background-image: url('../../images/Pic.jpg');
-        background-repeat: no-repeat, no-repeat;
-        background-size: 100%, 280px 210px; */
-}
-
-.modalContent {
-    position: relative;
-    max-width: 500px;
-    max-height: 500px;
-    margin-top: 20px;
-    margin: 20px auto;
-    background-color: white;
-    padding-top: 0px;
-    /* padding: 20px; */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
-}
-
-.switchButtons {
-    display: flex;
-    justify-content: center;
-    /* margin-bottom: 20px; */
-}
-
-.switchButtons button {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    font-size: 20px;
-    cursor: pointer;
-}
 
 button {
     padding: 12px 10px;
@@ -116,7 +47,7 @@ button.active {
 .sectinPage {
     display: flex;
     margin: 0px;
-    /* margin-top: 50px; */
+    margin-top: 50px;
     padding: 0px;
     flex-direction: row;
     justify-content: start;
@@ -125,7 +56,7 @@ button.active {
 }
 
 .card {
-    width: 220px;
+    width: 200px;
     display: flex;
     margin-left: 50px;
     margin-right: 50px;
@@ -161,3 +92,12 @@ button.active {
     text-align: left;
 }
 
+
+.background {
+    min-height: calc(100vh - 56px);
+    overflow: hidden;
+    background-image: url('../../images/Baz_IMG_6212-1024x683.jpg');
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100%, 280px 210px;
+
+}
