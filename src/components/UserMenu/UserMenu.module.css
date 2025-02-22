@@ -1,4 +1,3 @@
-/* UserMenu */
 .wrapper {
     display: flex;
     align-items: center;
@@ -11,4 +10,49 @@
 
 .button {
     margin: 10px;
+}
+
+.logoutSwitcher {
+    display: flex;
+    gap: 10px;
+    padding: 1px;
+    padding-right: 30px;
+    margin: 1px;
+    margin-right: 170px;
+    margin-left: auto;
+}
+
+.logoutSwitcher button {
+    padding: 5px 10px;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #0e0d0d;
+
+}
+
+/* Зміна кольору при наведенні */
+.logoutSwitcher button:hover {
+    background-color: white;
+    border-color: white;
+    color: white;
+}
+
+.activeButton {
+    color: #0e0d0d;
+    /* Текст червоний */
+    font-weight: bold;
+    border-color: white;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.activeButton:hover,
+.activeButton:focus {
+    color: #d84343 !important;
+    font-weight: bold;
+    border-color: #d84343;
 }

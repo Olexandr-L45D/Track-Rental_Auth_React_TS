@@ -50,7 +50,7 @@ button.active {
     margin-top: 50px;
     padding: 0px;
     flex-direction: row;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     text-align: center;
 }
@@ -61,6 +61,19 @@ button.active {
     margin-left: 50px;
     margin-right: 50px;
     flex-direction: column;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+}
+
+.cartTitl {
+    padding: 2px;
+    margin: 2px;
+    color: black;
+    font-size: 2em;
+    font-weight: 900;
+    line-height: 2;
+    display: flex;
     justify-content: start;
     align-items: left;
     text-align: left;
@@ -96,7 +109,7 @@ button.active {
 .background {
     min-height: calc(100vh - 56px);
     overflow: hidden;
-    background-image: url('../../images/femeli_IMG_6210-1024x768.jpg');
+    background-image: url('../../images/Lake_IMG_6216.jpg');
     background-repeat: no-repeat, no-repeat;
     background-size: 100%, 280px 210px;
 

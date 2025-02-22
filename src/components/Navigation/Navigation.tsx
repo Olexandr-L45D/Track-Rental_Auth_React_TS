@@ -42,18 +42,15 @@ export const Navigation = (): JSX.Element => {
   return (
     <section className={css.container}>
       <div className={css.title}>
-        <Link to="/">
+        <NavLink to="/" className={css.navLink}>
           <svg className={css.iconLogo}>
             <use href={`${sprite}#icon-truckLogo`} />
           </svg>
-        </Link>
+        </NavLink>
       </div>
 
       <section className={css.card}>
         <nav className={css.nav}>
-          <NavLink to="/" className={newLinkClass}>
-            {t("navigation.home")}
-          </NavLink>
           {
             isLoggedIn && (
           <NavLink to="/catalog" className={newLinkClass}>

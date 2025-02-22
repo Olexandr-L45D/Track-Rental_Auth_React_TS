@@ -1,26 +1,9 @@
-
 .container {
-    position: fixed;
-    /* Фіксує контейнер у верхній частині */
-    top: 0;
-    /* Відступ від верхнього краю екрана */
-    left: 0;
-    /* Вирівнювання по лівому краю */
-    right: 0;
-    /* Вирівнювання по правому краю */
-    z-index: 1000;
-    /* Забезпечує, що шапка буде зверху інших елементів */
-    border-bottom: 1px solid #f2f4f7;
-    padding: 24px 64px;
-    background-color: #f7f7f7;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 72px;
-    width: 1440px;
-    /* Забезпечує повну ширину */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Додає тінь для кращої видимості */
+    text-align: left;
+    justify-content: start;
+    align-items: left;
 }
 
 .card {
@@ -29,25 +12,6 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-}
-
-.title {
-    height: 100%;
-    padding: 0px;
-    margin: 0px;
-    border-radius: 2px;
-    margin-right: auto;
-    color: black;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.iconLogo {
-    margin-top: 10px;
-    width: 170px;
-    height: 22px;
 }
 
 .nav {
@@ -93,7 +57,7 @@ a:focus {
 
 .active {
     color: #d84343;
-    
+
 }
 
 .languageSwitcher {
@@ -114,7 +78,7 @@ a:focus {
     cursor: pointer;
     font-size: 14px;
     color: #0e0d0d;
-   
+
 }
 
 /* Зміна кольору при наведенні */
@@ -127,51 +91,69 @@ a:focus {
 /* Активна кнопка (вибрана мова) */
 .activeButton {
     color: #0e0d0d;
-    /* Текст червоний */
     font-weight: bold;
     border-color: white;
     border: 1px solid #ccc;
-        padding: 5px 10px;
-        border-radius: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .activeButton:hover,
-.activeButton:focus
- {
+.activeButton:focus {
     color: #d84343 !important;
-    /* Текст червоний */
     font-weight: bold;
     border-color: #d84343;
 }
-/* .languageSwitcher {
+
+.title {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 2px;
+    margin-left: 2px;
+    margin-right: auto;
+    color: black;
     display: flex;
-    gap: 10px;
-    padding: 1px;
-    padding-right: 20px;
-    margin: 1px;
-    margin-right: 20px;
-    margin-left: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
-.languageSwitcher button {
-    background: none;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #0e0d0d;
+.iconLogo {
+    margin-top: 10px;
+    width: 170px;
+    height: 22px;
+    fill: currentColor !important;
+    /* ✅ Перезаписує всі інші стилі */
+    transition: fill 0.3s ease;
+    /* Плавна зміна кольору */
 }
 
-.languageSwitcher button:hover {
-    background-color: #d84343;
-    border-color: #d84343;
+.navLink {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-.button:hover,
-.button:focus {
-    background-color: #d84343;
-    border-color: #d84343;
-    color: #d84343;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-} */
+.navLink:hover,
+.navLink:focus {
+    color: #d84343 !important;
+    font-weight: bold;
+}
+
+.navLink:active {
+    color: red;
+
+}
+
+/* Додаємо зміну кольору іконки */
+.navLink:hover .iconLogo,
+.navLink:focus .iconLogo {
+    fill: #d84343;
+    /* ✅ Червона іконка при наведенні */
+}
+
+.navLink:active .iconLogo {
+    fill: red;
+    /* ✅ Червона іконка при натисканні */
+}
