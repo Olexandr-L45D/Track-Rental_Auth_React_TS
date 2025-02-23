@@ -53,33 +53,51 @@ const authSlice = createSlice({
       localStorage.setItem("jwt-token", action.payload.accessToken);
       console.log("✅ Token set in Redux & LocalStorage:", state.accessToken);
     },
-    setToken: (state: AuthState, action: PayloadAction<{ accessToken: string; user?: User | null }>) => {
+    setToken: (state, action: PayloadAction<{ accessToken: string; user?: User | null }>) => {
+  console.log("🔄 setToken action received:", action.payload);
+  
+  if (action.payload.accessToken) {
+    state.accessToken = action.payload.accessToken;
+    state.isLoggedIn = true; // ✅ Встановлюємо isLoggedIn
+    console.log("✅ New accessToken in Redux state:", state.accessToken);
+    console.log("✅ isLoggedIn SET TO TRUE in Redux");
+  } else {
+    console.warn("⚠️ No accessToken provided in setToken!");
+  }
+
+  if (action.payload.user) {
+    state.user = action.payload.user;
+  } else {
+    state.user = null;
+  }
+},
+
+    // setToken: (state: AuthState, action: PayloadAction<{ accessToken: string; user?: User | null }>) => {
       
-      state.isLoggedIn = !!action.payload.accessToken;
-      console.log("🔄 setToken action received:", action.payload);
-      state.accessToken = action.payload.accessToken;
-      console.log("✅ New accessToken in Redux state:", state.accessToken);
-      if (action.payload.user) {
-        state.user = action.payload.user;
-      } else {
-    state.user = null; //  Очищуємо юзера, якщо немає
-    }
+    //   state.isLoggedIn = !!action.payload.accessToken;
+    //   console.log("🔄 setToken action received:", action.payload);
+    //   state.accessToken = action.payload.accessToken;
+    //   console.log("✅ New accessToken in Redux state:", state.accessToken);
+    //   if (action.payload.user) {
+    //     state.user = action.payload.user;
+    //   } else {
+    // state.user = null; //  Очищуємо юзера, якщо немає
+    // }
       
-    },
+    // },
     logOut: (state) => {
-      state.accessToken = null;
-      state.isLoggedIn = false;
-      localStorage.removeItem("jwt-token"); // Видаляємо токен при виході
-    },
+  state.accessToken = null;
+  state.isLoggedIn = false;  // ✅ Встановлюємо, що користувач НЕ залогінений
+  state.user = null; 
+  localStorage.removeItem("jwt-token"); // ✅ Видаляємо токен з localStorage
+   },
   },
   extraReducers: (builder) => {
     builder
       .addCase(register.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
         console.log("REGISTER SUCCESS:", action.payload);
-        // console.log("TOKEN RECEIVED:", action.payload.data.data.accessToken);
-console.log("🟢 Expected `accessToken`:", action.payload?.data?.data?.accessToken);
-// const { accessToken } = action.payload.data.data;
-
+     console.log("🟢 Expected `accessToken`:", action.payload?.data?.data?.accessToken);
+     
         state.user = {
           name: action.payload.data.data.user.name,
           email: action.payload.data.data.user.email,
@@ -121,6 +139,7 @@ console.log("🟢 Expected `accessToken`:", action.payload?.data?.data?.accessTo
 
   if (action.payload.data?.data?.accessToken) {
     state.accessToken = action.payload.data.data.accessToken;
+    state.isLoggedIn = true;  // ✅ Має стати true!
     localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
     setAuthHeader(action.payload.data.data.accessToken);
   } else {
@@ -131,8 +150,6 @@ console.log("🟢 Expected `accessToken`:", action.payload?.data?.data?.accessTo
         state.isLoggedIn = true;
         state.isLoading = false;
       })
-
-      // Новий приклад з accessToken; замість token - скрізь міняю!!!
       .addCase(logOut.fulfilled, () => initialState)
       .addCase(refreshUser.pending, (state) => {
         state.isRefreshing = true;
@@ -201,95 +218,4 @@ console.log("🟢 Expected `accessToken`:", action.payload?.data?.data?.accessTo
 export const { loginSuccess, setToken } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export default authSlice.reducer;
-
-
-// Оскільки у файлі axiosInstance.ts ти імпортуєш store, а у store.ts
-// ймовірно імпортується authSlice.ts, де використовується register, це може призводити до проблеми.
-// Цикл виглядає так:
-// store.ts імпортує authSlice.ts
-// authSlice.ts імпортує operations.ts
-// operations.ts імпортує axiosInstance.ts
-// axiosInstance.ts імпортує store.ts → циклічний імпорт!
-// Це може спричинити помилку, коли register ще не ініціалізований.
-
-
-// const authSlice = createSlice({
-//   name: "auth",
-//   initialState,
-//    reducers: {
-//     loginSuccess: (state: AuthState, action: PayloadAction<{ accessToken: string; user: User }>) => {
-//       console.log("🟢 LOGIN SUCCESS REDUCER TRIGGERED", action.payload);
-//       // state.token = action.payload.token;
-//        // state.isLoggedIn = true;
-//        state.accessToken = action.payload.accessToken;
-//       state.isLoggedIn = true;
-    
-//        state.user = action.payload.user;
-//        // 🔹 Збереження в LocalStorage
-//   localStorage.setItem("jwt-token", action.payload.accessToken);
-
-//   console.log("✅ Token set in Redux & LocalStorage:", state.accessToken);
-//      },
-//      setToken: (state, action: PayloadAction<string | null>) => {
-//       state.accessToken = action.payload;
-//       state.isLoggedIn = !!action.payload; // Якщо токен є → isLoggedIn = true
-//     },
-//     logOut: (state) => {
-//       state.accessToken = null;
-//       state.isLoggedIn = false;
-//       localStorage.removeItem("jwt-token"); // При виході видаляємо токен
-//     },
-//   },// Додаємо порожній об'єкт reducers - обовьязкове!
-//   extraReducers: (builder) => {
-//     builder
-//         .addCase(register.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
-//   console.log("REGISTER SUCCESS:", action.payload);
-//   console.log("TOKEN RECEIVED:", action.payload.data.accessToken);
-
-//   state.user = {
-//     name: action.payload.data.user.name,
-//     email: action.payload.data.user.email,
-//           };
-//           console.log("✅ REGISTER TOKEN RECEIVED:", action.payload.data.accessToken);
-
-// if (action.payload.data.accessToken) {
-//   state.token = action.payload.data.accessToken;
-//   localStorage.setItem('token', action.payload.data.accessToken);
-//   localStorage.setItem("jwt-token", "accessToken");
-//   // 🔥 Важливо! Викликаємо setAuthHeader одразу після збереження
-//   setAuthHeader(action.payload.data.accessToken);
-//   console.log(localStorage.getItem("jwt-token"))
-// } else {
-//   console.warn("⚠️ Register response does not contain accessToken!");
-// }
-
-//   // state.token = action.payload.data.accessToken;
-//   // localStorage.setItem('token', action.payload.data.accessToken);
-//   state.isLoggedIn = true;
-//   state.isLoading = false;
-// })
-// .addCase(logIn.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
-//   console.log("LOGIN SUCCESS:", action.payload);
-//   console.log("TOKEN RECEIVED:", action.payload.data.accessToken);
-
-//   state.user = {
-//     name: action.payload.data.user.name,
-//     email: action.payload.data.user.email,
-//   };
-//   if (!action.payload.data.accessToken) {
-//     console.error("❌ No accessToken in payload!");
-//     return;
-//   }
-  
-//   state.token = action.payload.data.accessToken;
-//   localStorage.setItem('token', action.payload.data.accessToken);
-//   localStorage.setItem("jwt-token", "accessToken");
-//   console.log(localStorage.getItem("jwt-token"))
-//   state.isLoggedIn = true;
-//   state.isLoading = false;
-// })
-
-// console.log("🔍 LocalStorage JWT:", localStorage.getItem("jwt-token"));
-// console.log("🔍 LocalStorage token:", localStorage.getItem("token"));
-// console.log("🔍 accessToken:", localStorage.getItem("accessToken"));
 

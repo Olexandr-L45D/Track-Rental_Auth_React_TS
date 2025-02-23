@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { AppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
  interface UsLoginVelues { 
@@ -25,7 +25,6 @@ interface LoginFormProps {
   attempts: number;
   setAttempts: React.Dispatch<React.SetStateAction<number>>;
 };
-
 // export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
 export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
   const dispatch: AppDispatch = useDispatch();
@@ -52,7 +51,9 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
       .min(6, "Min 6 chars")
       .required(" Password is Required"),
   });
-  
+ 
+  const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
 const handleSubmit = async (
   values: UsLoginVelues,
   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
@@ -60,7 +61,9 @@ const handleSubmit = async (
   try {
     await dispatch(logIn(values)).unwrap();
     toast.success("You have successfully logged in!");
-    navigate("/catalog"); // Редірект = переходимо на каталог після успішної логінізації
+     console.log("✅ Login successful! Forcing re-render...");
+      // forceUpdate(); // ✅ Примусовий ре-рендер
+      navigate("/catalog", { replace: true });
   } catch (error) {
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
@@ -130,6 +133,15 @@ const handleSubmit = async (
     </div>
   );
 };
+
+
+
+
+
+
+
+
+
 
 
 

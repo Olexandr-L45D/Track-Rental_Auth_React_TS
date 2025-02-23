@@ -33,3 +33,12 @@ export default UserMenu;
 
 
 
+// email
+// : 
+// "Anna.Ali.litvinenko.Lena1502@gmail.com"
+// name
+// : 
+// "Annali"
+// password
+// : 
+// "1234OlenjkAn"
