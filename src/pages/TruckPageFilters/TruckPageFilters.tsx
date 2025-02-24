@@ -1,6 +1,6 @@
 import css from "./TruckPageFilters.module.css";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTruck } from "../../redux/campers/operations";
 import { selectPage } from "../../redux/campers/selectors";
 import AllTruckList from "../../components/AllTruckList/AllTruckList";
@@ -10,10 +10,13 @@ import { selectFilters } from "../../redux/filters/selectors";
 import { useSearchParams } from "react-router-dom";
 import ButtonLoadMore from "../../components/ButtonLoadMore/ButtonLoadMore";
 import { setChangeFilter } from "../../redux/filters/slice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import {  useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { AppThunkDispatch } from "../../redux/store";
 
 export default function TruckPageFilters(): JSX.Element {
-  const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
+  const dispatchset = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
+  const dispatch: AppThunkDispatch = useDispatch();
   const isLoading = useAppSelector((state) => state.campers.loading);
   const filteres = useSelector(selectFilters);
   const page = useSelector(selectPage);
@@ -25,7 +28,7 @@ export default function TruckPageFilters(): JSX.Element {
     if (!Object.keys(filteres).length && Object.keys(existingFilters).length) {  // Якщо URL містить параметри, а Redux-параметри порожні
       console.log("Initializing Redux with existing filters:", existingFilters);
       
-      dispatch(setChangeFilter({ location: "" })); // Синхронізація Redux з URL { location: "" }
+      dispatchset(setChangeFilter({ location: "" })); // Синхронізація Redux з URL { location: "" }
       return;
     }
     // Оновлення URL при зміні фільтрів
@@ -41,6 +44,15 @@ export default function TruckPageFilters(): JSX.Element {
       console.log("URL Params:", params);
     }
   }, [params, filteres, dispatch, setParams]);
+
+//   useEffect(() => {
+//   if (page === 1) {
+//     dispatch(fetchAllTruck({ page })).unwrap();
+//       .catch((error) => {
+//       console.error("❌ Error fetching trucks:", error);
+//     });
+//   }
+// }, [dispatch, page, filteres]);
 
   useEffect(() => {
     if (page === 1) {

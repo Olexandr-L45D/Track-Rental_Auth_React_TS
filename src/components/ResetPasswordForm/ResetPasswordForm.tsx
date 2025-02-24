@@ -3,18 +3,21 @@ import css from "./ResetPasswordForm.module.css";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSearchParams } from "react-router-dom"; // Отримання токена з URL
 import { resetPassword } from "../../redux/auth/operations";
 import * as Yup from "yup";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 
 const ResetPasswordForm = (): JSX.Element => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token") || ""; // Отримуємо токен з URL
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
+  //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
   const { t } = useTranslation();
 
   // Схема валідації
@@ -33,7 +36,7 @@ const ResetPasswordForm = (): JSX.Element => {
     { setSubmitting, resetForm }: FormikHelpers<{ password: string }>
   ) => {
     try {
-      await dispatch(resetPassword({ newPassword: values.password.trim(), token })).unwrap();
+      await dispatch(resetPassword({ newPassword: values.password.trim(), token }));
       toast.success("You have successfully reset your password!");
       resetForm(); // Очищення форми після успішної операції
     } catch (error: any) {

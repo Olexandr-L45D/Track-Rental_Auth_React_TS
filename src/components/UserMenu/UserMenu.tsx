@@ -3,11 +3,14 @@ import css from "./UserMenu.module.css";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
-import { AppDispatch } from "../../redux/store";  // Імпорт типів
+import { AppDispatch, AppThunkDispatch } from "../../redux/store";  // Імпорт типів
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
   const UserMenu = (): JSX.Element => {
-  const dispatch: AppDispatch = useDispatch();
+    // const dispatch: AppDispatch = useDispatch();
+    //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+    const dispatch: AppThunkDispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate(); // ✅ Додаємо useNavigate
 

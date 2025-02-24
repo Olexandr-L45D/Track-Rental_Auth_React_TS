@@ -7,12 +7,17 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks"; // Імпортуйте нові хуки
+import { useAppSelector } from "../../redux/hooks"; // Імпортуйте нові хуки
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useDispatch } from "react-redux";
+import { AppThunkDispatch } from "../../redux/store";
 // Тепер в компоненті TruckDetails.tsx замість стандартного useDispatch, використовуйте useAppDispatch:
  
   const TruckDetails = (): JSX.Element => {
-  const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
-  const { t } = useTranslation();
+  // const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
+    // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+    const dispatch: AppThunkDispatch = useDispatch();
+    const { t } = useTranslation();
   const { selectedTruck, loading, error } = useAppSelector((state) => state.campers);
   const [open, setOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);

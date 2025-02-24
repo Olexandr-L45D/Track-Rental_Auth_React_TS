@@ -1,10 +1,15 @@
 import css from "./ButtonLoadMore.module.css";
 import { fetchAllTruck } from "../../redux/campers/operations";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { AppThunkDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
 
    const ButtonLoadMore = (): JSX.Element => {
-   const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
+  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+     //  const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
+     const dispatch: AppThunkDispatch = useDispatch();
   const { page, totalpages, loading } = useAppSelector((state) => state.campers);
   const { t } = useTranslation();
 
@@ -30,6 +35,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 }
 
 export default ButtonLoadMore;
+
+
+
+
+
+
 
 // Як це працює:
 // При кліку по кнопці:

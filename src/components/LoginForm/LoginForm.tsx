@@ -5,11 +5,12 @@ import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
  interface UsLoginVelues { 
     email: string;
@@ -27,7 +28,9 @@ interface LoginFormProps {
 };
 // export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
 export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
+  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const { t } = useTranslation();
@@ -59,10 +62,10 @@ const handleSubmit = async (
   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
 ) => {
   try {
-    await dispatch(logIn(values)).unwrap();
+    await dispatch(logIn(values));
     toast.success("You have successfully logged in!");
      console.log("✅ Login successful! Forcing re-render...");
-      // forceUpdate(); // ✅ Примусовий ре-рендер
+      forceUpdate(); // ✅ Примусовий ре-рендер  (в звязку з тим що в мене в АПП роути з функцією)
       navigate("/catalog", { replace: true });
   } catch (error) {
     const newAttempts = attempts + 1;

@@ -4,16 +4,15 @@ import * as Yup from 'yup';
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { logIn, register, setAuthHeader, UsRegisterVelues } from "../../redux/auth/operations";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { setToken } from "../../redux/auth/slice";
+// import { useAppDispatch } from "../../hooks/useAppDispatch";
+// import { useAppDispatch } from "../../redux/hooks";
 // import { setToken } from "../../redux/authSlice"; // перевір правильний шлях
-
-
-  // Початкові значення форми
   const initialValues: UsRegisterVelues = {
     name: "",
     email: "",
@@ -21,7 +20,9 @@ import { setToken } from "../../redux/auth/slice";
 };
   
 export default function RegistrationForm(): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
+  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -90,7 +91,7 @@ const validationSchema = Yup.object({
   };
 
   try {
-    const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+    const registerResponse = await dispatch(register(trimmedValues));
     console.log("🔵 Реєстрація успішна, відповідь API:", registerResponse);
     if (registerResponse && registerResponse?.data?.data?.accessToken) {
       toast.success("You have successfully registered!");

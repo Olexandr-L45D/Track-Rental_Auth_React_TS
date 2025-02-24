@@ -10,18 +10,20 @@ const TruckDetalsPage = lazy(() => import("../../pages/TruckDetalsPage/TruckDeta
 const SendResetEmailPage = lazy(() => import("../../pages/SendResetEmailPage/SendResetEmailPage"));
 const ResetPasswordPage = lazy(() => import("../../pages/ResetPasswordPage/ResetPasswordPage"));
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
-
+// import { useAppDispatch } from "../../hooks/useAppDispatch"; // ✅ Використовуємо кастомний хук
 import { Layout } from "../Layout/Layout";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { logIn, logOut, refreshUser, setAuthHeader } from "../../redux/auth/operations";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch, RootState } from "../../redux/store";
 import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+// import { useAppDispatch } from "../../redux/hooks";
 
 
 export default function App() {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppThunkDispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
@@ -68,24 +70,21 @@ export default function App() {
       console.log("📦 Loaded token from LocalStorage:", savedToken);
       dispatch(setToken({ accessToken: savedToken, user }));
     }
-
-    if (!accessToken && !isRefreshing) {
-      console.warn("❌ No token found. Redirecting to /register...");
+    
+    const fetchUser = async () => {
+  console.log("🔄 Dispatching refreshUser...");
+  try {
+    const result = await dispatch(refreshUser()); // ✅ Більше не підкреслює
+    console.log("✅ Refresh User Result:", result);
+  } catch (error) {
+    console.error("❌ Error refreshing user:", error);
+    if (error === "Unauthorized") {
       navigate("/register", { replace: true });
-      return;
     }
+  }
+    };
 
-    if (!isLoggedIn && !isRefreshing) {
-      console.log("🔄 Dispatching refreshUser...");
-      dispatch(refreshUser())
-        .unwrap()
-        .catch((error) => {
-          console.error("❌ Error refreshing user:", error);
-          if (error === "Unauthorized") {
-            navigate("/register", { replace: true });
-          }
-        });
-    }
+  fetchUser();
   }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
   return isRefreshing ? (
@@ -119,6 +118,33 @@ export default function App() {
     </Layout>
   );
 };
+
+// // ще варіант без  .unwrap()
+// console.log("🔄 Dispatching refreshUser...");
+
+//   dispatch(refreshUser() as unknown as Promise<any>) // 👈 Додаємо `as unknown as Promise<any>`  
+//     .then((resultAction) => {
+//       if (refreshUser.rejected.match(resultAction)) {
+//         console.error("❌ Error refreshing user:", resultAction.error);
+//         navigate("/register", { replace: true });
+//       }
+//     });
+
+
+
+
+
+    // if (!isLoggedIn && !isRefreshing) {
+    //   console.log("🔄 Dispatching refreshUser...");
+    //   dispatch(refreshUser())
+    //     .unwrap()
+    //     .catch((error) => {
+    //       console.error("❌ Error refreshing user:", error);
+    //       if (error === "Unauthorized") {
+    //         navigate("/register", { replace: true });
+    //       }
+    //     });
+    // }
 
 
 
@@ -184,17 +210,17 @@ export default function App() {
 //       return;
 //     }
 
-//     if (!isLoggedIn && !isRefreshing) {
-//       console.log("🔄 Dispatching refreshUser...");
-//       dispatch(refreshUser())
-//         .unwrap()
-//         .catch((error) => {
-//           console.error("❌ Error refreshing user:", error);
-//           if (error === "Unauthorized") {
-//             navigate("/register", { replace: true });
-//           }
-//         });
-//     }
+    // if (!isLoggedIn && !isRefreshing) {
+    //   console.log("🔄 Dispatching refreshUser...");
+    //   dispatch(refreshUser())
+    //     .unwrap()
+    //     .catch((error) => {
+    //       console.error("❌ Error refreshing user:", error);
+    //       if (error === "Unauthorized") {
+    //         navigate("/register", { replace: true });
+    //       }
+    //     });
+    // }
 //     //  Якщо залогінений і не рефрешиться, але ми вже НЕ на `/catalog/:id`, перенаправляємо але якщо вде на АЙДІ то залишаю
 //   if (isLoggedIn && !isRefreshing && !location.pathname.startsWith("/catalog/")) {
 //     console.log("🚀 User is logged in! Navigating to /catalog");

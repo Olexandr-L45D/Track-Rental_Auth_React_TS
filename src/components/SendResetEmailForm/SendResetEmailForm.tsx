@@ -4,10 +4,11 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { sendResetEmail } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {  useState } from "react";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
  interface UsEmailVelues { 
     email: string;
@@ -18,7 +19,9 @@ import {  useState } from "react";
 };
 
 export default function SendResetEmailForm(): JSX.Element {
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
+  //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");

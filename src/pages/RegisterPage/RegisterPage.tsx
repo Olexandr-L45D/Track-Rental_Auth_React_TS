@@ -4,14 +4,17 @@ import RegistrationForm from "../../components/RegistrationForm/RegistrationForm
 import {  useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, AppThunkDispatch, RootState } from "../../redux/store";
 import { setToken } from "../../redux/auth/slice";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 const RegisterPage = (): JSX.Element => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  // const dispatch: AppDispatch = useDispatch();
+  //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
   
   useEffect(() => {
