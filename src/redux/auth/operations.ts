@@ -55,6 +55,26 @@ export interface UsRegisterVelues {
     password: string;
   }
   
+
+/**
+ * Get User Info
+ * Just update local info about user
+ * Not sure if it is needed at all
+ */
+export const getUser = createAsyncThunk('user/getUser', async (_, thunkAPI) => {
+  try {
+    const response = await axiosInstanceUser.get('/users');
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.data?.data?.message)
+      return thunkAPI.rejectWithValue(error.response.data.data.message);
+  const errorMessage = error.response?.data?.message || 'Error register!';
+  // більше деталей про помилку в вітповіді з сервера в errorMessage
+  return thunkAPI.rejectWithValue(errorMessage);
+  }
+});
+
+
 /*
  * POST @ /auth/register
  * body: { email, password } = userInfo
@@ -187,6 +207,7 @@ interface ResetEmailResponse {
 
 export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
   "auth/sendResetEmail",
+  // 'user/sendResetEmail',
   async (email, { rejectWithValue }) => {
     try {
       const response = await axiosInstanceUser.post("/auth/send-reset-email", { email });
@@ -197,6 +218,26 @@ export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
   }
 );
 
+/**
+ * Send Reset Password Email
+ * User gets link to the Password Reset page with reset token
+ */
+// export const sendResetPasswordEmail = createAsyncThunk(
+//   'user/send-reset-email',
+//   async (email, thunkAPI) => {
+//     try {
+//       const { data } = await authAPI.post('/auth/send-reset-email', email);
+//       notifySuccess('Password reset email sent');
+//       return data;
+//     } catch (error) {
+//       if (error.response?.data?.data?.message)
+//         return thunkAPI.rejectWithValue(error.response.data.data.message);
+//       notifyError('Password reset email was not sent');
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   },
+// );
+
 // функція ресет пароля для сміни пароля та утентифікації (використовую власний бекенд)
 export const resetPassword = createAsyncThunk<
   { message: string }, // Очікуваний формат відповіді
@@ -204,6 +245,7 @@ export const resetPassword = createAsyncThunk<
   { rejectValue: string } // Помилка
 >(
   "auth/resetPassword",
+  // 'user/reset-pwd',
   async ({ newPassword, token }, { rejectWithValue }) => {
     try {
       const response = await axiosInstanceUser.post("/auth/reset-pwd", { newPassword, token });
@@ -213,6 +255,23 @@ export const resetPassword = createAsyncThunk<
     }
   }
 );
+
+// export const resetPassword = createAsyncThunk(
+//   'user/reset-pwd',
+//   async (credentials, thunkAPI) => {
+//     try {
+//       const { data } = await authAPI.post('/auth/reset-pwd', credentials);
+//       notifySuccess('Password successfully reset');
+//       return data;
+//     } catch (error) {
+//       if (error.response?.data?.data?.message)
+//         return thunkAPI.rejectWithValue(error.response.data.data.message);
+//       notifyError('Password reset failed');
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   },
+// );
+
 
 export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: RootState; rejectValue: string }>(
   "auth/refresh",

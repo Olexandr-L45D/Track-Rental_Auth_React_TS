@@ -13,7 +13,7 @@ const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 // import { useAppDispatch } from "../../hooks/useAppDispatch"; // ✅ Використовуємо кастомний хук
 import { Layout } from "../Layout/Layout";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { logIn, logOut, refreshUser, setAuthHeader } from "../../redux/auth/operations";
+import { getUser, logIn, logOut, refreshUser, setAuthHeader } from "../../redux/auth/operations";
 import { AppDispatch, AppThunkDispatch, RootState } from "../../redux/store";
 import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
@@ -33,9 +33,7 @@ export default function App() {
   const isFirstLogin = useRef(true);
 
   useEffect(() => {
-    console.log("🟢 useEffect TRIGGERED (Final Check)");
-    console.log("📌 Поточний маршрут:", location.pathname);
-    console.log("📌 isLoggedIn:", isLoggedIn);
+    
     console.log("📌 accessToken:", accessToken);
 
     // 1️⃣ Якщо юзер НЕ залогінений, перенаправляємо на "/register"
@@ -76,6 +74,10 @@ export default function App() {
   try {
     const result = await dispatch(refreshUser()); // ✅ Більше не підкреслює
     console.log("✅ Refresh User Result:", result);
+    // Якщо рефреш успішний, підтягуємо актуальні дані юзера
+    // додав гетузера getUser() - оновлені дані про Юзера
+      console.log("🔄 Fetching user data...");
+      await dispatch(getUser());
   } catch (error) {
     console.error("❌ Error refreshing user:", error);
     if (error === "Unauthorized") {
@@ -122,7 +124,7 @@ export default function App() {
 // // ще варіант без  .unwrap()
 // console.log("🔄 Dispatching refreshUser...");
 
-//   dispatch(refreshUser() as unknown as Promise<any>) // 👈 Додаємо `as unknown as Promise<any>`  
+//   dispatch(refreshUser() as unknown as Promise<any>) // 👈 Додаємо `as unknown as Promise<any>`
 //     .then((resultAction) => {
 //       if (refreshUser.rejected.match(resultAction)) {
 //         console.error("❌ Error refreshing user:", resultAction.error);
@@ -366,3 +368,42 @@ export default function App() {
 //             <Route path="features" element={<TruckFeatures />} />
 //             <Route path="reviews" element={<TruckReviews />} />
 //           </Route>
+
+
+
+// useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+
+//   const savedToken = localStorage.getItem("jwt-token");
+
+//   if (!isLoggedIn) {
+//     console.log("🚪 User logged out, skipping token restore.");
+//     return;
+//   }
+
+//   if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
+
+//   const fetchUserData = async () => {
+//     console.log("🔄 Dispatching refreshUser...");
+//     try {
+//       const refreshResult = await dispatch(refreshUser()).unwrap();
+//       console.log("✅ Refresh User Result:", refreshResult);
+
+//       // Якщо рефреш успішний, підтягуємо актуальні дані юзера
+//       console.log("🔄 Fetching user data...");
+//       await dispatch(getUser());
+//     } catch (error) {
+//       console.error("❌ Error refreshing user:", error);
+//       if (error === "Unauthorized") {
+//         navigate("/register", { replace: true });
+//       }
+//     }
+//   };
+
+//   fetchUserData();
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
