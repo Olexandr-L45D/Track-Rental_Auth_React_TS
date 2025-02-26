@@ -10,15 +10,19 @@ import "react-toastify/dist/ReactToastify.css";
 import {  useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 
+interface SendResetEmailFormProps {
+  onClose: () => void; // ✅ Додаємо типізацію `onClose`
+};
+
  interface UsEmailVelues { 
     email: string;
-  }
+};
   // Початкові значення форми
   const initialResValues: UsEmailVelues = {
     email: "",
 };
 
-export default function SendResetEmailForm(): JSX.Element {
+export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps): JSX.Element {
   // const dispatch: AppDispatch = useDispatch();
   //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
   const dispatch: AppThunkDispatch = useDispatch();
@@ -74,7 +78,7 @@ export default function SendResetEmailForm(): JSX.Element {
           </div>
                           
           <div className={css.btn}>
-            <button className={css.LoginForm} type="submit">
+            <button onClick={onClose} className={css.LoginForm} type="submit">
               {t("auth.btnsend")}
             </button>
           </div>

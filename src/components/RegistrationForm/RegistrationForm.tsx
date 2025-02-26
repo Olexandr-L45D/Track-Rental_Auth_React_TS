@@ -1,7 +1,7 @@
 import css from "./RegistrationForm.module.css";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from 'yup';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { logIn, register, setAuthHeader, UsRegisterVelues } from "../../redux/auth/operations";
 import { AppDispatch, AppThunkDispatch } from "../../redux/store";
@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { setToken } from "../../redux/auth/slice";
+import { selectIsLoading } from "../../redux/auth/selectors";
+import Loader from "../Loader/Loader";
 // import { useAppDispatch } from "../../hooks/useAppDispatch";
 // import { useAppDispatch } from "../../redux/hooks";
 // import { setToken } from "../../redux/authSlice"; // перевір правильний шлях
@@ -22,6 +24,7 @@ import { setToken } from "../../redux/auth/slice";
 export default function RegistrationForm(): JSX.Element {
   // const dispatch: AppDispatch = useDispatch();
   // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const isLoading = useSelector(selectIsLoading);
   const dispatch: AppThunkDispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -178,6 +181,7 @@ const validationSchema = Yup.object({
           <div className={css.btn}>
             <button className={css.regForm} type="submit">
               {t("navigation.register")}
+              {isLoading ? <Loader /> : 'Register'}
             </button>
           </div>
         </Form>

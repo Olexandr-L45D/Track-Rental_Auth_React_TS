@@ -70,12 +70,13 @@ const ResetPasswordForm = (): JSX.Element => {
     }
 
       toast.success("You have successfully reset your password!");
-      resetForm(); // Очищення форми після успішної операції
+      // resetForm(); // Очищення форми після успішної операції
     } catch (error: any) {
       toast.error(error?.message || "Failed to reset password. Try again.");
     } finally {
       setSubmitting(false);
     }
+    resetForm(); // Очищення форми після успішної операції
   };
 
   return (

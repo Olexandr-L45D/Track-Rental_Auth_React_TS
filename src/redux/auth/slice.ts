@@ -127,6 +127,7 @@ const authSlice = createSlice({
         };
 
         state.accessToken = action.payload.data.data.accessToken;
+        // state.isRefreshing = false; // ✅ Виправлено
         state.isLoggedIn = true;
         localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
         setAuthHeader(action.payload.data.data.accessToken);

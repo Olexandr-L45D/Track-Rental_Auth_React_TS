@@ -73,3 +73,10 @@
     margin-bottom: 16px;
     padding: 2px;
 }
+
+.btnBlokBot {
+    display: flex;
+    flex-direction: column;
+     text-align: center;
+     align-items: center;
+}

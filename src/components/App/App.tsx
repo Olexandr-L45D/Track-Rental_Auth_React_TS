@@ -7,7 +7,7 @@ const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 const TruckPageFilters = lazy(() => import("../../pages/TruckPageFilters/TruckPageFilters"));
 const TruckDetalsPage = lazy(() => import("../../pages/TruckDetalsPage/TruckDetalsPage"));
-const SendResetEmailPage = lazy(() => import("../../pages/SendResetEmailPage/SendResetEmailPage"));
+const SendEmailConfirmationPage = lazy(() => import("../../pages/SendEmailConfirmationPage/SendEmailConfirmationPage"));
 const ResetPasswordPage = lazy(() => import("../../pages/ResetPasswordPage/ResetPasswordPage"));
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 // import { useAppDispatch } from "../../hooks/useAppDispatch"; // ✅ Використовуємо кастомний хук
@@ -19,6 +19,7 @@ import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import Loader from "../Loader/Loader";
 // import { useAppDispatch } from "../../redux/hooks";
 
 
@@ -89,11 +90,15 @@ export default function App() {
   fetchUser();
   }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
+  if (isRefreshing) {
+    return <Loader />;
+  }
+
   return isRefreshing ? (
     <b>Refreshing user ...</b>
   ) : (
     <Layout>
-      <Suspense fallback={<b>Loading...</b>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           {/* Головна сторінка */}
           <Route path="/" element={<HomePage />} />
@@ -109,8 +114,17 @@ export default function App() {
           <Route path="/register" element={<RestrictedRoute redirectTo="/catalog" component={() => <RegisterPage />} />} />
           <Route path="/login" element={<RestrictedRoute redirectTo="/catalog" component={() => <LoginPage />} />} />
 
-          {/* Форми скидання пароля */}
-          <Route path="/send-reset-email" element={<RestrictedRoute redirectTo="/catalog" component={() => <SendResetEmailPage />} />} />
+            {/* Форми скидання пароля */}
+            <Route
+              path="/confirm-email"
+              element={
+                <RestrictedRoute
+                  component={<SendEmailConfirmationPage />}
+                  redirectTo="/catalog"
+                />
+              }
+            />
+      
           <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={() => <ResetPasswordPage />} />} />
 
           {/* Сторінка 404 */}
@@ -121,16 +135,85 @@ export default function App() {
   );
 };
 
-// // ще варіант без  .unwrap()
-// console.log("🔄 Dispatching refreshUser...");
 
-//   dispatch(refreshUser() as unknown as Promise<any>) // 👈 Додаємо `as unknown as Promise<any>`
-//     .then((resultAction) => {
-//       if (refreshUser.rejected.match(resultAction)) {
-//         console.error("❌ Error refreshing user:", resultAction.error);
-//         navigate("/register", { replace: true });
-//       }
-//     });
+
+
+
+
+ // return (
+  //   <div>
+  //     <ToastContainer limit={3} />
+  //     <SharedLayout>
+  //       <Suspense fallback={<Loader />}>
+  //         <Routes>
+  //           <Route path="/welcome" element={<WelcomePage />} />
+  //           <Route
+  //             index
+  //             element={
+  //               <RestrictedRoute
+  //                 redirectTo="/home"
+  //                 component={<WelcomePage />}
+  //               />
+  //             }
+  //           />
+  //           <Route
+  //             path="/signup"
+  //             element={
+  //               <RestrictedRoute component={<SignupPage />} redirectTo="/" />
+  //             }
+  //           />
+  //           <Route
+  //             path="/confirm-email"
+  //             element={
+  //               <RestrictedRoute
+  //                 component={<ConfirmEmailPage />}
+  //                 redirectTo="/home"
+  //               />
+  //             }
+  //           />
+
+  //           <Route
+  //             path="/signin"
+  //             element={
+  //               <RestrictedRoute
+  //                 component={<SigninPage />}
+  //                 redirectTo="/home"
+  //               />
+  //             }
+  //           />
+  //           <Route
+  //             path="/home"
+  //             element={
+  //               <PrivateRoute redirectTo="/signin" component={<HomePage />} />
+  //             }
+  //           />
+  //           <Route
+  //             path="/reset-pwd"
+  //             element={
+  //               <RestrictedRoute
+  //                 redirectTo="/home"
+  //                 component={<PasswordResetPage />}
+  //               />
+  //             }
+  //           />
+  //           <Route
+  //             path="/googleauth"
+  //             element={
+  //               <RestrictedRoute
+  //                 component={<GoogleRedirectHandler />}
+  //                 redirectTo="/home"
+  //               />
+  //             }
+  //           />
+
+  //           <Route path="*" element={<NotFoundPage />} />
+  //         </Routes>
+  //       </Suspense>
+  //     </SharedLayout>
+  //   </div>
+  // );
+
+
 
 
 

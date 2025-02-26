@@ -68,12 +68,62 @@ export const getUser = createAsyncThunk('user/getUser', async (_, thunkAPI) => {
   } catch (error: any) {
     if (error.response?.data?.data?.message)
       return thunkAPI.rejectWithValue(error.response.data.data.message);
-  const errorMessage = error.response?.data?.message || 'Error register!';
+  const errorMessage = error.response?.data?.message || 'Error get All User!';
   // більше деталей про помилку в вітповіді з сервера в errorMessage
   return thunkAPI.rejectWithValue(errorMessage);
   }
 });
 
+/**
+ * Confirm Email
+ * User is now active and can log in with his password
+ */
+interface ConfirmEmailPayload {
+  accessToken: string | null; 
+}
+
+export const confirmEmail = createAsyncThunk<
+  ConfirmEmailPayload,  // ✅ Правильний тип повернення
+  { token: string }      // ✅ Очікуємо об'єкт з `token`
+>(
+  'user/confirm-email',
+  async ({ token }, thunkAPI) => {
+    try {
+      const response = await axiosInstanceUser.post('/auth/confirm-email', { token });
+      console.log(response);
+      setAuthHeader(response.data.data.accessToken);
+      // notifySuccess('Email confirmed');
+      return response.data;
+    } catch (error: any) {
+      console.log(error);
+      if (error.response?.data?.data?.message)
+        return thunkAPI.rejectWithValue(error.response.data.data.message);
+      const errorMessage = error.response?.data?.message || 'Email has not been confirmed';
+  // більше деталей про помилку в вітповіді з сервера в errorMessage
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  },
+);
+
+/**
+ * Google auth: confirm user and get authToken
+ */
+export const confirmOauth = createAsyncThunk(
+  'user/confirm-oauth',
+  async (credentials, thunkAPI) => {
+    try {
+      const { data } = await axiosInstanceUser.post('/auth/confirm-oauth', credentials);
+      setAuthHeader(data.data.accessToken);
+      return data;
+    } catch (error: any) {
+      if (error.response?.data?.data?.message)
+        return thunkAPI.rejectWithValue(error.response.data.data.message);
+      const errorMessage = error.response?.data?.message || 'Oauth confirm failed';
+  // більше деталей про помилку в вітповіді з сервера в errorMessage
+  return thunkAPI.rejectWithValue(errorMessage);
+    }
+  },
+);
 
 /*
  * POST @ /auth/register
@@ -256,35 +306,19 @@ export const resetPassword = createAsyncThunk<
   }
 );
 
-// export const resetPassword = createAsyncThunk(
-//   'user/reset-pwd',
-//   async (credentials, thunkAPI) => {
-//     try {
-//       const { data } = await authAPI.post('/auth/reset-pwd', credentials);
-//       notifySuccess('Password successfully reset');
-//       return data;
-//     } catch (error) {
-//       if (error.response?.data?.data?.message)
-//         return thunkAPI.rejectWithValue(error.response.data.data.message);
-//       notifyError('Password reset failed');
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   },
-// );
-
 
 export const refreshUser = createAsyncThunk<UserRefreshToken, void, { state: RootState; rejectValue: string }>(
   "auth/refresh",
   async (_, { getState, rejectWithValue }) => {
+   
     try {
-      const state = getState();
-      const token = state.auth.accessToken;
+      const accessToken = getState().auth.accessToken;
+    console.log("🔍 REFRESH TOKEN BEFORE REQUEST:", accessToken); // ✅ Додано лог
+    if (!accessToken) {
+      return rejectWithValue("No access token found");
+    }
 
-      if (!token) {
-        return rejectWithValue("No token found");
-      }
-
-      setAuthHeader(token);
+      setAuthHeader(accessToken);
       const response = await axiosInstanceUser.get<UserRefreshToken>("/auth/refresh");
 
       console.log("🟢 User data from refresh:", response.data);

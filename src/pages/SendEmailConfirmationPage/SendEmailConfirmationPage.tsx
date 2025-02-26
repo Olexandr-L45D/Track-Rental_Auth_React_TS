@@ -1,42 +1,56 @@
 import { useTranslation } from "react-i18next";
-import css from "./SendResetEmailPage.module.css";
+import css from "./SendEmailConfirmationPage.module.css";
 import {  useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import SendResetEmailForm from "../../components/SendResetEmailForm/SendResetEmailForm";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppThunkDispatch, RootState } from "../../redux/store";
+import { confirmEmail } from "../../redux/auth/operations";
+// import SendResetEmailForm from "../../components/SendResetEmailForm/SendResetEmailForm";
 
-const SendResetEmailPage = (): JSX.Element => {
+const SendEmailConfirmationPage = (): JSX.Element => {
   const [isRegistering, setIsRegistering] = useState(true);
   const { t } = useTranslation();
   // const [attempts, setAttempts] = useState(0);
   const navigate = useNavigate();
-   const isLoggedIn = useSelector((state: RootState) => state.auth?.isLoggedIn ?? false);
+  // const [searchParams] = useSearchParams();
+  // const token = searchParams.get('token');
+  const token = localStorage.getItem("jwt-token");
+  // const dispatch = useDispatch();
+  const dispatch: AppThunkDispatch = useDispatch();
+
+  const handleEmailConfirmation = async () => {
+    try {
+     if (!token) {
+      console.error("❌ No token found in URL!");
+      return;
+    }
+
+    await dispatch(confirmEmail({ token })); // ✅ Примусове приведення до string
+    setTimeout(() => {
+      navigate('/catalog');
+    }, 3000);
+    } catch (error) {
+      console.error(error);
+      // notifyError('Failed to confirm email. Please try again.');
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }
+  };
+
+  useEffect(() => {
+    handleEmailConfirmation();
+  }, []);
 
   return (
-    <section className={css.background}>
-      <section className={css.sectinPage}>
-        <div className={css.card}>
-          
-          <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
-          <h2 className={css.cartText}>{t("navigation.titleWelcom")}</h2>
-  
-        </div>
-        <section className={css.cartFormSection}>
-  
-        <div className={css.cartPage}>
-            <h3 className={css.cartForm}>{t("register.titleRegistr")}</h3>
-  
-          {isLoggedIn && <SendResetEmailForm /> }
-          </div>
-
-          </section>
-          </section>
-    </section>
+    <>
+      <h1>Confirming Email...</h1>
+      <p>Please wait while we confirm your email.</p>
+    </>
   );
 };
    
-  export default SendResetEmailPage;
+  export default SendEmailConfirmationPage;
 
 
   // кнопка перемикання не потрібна так як я залишив тільки форму логіну!

@@ -2,15 +2,19 @@
 import css from "./LoginForm.module.css";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from 'yup';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
 import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useReducer, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import Loader from "../Loader/Loader";
+import { selectIsLoading } from "../../redux/auth/selectors";
+import ModalContainer from "../ModalContainer/ModalContainer";
+import SendResetEmailForm from "../SendResetEmailForm/SendResetEmailForm";
 
  interface UsLoginVelues { 
     email: string;
@@ -30,6 +34,8 @@ interface LoginFormProps {
 export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
   // const dispatch: AppDispatch = useDispatch();
   // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const [isModalOpen, setIsModalOpen] = useState(false); // <-- Стан модального вікна
+  const isLoading = useSelector(selectIsLoading);
   const dispatch: AppThunkDispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
@@ -45,6 +51,8 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
   }
   }, [attempts, navigate]);
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   // Схема валідації для реєстраційної форми
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -125,7 +133,7 @@ const handleSubmit = async (
                       <ErrorMessage name="password" component="div" className={css.errorMessage} />
           <div className={css.btn}>
             <button className={css.LoginForm} type="submit">
-              {t("auth.btnLog")}
+               {isLoading ? <Loader /> : t("auth.btnLog")}
             </button>
           </div>
           
@@ -133,6 +141,29 @@ const handleSubmit = async (
      
         </Form>
       </Formik>
+<div className={css.btnBlokBot}>
+  
+        {/* <GoogleLoginButton>Sign In with Google</GoogleLoginButton> */}
+     <button className={css.LoginForm} type="button">
+        <Link to="/logout" className={css.link}>
+          Logout
+        </Link>
+       </button>
+        
+      <button className={css.LoginForm} type="button">
+        <span className={css.forgotPwd} onClick={openModal}>
+          Forgot password
+        </span>
+       </button>
+        
+        
+</div>
+      {isModalOpen && (
+        <ModalContainer onClose={closeModal}>
+          <SendResetEmailForm onClose={closeModal} />
+        </ModalContainer>
+      )}
+
     </div>
   );
 };
