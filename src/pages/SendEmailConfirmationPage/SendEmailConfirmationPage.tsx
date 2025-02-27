@@ -8,14 +8,10 @@ import { confirmEmail } from "../../redux/auth/operations";
 // import SendResetEmailForm from "../../components/SendResetEmailForm/SendResetEmailForm";
 
 const SendEmailConfirmationPage = (): JSX.Element => {
-  const [isRegistering, setIsRegistering] = useState(true);
+  
   const { t } = useTranslation();
-  // const [attempts, setAttempts] = useState(0);
   const navigate = useNavigate();
-  // const [searchParams] = useSearchParams();
-  // const token = searchParams.get('token');
   const token = localStorage.getItem("jwt-token");
-  // const dispatch = useDispatch();
   const dispatch: AppThunkDispatch = useDispatch();
 
   const handleEmailConfirmation = async () => {

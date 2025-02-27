@@ -1,8 +1,9 @@
 import { createSlice, isAnyOf, PayloadAction } from "@reduxjs/toolkit";
-import { register, logIn, logOut, refreshUser, UserRefreshToken,  resetPassword, sendResetEmail, setAuthHeader } from "./operations";
+import { register, logIn, logOut, refreshUser, UserRefreshToken,  resetPassword, sendResetEmail, setAuthHeader, refreshSessionUser, confirmEmail, confirmOauth, getUser, getOauthUrl } from "./operations";
 import { REHYDRATE } from "redux-persist/es/constants";
 import { Action } from '@reduxjs/toolkit';
 import { PersistedState } from 'redux-persist'; // або ваш тип для збереженого стану
+import { handleLogin, handleUserInfo } from "./handlers";
 
 export interface AuthResponse {
   data: {
@@ -193,6 +194,32 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload as string;
       })
+      .addCase(confirmOauth.fulfilled, handleLogin)
+      .addCase(confirmEmail.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getOauthUrl.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(getUser.fulfilled, handleUserInfo)
+      .addCase(refreshSessionUser.pending, (state) => {
+        state.isRefreshing = true;
+      })
+    
+      .addCase(refreshSessionUser.fulfilled, (state, action) => {
+        // state.accessToken = null;
+         state.accessToken = action.payload.accessToken;
+        // state.isError = action.payload as string;
+        state.isRefreshing = false;
+        state.isLoggedIn = true;
+      })
+      
+      .addCase(refreshSessionUser.rejected, (state, action) => {
+        state.accessToken = null;
+        state.isError = action.payload as string;
+        state.isRefreshing = false;
+        state.isLoggedIn = false;
+      })
        .addCase(REHYDRATE, (state, action: Action<"persist/REHYDRATE">) => {
       // Якщо payload існує, перевіряємо його тип і працюємо з ним
       if ((action as any).payload) {
@@ -203,10 +230,16 @@ const authSlice = createSlice({
         }
     })
 
-      .addMatcher(isAnyOf(register.pending, logIn.pending), (state) => {
+      .addMatcher(isAnyOf(register.pending, logIn.pending, confirmEmail.pending,
+          getOauthUrl.pending,
+          confirmOauth.pending, getUser.pending), (state) => {
         state.isLoading = true;
+        state.isError = false;
       })
-      .addMatcher(isAnyOf(register.rejected, logIn.rejected), (state, action: PayloadAction<unknown>) => {
+      
+      .addMatcher(isAnyOf(register.rejected, logIn.rejected, confirmEmail.rejected,
+          getOauthUrl.rejected,
+          confirmOauth.rejected, getUser.rejected), (state, action: PayloadAction<unknown>) => {
         console.log("LOGIN ERROR:", action.payload); // ДОДАю ЛОГ щоб побачити чи коректно приходить помилка з unwrap()
         state.isLoading = false;
         state.isLoggedIn = false; // ОБОВ'ЯЗКОВО! Щоб коректно зчитувалося в селекторі

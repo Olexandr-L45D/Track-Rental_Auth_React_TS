@@ -23,11 +23,7 @@ export const AuthNav = (): JSX.Element => {
             {t("navigation.register")}
           </button>
         </Link>
-         <Link to="/send-reset-email">
-          <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
-            {t("register.titleEmail")}
-          </button>
-        </Link>
+        
          <Link to="/reset-pwd">
           <button className={`${css.btnLink} ${!isRegister ? css.active : ""}`}>
             {t("register.titlePassword")}

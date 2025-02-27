@@ -10,17 +10,18 @@ const TruckDetalsPage = lazy(() => import("../../pages/TruckDetalsPage/TruckDeta
 const SendEmailConfirmationPage = lazy(() => import("../../pages/SendEmailConfirmationPage/SendEmailConfirmationPage"));
 const ResetPasswordPage = lazy(() => import("../../pages/ResetPasswordPage/ResetPasswordPage"));
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
-// import { useAppDispatch } from "../../hooks/useAppDispatch"; // ✅ Використовуємо кастомний хук
+const GoogleRedirectHandler = lazy(() =>
+  import('../../pages/GoogleRedirectHandler'),
+);
+
 import { Layout } from "../Layout/Layout";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getUser, logIn, logOut, refreshUser, setAuthHeader } from "../../redux/auth/operations";
-import { AppDispatch, AppThunkDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, refreshUser} from "../../redux/auth/operations";
+import { AppThunkDispatch, RootState } from "../../redux/store";
 import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Loader from "../Loader/Loader";
-// import { useAppDispatch } from "../../redux/hooks";
 
 
 export default function App() {
@@ -33,21 +34,17 @@ export default function App() {
   const location = useLocation();
   const isFirstLogin = useRef(true);
 
-  useEffect(() => {
-    
+  useEffect(() => { 
     console.log("📌 accessToken:", accessToken);
-
     // 1️⃣ Якщо юзер НЕ залогінений, перенаправляємо на "/register"
     if (!isLoggedIn && location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login") {
       console.log("🚀 Redirecting to home page `/`");
       navigate("/", { replace: true });
       return;
     }
-
     // 2️⃣ Якщо юзер залогінений і не рефрешиться, але ще НЕ в каталозі → перекидаємо в каталог
     if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
       console.log("🚀 User just logged in! Navigating to /catalog");
-      
       // ✅ Даємо Redux час оновити стан перед редіректом
       setTimeout(() => navigate("/catalog", { replace: true }), 0);
     }
@@ -125,7 +122,16 @@ export default function App() {
               }
             />
       
-          <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={() => <ResetPasswordPage />} />} />
+            <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={() => <ResetPasswordPage />} />} />
+            <Route
+              path="/confirm-oauth"
+              element={
+                <RestrictedRoute
+                  component={<GoogleRedirectHandler />}
+                  redirectTo="/catalog"
+                />
+              }
+            />
 
           {/* Сторінка 404 */}
           <Route path="*" element={<NotFoundPage />} />

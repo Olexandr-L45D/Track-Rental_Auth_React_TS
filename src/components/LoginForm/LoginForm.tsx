@@ -15,6 +15,7 @@ import Loader from "../Loader/Loader";
 import { selectIsLoading } from "../../redux/auth/selectors";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import SendResetEmailForm from "../SendResetEmailForm/SendResetEmailForm";
+import GoogleLoginButton from "../GoogleLoginButton/GoogleLoginButton";
 
  interface UsLoginVelues { 
     email: string;
@@ -141,9 +142,11 @@ const handleSubmit = async (
      
         </Form>
       </Formik>
-<div className={css.btnBlokBot}>
+      <div className={css.btnBlokBot}>
+        <button className={css.LoginBtnGoogle} type="button">
+        <GoogleLoginButton>Sign In with Google</GoogleLoginButton>
+       </button>
   
-        {/* <GoogleLoginButton>Sign In with Google</GoogleLoginButton> */}
      <button className={css.LoginForm} type="button">
         <Link to="/logout" className={css.link}>
           Logout
@@ -152,7 +155,7 @@ const handleSubmit = async (
         
       <button className={css.LoginForm} type="button">
         <span className={css.forgotPwd} onClick={openModal}>
-          Forgot password
+          {t("register.titleEmail")}
         </span>
        </button>
         

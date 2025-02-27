@@ -1,4 +1,6 @@
 .cartFormSection {
+    padding: auto;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     text-align: center;
@@ -69,7 +71,7 @@ button.active {
 .cartTitl {
     padding: 2px;
     margin: 2px;
-    color: black;
+    color: #fff;
     font-size: 2em;
     font-weight: 900;
     line-height: 2;
@@ -80,9 +82,7 @@ button.active {
 }
 
 .cartTitle {
-    padding: 2px;
-    margin: 2px;
-    color: #fff;
+    color: black;
     font-size: 2em;
     font-weight: 900;
     line-height: 2;
@@ -95,7 +95,7 @@ button.active {
 .cartText {
     padding: 2px;
     margin: 2px;
-    color: #fff;
+    color: black;
     font-size: 1em;
     font-weight: 700;
     line-height: 1;
@@ -109,7 +109,7 @@ button.active {
 .background {
     min-height: calc(100vh - 56px);
     overflow: hidden;
-    background-image: url('../../images/Lake_IMG_6216.jpg');
+    background-image: url('../../images/Kitchen_IMG_8031.jpg');
     background-repeat: no-repeat, no-repeat;
     background-size: 100%, 280px 210px;
 

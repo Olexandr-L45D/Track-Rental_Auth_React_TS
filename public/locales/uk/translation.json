@@ -36,7 +36,7 @@
    "titlePassword": "Новий Пароь"
   },
   "login": {
-   "titleLogin": "ФОРМА ЛОГІНУ"
+   "titleLogin": "ФОРМА АВТОРИЗАЦІЇ"
   },
   "auth": {
     "finde": "Знайди контакт за ім'ям",
