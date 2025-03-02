@@ -34,34 +34,6 @@ export default function App() {
   const location = useLocation();
   const isFirstLogin = useRef(true);
 
-  useEffect(() => {
-  console.log("🟢 useEffect TRIGGERED (Token Check)");
-  console.log("📌 Поточний маршрут:", location.pathname);
-  console.log("📌 isLoggedIn:", isLoggedIn);
-  console.log("📌 accessToken:", accessToken);
-
-  const savedToken = localStorage.getItem("jwt-token");
-    console.log("📦 Token from LocalStorage:", savedToken);
-    if (savedToken && !accessToken) {
-    console.log("📦 Loaded token from LocalStorage:", savedToken);
-    dispatch(setToken({ accessToken: savedToken, user }));
-  }
-
-    if (!isLoggedIn && !isRefreshing) {
-      console.log("🚀 Redirecting to login");
-      navigate("/login", { replace: true });
-    return;
-    }
-    if (isLoggedIn && isRefreshing) {
-      console.log("🚀 Redirecting to login");
-      navigate("/catalog", { replace: true });
-    return;
-  }
-
-}, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
-
-
-
 //   useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
 //   console.log("📌 Поточний маршрут:", location.pathname);
@@ -69,45 +41,62 @@ export default function App() {
 //   console.log("📌 accessToken:", accessToken);
 
 //   const savedToken = localStorage.getItem("jwt-token");
-//   console.log("📦 Token from LocalStorage:", savedToken);
-
-//   if (!isLoggedIn) {
-//     console.log("🚪 User logged out, skipping token restore.");
-//     return;
-//   }
-
-//   if (savedToken && !accessToken) {
+//     console.log("📦 Token from LocalStorage:", savedToken);
+//     if (savedToken && !accessToken) {
 //     console.log("📦 Loaded token from LocalStorage:", savedToken);
 //     dispatch(setToken({ accessToken: savedToken, user }));
 //   }
-// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
-
-
-//   useEffect(() => {
-//   console.log("📌 useEffect triggered!");
-//   console.log("🔍 isLoggedIn:", isLoggedIn);
-//   console.log("🔍 accessToken:", accessToken);
-//   console.log("🔍 isRefreshing:", isRefreshing);
-//   console.log("🔍 Поточний маршрут:", location.pathname);
-
-//   // 🔴 Перевіряємо, чи юзер не залогінений та не рефрешиться
-//   if (!isLoggedIn && !isRefreshing) {
-//     if (location.pathname !== "/login") {
+    
+//     if (!isLoggedIn && !isRefreshing) {
 //       console.log("🚀 Redirecting to login");
 //       navigate("/login", { replace: true });
+//     return;
 //     }
+//     if (isLoggedIn && isRefreshing) {
+//       console.log("🚀 Redirecting to login");
+//       navigate("/catalog", { replace: true });
 //     return;
 //   }
 
-//   // 🟢 Якщо юзер залогінений, але не в каталозі – перенаправляємо
-//   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
-//     console.log("🚀 Redirecting to catalog");
-//     setTimeout(() => navigate("/catalog", { replace: true }), 100); // 👈 Затримка на оновлення Redux
-//   }
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
-// }, [isLoggedIn, isRefreshing, location.pathname, navigate]);
+useEffect(() => {
+  console.log("🟢 useEffect TRIGGERED (Token Check)");
+  console.log("📌 Поточний маршрут:", location.pathname);
+  console.log("📌 isLoggedIn:", isLoggedIn);
+  console.log("📌 accessToken:", accessToken);
 
+  const savedToken = localStorage.getItem("jwt-token");
+  console.log("📦 Token from LocalStorage:", savedToken);
 
+  if (savedToken && !accessToken) {
+    console.log("📦 Loaded token from LocalStorage:", savedToken);
+    dispatch(setToken({ accessToken: savedToken, user }));
+  }
+
+  // 🔴 Якщо користувач не залогінений і це його перший візит → відправляємо на реєстрацію
+  if (!isLoggedIn && !isRefreshing && location.pathname === "/") {
+    console.log("🚀 Redirecting to /register (first visit)");
+    navigate("/register", { replace: true });
+    return;
+  }
+
+  // 🔵 Якщо користувач не залогінений і намагається зайти в закритий розділ → відправляємо на логін
+  if (!isLoggedIn && !isRefreshing && location.pathname !== "/register") {
+    console.log("🚀 Redirecting to /login");
+    navigate("/login", { replace: true });
+    return;
+  }
+
+  // 🟢 Якщо користувач залогінений, але ще не в каталозі – перенаправляємо
+  if (isLoggedIn && location.pathname !== "/catalog") {
+    console.log("🚀 Redirecting to /catalog");
+    setTimeout(() => navigate("/catalog", { replace: true }), 100);
+  }
+
+}, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+  
   if (isRefreshing) {
     return <Loader />;
   }
@@ -163,6 +152,54 @@ export default function App() {
 };
 
 
+
+
+
+
+//   useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//   console.log("📌 accessToken:", accessToken);
+
+//   const savedToken = localStorage.getItem("jwt-token");
+//   console.log("📦 Token from LocalStorage:", savedToken);
+
+//   if (!isLoggedIn) {
+//     console.log("🚪 User logged out, skipping token restore.");
+//     return;
+//   }
+
+//   if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+
+//   useEffect(() => {
+//   console.log("📌 useEffect triggered!");
+//   console.log("🔍 isLoggedIn:", isLoggedIn);
+//   console.log("🔍 accessToken:", accessToken);
+//   console.log("🔍 isRefreshing:", isRefreshing);
+//   console.log("🔍 Поточний маршрут:", location.pathname);
+
+//   // 🔴 Перевіряємо, чи юзер не залогінений та не рефрешиться
+//   if (!isLoggedIn && !isRefreshing) {
+//     if (location.pathname !== "/login") {
+//       console.log("🚀 Redirecting to login");
+//       navigate("/login", { replace: true });
+//     }
+//     return;
+//   }
+
+//   // 🟢 Якщо юзер залогінений, але не в каталозі – перенаправляємо
+//   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
+//     console.log("🚀 Redirecting to catalog");
+//     setTimeout(() => navigate("/catalog", { replace: true }), 100); // 👈 Затримка на оновлення Redux
+//   }
+
+// }, [isLoggedIn, isRefreshing, location.pathname, navigate]);
 
 
 
