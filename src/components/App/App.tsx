@@ -192,33 +192,8 @@ export default function App() {
   //     dispatch(setToken({ accessToken: savedToken, user }));
   //   }
 
-  //       if (savedToken && !accessToken && !isRefreshing) {
-  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
-  //     dispatch(setToken({ accessToken: savedToken, user }));
-
-  //     console.log("🔄 Dispatching refreshUser...");
-  //     dispatch(refreshUser()).then((result) => {
-  //       if (refreshUser.rejected.match(result)) {
-  //         console.error("❌ Error refreshing user:", result.error);
-  //         navigate("/register", { replace: true });
-  //       } else {
-  //         console.log("✅ Refresh User Result:", result);
-  //         dispatch(getUser()); // Отримуємо актуальні дані юзера
-  //       }
-  //     });
-  //   }
-
-
-  //   if (savedToken && !accessToken) {
-  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
-  //     dispatch(setToken({ accessToken: savedToken, user }));
-  //   }
-  //   const fetchUser = async () => {
-  // console.log("🔄 Dispatching refreshUser...");
   
-    
 
-  // }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
 
  // return (
