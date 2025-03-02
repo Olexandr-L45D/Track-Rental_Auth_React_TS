@@ -89,9 +89,16 @@ useEffect(() => {
   }
 
   // 🟢 Якщо користувач залогінений, але ще не в каталозі – перенаправляємо
-  if (isLoggedIn && location.pathname !== "/catalog") {
-    console.log("🚀 Redirecting to /catalog");
-    setTimeout(() => navigate("/catalog", { replace: true }), 100);
+  // if (isLoggedIn && location.pathname !== "/catalog") {
+  //   console.log("🚀 Redirecting to /catalog");
+  //   // setTimeout(() => navigate("/catalog", { replace: true }), 100);
+  //   navigate("/catalog", { replace: true });
+  // }
+
+      if (isLoggedIn && isRefreshing) {
+      console.log("🚀 Redirecting to login");
+      navigate("/catalog", { replace: true });
+    return;
   }
 
 }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
