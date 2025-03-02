@@ -377,7 +377,7 @@ export const refreshSessionUser = createAsyncThunk<
  */
 export const confirmOauth = createAsyncThunk<
   UserRefreshSessionToken, 
-  string,
+  { code: string | null}, // Очікуваний аргумент
   { state: RootState; rejectValue: string }
   >(
   'user/confirm-oauth',

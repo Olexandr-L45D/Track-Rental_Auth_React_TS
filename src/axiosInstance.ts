@@ -4,9 +4,13 @@ import axios from "axios";
 //   baseURL: "https://connections-api.goit.global",
 // });
 export const axiosInstanceUser = axios.create({
-  baseURL: " https://nodejs-hw-mongodb-7-v54v.onrender.com",
+  baseURL: "https://nodejs-hw-mongodb-auth-syz8.onrender.com",
+  withCredentials: true, // ✅ Дозволяє кукі та заголовки CORS
 });
 
+// baseURL: "https://nodejs-hw-mongodb-auth-syz8.onrender.com",
+//  новий УРЛ з нового сервіса - railway: nodejs-hw-mongodb-production.up.railway.app
+axios.defaults.withCredentials = true;
 
 // Глобальна обробка 401 (Unauthorized)
 axiosInstanceUser.interceptors.response.use(

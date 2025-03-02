@@ -143,9 +143,9 @@ const handleSubmit = async (
         </Form>
       </Formik>
       <div className={css.btnBlokBot}>
-        <button className={css.LoginBtnGoogle} type="button">
+        <div className={css.LoginBtnGoogle} >
         <GoogleLoginButton>Sign In with Google</GoogleLoginButton>
-       </button>
+       </div>
   
      <button className={css.LoginForm} type="button">
         <Link to="/logout" className={css.link}>

@@ -119,6 +119,7 @@ const authSlice = createSlice({
       
       .addCase(logIn.fulfilled, (state, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
         console.log("🟢 logIn.fulfilled TRIGGERED!");
+        console.log("🔄 handleLogin TRIGGERED!");
         console.log("🔑 Payload отримано:", action.payload);
         console.log("📌 Отримано токен:", action.payload?.data?.data?.accessToken);
 
@@ -126,12 +127,39 @@ const authSlice = createSlice({
           name: action.payload.data.data.user.name,
           email: action.payload.data.data.user.email,
         };
+      
+        const newAccessToken = action.payload.data.data.accessToken ?? null;
 
-        state.accessToken = action.payload.data.data.accessToken;
-        // state.isRefreshing = false; // ✅ Виправлено
-        state.isLoggedIn = true;
-        localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
-        setAuthHeader(action.payload.data.data.accessToken);
+  state.accessToken = newAccessToken;
+  state.isLoading = false;
+  state.isRefreshing = false;
+  state.isLoggedIn = !!newAccessToken;
+
+  console.log("✅ Новий токен, який записуємо в Redux:", newAccessToken);
+
+  if (newAccessToken) {
+    console.log("📦 Зберігаємо цей самий токен у LocalStorage");
+    localStorage.setItem("jwt-token", newAccessToken);
+  }
+
+  console.log("✅ state після handleLogin:", state);
+
+  setAuthHeader(newAccessToken);
+
+  //       state.isLoading = false;
+  //       state.isRefreshing = false;
+  //       state.isLoggedIn = !!action.payload.data.data.accessToken; // 🔥 Додай цю перевірку!
+  //       state.accessToken = action.payload.data.data.accessToken ?? null;
+
+  //       // state.isLoggedIn = true;
+  //       if (action.payload.data.data.accessToken) {
+  //   console.log("📦 Зберігаємо токен в LocalStorage!");
+  //   localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
+  // }
+
+  // console.log("✅ state після handleLogin:", state);
+       
+  //       setAuthHeader(action.payload.data.data.accessToken);
 
         console.log("✅ Token успішно записано в Redux:", state.accessToken);
         console.log("✅ isLoggedIn SET TO TRUE in Redux:", state.isLoggedIn);
@@ -194,6 +222,21 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload as string;
       })
+      // .addCase(confirmOauth.fulfilled, (state: AuthState, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
+       
+      //   console.log("🔑 Payload отримано:", action.payload);
+      //   console.log("📌 Отримано токен:", action.payload?.data?.data?.accessToken);
+
+      //   state.user = {
+      //     name: action.payload.data.data.user.name,
+      //     email: action.payload.data.data.user.email,
+      //   };
+
+      //   state.accessToken = action.payload.data.data.accessToken;
+      //   state.isLoggedIn = true;
+      //   localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
+      //   setAuthHeader(action.payload.data.data.accessToken);
+      // })
       .addCase(confirmOauth.fulfilled, handleLogin)
       .addCase(confirmEmail.fulfilled, (state) => {
         state.isLoading = false;
@@ -244,6 +287,11 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isLoggedIn = false; // ОБОВ'ЯЗКОВО! Щоб коректно зчитувалося в селекторі
         state.isError = typeof action.payload === "string" ? action.payload : "Unknown error";
+        // ❌ Видаляємо токен ТІЛЬКИ якщо логін або OAuth-авторизація не вдалася
+    if (isAnyOf(logIn.rejected, confirmOauth.rejected)(action)) {
+      localStorage.removeItem("jwt-token");
+      setAuthHeader(null);
+    }
       });
     
   },
@@ -261,3 +309,11 @@ export default authSlice.reducer;
 // 2️⃣ Переконайтесь, що в state.auth змінюється isLoggedIn: true.
 
 // ➡️ Якщо токен у payload є, але Redux не оновлює isLoggedIn, значить, проблема у persistReducer або setToken.
+
+
+
+//  {
+//           "key": "Content-Security-Policy",
+//            "value": "default-src 'self'; img-src 'self' data: blob: https://66b1f8e71ca8ad33d4f5f63e.mockapi.io;"
+//         }
+

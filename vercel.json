@@ -13,12 +13,18 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Content-Security-Policy",
-           "value": "default-src 'self'; img-src 'self' data: blob: https://66b1f8e71ca8ad33d4f5f63e.mockapi.io;"
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://nodejs-hw-mongodb-auth-syz8.onrender.com"
+        },
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer-when-downgrade"
         }
       ]
     }
   ]
 }
-
-

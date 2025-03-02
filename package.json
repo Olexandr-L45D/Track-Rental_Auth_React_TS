@@ -1,7 +1,6 @@
 {
   "name": "track-rental.react.ts",
   "private": true,
-  "proxy": "https://connections-api.goit.global",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -55,3 +54,4 @@
     "vite": "^6.1.0"
   }
 }
+

@@ -13,33 +13,67 @@ export interface TruckListResponse {
   items: Truck[];  
   total: number;
 }
-export const fetchAllTruck = createAsyncThunk
-  <TruckListResponse, FetchAllTruckParams, { state: RootState }>(
+
+// export const fetchAllTruck = createAsyncThunk
+//   <TruckListResponse, FetchAllTruckParams, { state: RootState }>(
+//   "campers/fetchAllTruck",
+//   async ({ page = 1 }, { getState, rejectWithValue }) => {
+//     try {
+//       const filter = getState().filters.filters;
+//       const response = await axiosInstanceTruksOperations.get<TruckListResponse>("/campers", {
+//         params: { page, filter, limit: 4,},
+//       });
+//       return response.data;
+//     } catch (e: any) {
+//       return rejectWithValue(e.message);
+//     }
+//   }
+// );
+
+
+export const fetchAllTruck = createAsyncThunk<TruckListResponse, FetchAllTruckParams, { state: RootState }>(
   "campers/fetchAllTruck",
   async ({ page = 1 }, { getState, rejectWithValue }) => {
     try {
       const filter = getState().filters.filters;
-      const response = await axiosInstanceTruksOperations.get<TruckListResponse>("/campers", {
-        params: { page, filter, limit: 4,},
-      });
-      return response.data;
+      const response = await fetch(
+        `https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers?page=${page}&limit=4&filter=${filter}`
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+      return await response.json();
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
   }
 );
 
+
 export const findTruckById = createAsyncThunk<TruckDetailById, number>(
   'campers/findTruckById',
   async (id, thunkAPI) => {
     try {
-      const response = await axiosInstanceTruksOperations.get(`/campers/${Number(id)}`);  // бекенд приймає число `/campers/${Number(id)}`
-      return response.data;
+      const response = await fetch(
+        `https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers/${Number(id)}`
+      );
+      return await response.json();
     } catch (error) {
       return thunkAPI.rejectWithValue('Failed to fetch truck details');
     }
   }
 );
+
+
+// export const findTruckById = createAsyncThunk<TruckDetailById, number>(
+//   'campers/findTruckById',
+//   async (id, thunkAPI) => {
+//     try {
+//       const response = await axiosInstanceTruksOperations.get(`/campers/${Number(id)}`);  // бекенд приймає число `/campers/${Number(id)}`
+//       return response.data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue('Failed to fetch truck details');
+//     }
+//   }
+// );
 
 const translateText = async (text: string, language: string): Promise<string> => {
   if (!text || text.trim() === "") {

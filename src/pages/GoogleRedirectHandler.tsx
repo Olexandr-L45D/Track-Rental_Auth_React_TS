@@ -25,7 +25,7 @@ const GoogleRedirectHandler = (): JSX.Element => {
                 // const res = await axios.post('http://localhost:3000/auth/confirm-oauth', { code });
                 // console.log(res.data.accessToken);
                 // setAuthHeader(res.data.accessToken);
-                dispatch(confirmOauth(code));
+                dispatch(confirmOauth({ code }));
                 navigate('/catalog');
             } catch (error: any) {
                 console.log(error)

@@ -34,58 +34,79 @@ export default function App() {
   const location = useLocation();
   const isFirstLogin = useRef(true);
 
-  useEffect(() => { 
-    console.log("📌 accessToken:", accessToken);
-    // 1️⃣ Якщо юзер НЕ залогінений, перенаправляємо на "/register"
-    if (!isLoggedIn && location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login") {
-      console.log("🚀 Redirecting to home page `/`");
-      navigate("/", { replace: true });
-      return;
-    }
-    // 2️⃣ Якщо юзер залогінений і не рефрешиться, але ще НЕ в каталозі → перекидаємо в каталог
-    if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
-      console.log("🚀 User just logged in! Navigating to /catalog");
-      // ✅ Даємо Redux час оновити стан перед редіректом
-      setTimeout(() => navigate("/catalog", { replace: true }), 0);
-    }
-  }, [isLoggedIn, isRefreshing, location.pathname, navigate]);
-
   useEffect(() => {
-    console.log("🟢 useEffect TRIGGERED (Token Check)");
-    console.log("📌 Поточний маршрут:", location.pathname);
-    console.log("📌 isLoggedIn:", isLoggedIn);
+  console.log("🟢 useEffect TRIGGERED (Token Check)");
+  console.log("📌 Поточний маршрут:", location.pathname);
+  console.log("📌 isLoggedIn:", isLoggedIn);
+  console.log("📌 accessToken:", accessToken);
 
-    const savedToken = localStorage.getItem("jwt-token");
-
-    if (!isLoggedIn) {
-      console.log("🚪 User logged out, skipping token restore.");
-      return;
-    }
-
+  const savedToken = localStorage.getItem("jwt-token");
+    console.log("📦 Token from LocalStorage:", savedToken);
     if (savedToken && !accessToken) {
-      console.log("📦 Loaded token from LocalStorage:", savedToken);
-      dispatch(setToken({ accessToken: savedToken, user }));
-    }
-    
-    const fetchUser = async () => {
-  console.log("🔄 Dispatching refreshUser...");
-  try {
-    const result = await dispatch(refreshUser()); // ✅ Більше не підкреслює
-    console.log("✅ Refresh User Result:", result);
-    // Якщо рефреш успішний, підтягуємо актуальні дані юзера
-    // додав гетузера getUser() - оновлені дані про Юзера
-      console.log("🔄 Fetching user data...");
-      await dispatch(getUser());
-  } catch (error) {
-    console.error("❌ Error refreshing user:", error);
-    if (error === "Unauthorized") {
-      navigate("/register", { replace: true });
-    }
+    console.log("📦 Loaded token from LocalStorage:", savedToken);
+    dispatch(setToken({ accessToken: savedToken, user }));
   }
-    };
 
-  fetchUser();
-  }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+    if (!isLoggedIn && !isRefreshing) {
+      console.log("🚀 Redirecting to login");
+      navigate("/login", { replace: true });
+    return;
+    }
+    if (isLoggedIn && isRefreshing) {
+      console.log("🚀 Redirecting to login");
+      navigate("/catalog", { replace: true });
+    return;
+  }
+
+}, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+
+
+//   useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//   console.log("📌 accessToken:", accessToken);
+
+//   const savedToken = localStorage.getItem("jwt-token");
+//   console.log("📦 Token from LocalStorage:", savedToken);
+
+//   if (!isLoggedIn) {
+//     console.log("🚪 User logged out, skipping token restore.");
+//     return;
+//   }
+
+//   if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+
+//   useEffect(() => {
+//   console.log("📌 useEffect triggered!");
+//   console.log("🔍 isLoggedIn:", isLoggedIn);
+//   console.log("🔍 accessToken:", accessToken);
+//   console.log("🔍 isRefreshing:", isRefreshing);
+//   console.log("🔍 Поточний маршрут:", location.pathname);
+
+//   // 🔴 Перевіряємо, чи юзер не залогінений та не рефрешиться
+//   if (!isLoggedIn && !isRefreshing) {
+//     if (location.pathname !== "/login") {
+//       console.log("🚀 Redirecting to login");
+//       navigate("/login", { replace: true });
+//     }
+//     return;
+//   }
+
+//   // 🟢 Якщо юзер залогінений, але не в каталозі – перенаправляємо
+//   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
+//     console.log("🚀 Redirecting to catalog");
+//     setTimeout(() => navigate("/catalog", { replace: true }), 100); // 👈 Затримка на оновлення Redux
+//   }
+
+// }, [isLoggedIn, isRefreshing, location.pathname, navigate]);
+
 
   if (isRefreshing) {
     return <Loader />;
@@ -144,6 +165,76 @@ export default function App() {
 
 
 
+
+  // useEffect(() => {
+  //   console.log("🟢 useEffect TRIGGERED (Token Check)");
+  //   console.log("📌 Поточний маршрут:", location.pathname);
+  //   console.log("📌 isLoggedIn:", isLoggedIn);
+
+  //   if (!isLoggedIn && location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login") {
+  //     console.log("🚀 Redirecting to home page `/`");
+  //     navigate("/", { replace: true });
+  //     return;
+  //   }
+  //   // 2️⃣ Якщо юзер залогінений і не рефрешиться, але ще НЕ в каталозі → перекидаємо в каталог 12345Alex
+  //   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
+  //     console.log("🚀 User just logged in! Navigating to /catalog");
+  //     // ✅ Даємо Redux час оновити стан перед редіректом
+  //     navigate("/catalog", { replace: true });
+  //   }
+
+  //   const savedToken = localStorage.getItem("jwt-token");
+
+  //   if (!isLoggedIn) {
+  //     console.log("🚪 User logged out, skipping token restore.");
+  //     return;
+  //   }
+  //   if (savedToken && !accessToken) {
+  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
+  //     dispatch(setToken({ accessToken: savedToken, user }));
+  //   }
+
+  //       if (savedToken && !accessToken && !isRefreshing) {
+  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
+  //     dispatch(setToken({ accessToken: savedToken, user }));
+
+  //     console.log("🔄 Dispatching refreshUser...");
+  //     dispatch(refreshUser()).then((result) => {
+  //       if (refreshUser.rejected.match(result)) {
+  //         console.error("❌ Error refreshing user:", result.error);
+  //         navigate("/register", { replace: true });
+  //       } else {
+  //         console.log("✅ Refresh User Result:", result);
+  //         dispatch(getUser()); // Отримуємо актуальні дані юзера
+  //       }
+  //     });
+  //   }
+
+
+  //   if (savedToken && !accessToken) {
+  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
+  //     dispatch(setToken({ accessToken: savedToken, user }));
+  //   }
+  //   const fetchUser = async () => {
+  // console.log("🔄 Dispatching refreshUser...");
+  // try {
+  //   const result = await dispatch(refreshUser()); // ✅ Більше не підкреслює
+  //   console.log("✅ Refresh User Result:", result);
+  //   // Якщо рефреш успішний, підтягуємо актуальні дані юзера
+  //   // додав гетузера getUser() - оновлені дані про Юзера
+  //     console.log("🔄 Fetching user data...");
+  //     await dispatch(getUser());
+  // } catch (error) {
+  //   console.error("❌ Error refreshing user:", error);
+  //   if (error === "Unauthorized") {
+  //     navigate("/register", { replace: true });
+  //   }
+  // }
+  //   };
+  //   fetchUser();
+    
+
+  // }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
 
  // return (

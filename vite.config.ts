@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     // open: true, // Автоматично відкривати браузер прибираю щоб вайт не міг автоматично запустити і Антивірусник не сварився
     proxy: {
       '/auth': {
-        target: ' https://nodejs-hw-mongodb-7-v54v.onrender.com',
+        target: 'https://nodejs-hw-mongodb-auth-syz8.onrender.com',
         changeOrigin: true,
         secure: true,
         rewrite: (path) => {
@@ -25,6 +25,9 @@ export default defineConfig(({ mode }) => ({
     sourcemap: true,  // Завжди вмикає карти джерел, навіть у продакшн
   },
 }));
+
+// target: 'https://nodejs-hw-mongodb-auth-syz8.onrender.com',
+
 
 // import { defineConfig } from "vite";
 // import react from "@vitejs/plugin-react";
