@@ -12,8 +12,6 @@ const RegisterPage = (): JSX.Element => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  // const dispatch: AppDispatch = useDispatch();
-  //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
   const dispatch: AppThunkDispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
   

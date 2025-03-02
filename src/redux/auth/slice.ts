@@ -146,21 +146,6 @@ const authSlice = createSlice({
 
   setAuthHeader(newAccessToken);
 
-  //       state.isLoading = false;
-  //       state.isRefreshing = false;
-  //       state.isLoggedIn = !!action.payload.data.data.accessToken; // 🔥 Додай цю перевірку!
-  //       state.accessToken = action.payload.data.data.accessToken ?? null;
-
-  //       // state.isLoggedIn = true;
-  //       if (action.payload.data.data.accessToken) {
-  //   console.log("📦 Зберігаємо токен в LocalStorage!");
-  //   localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
-  // }
-
-  // console.log("✅ state після handleLogin:", state);
-       
-  //       setAuthHeader(action.payload.data.data.accessToken);
-
         console.log("✅ Token успішно записано в Redux:", state.accessToken);
         console.log("✅ isLoggedIn SET TO TRUE in Redux:", state.isLoggedIn);
         console.log("📌 New Redux State:", state); // ✅ Додали лог стану
@@ -316,4 +301,4 @@ export default authSlice.reducer;
 //           "key": "Content-Security-Policy",
 //            "value": "default-src 'self'; img-src 'self' data: blob: https://66b1f8e71ca8ad33d4f5f63e.mockapi.io;"
 //         }
-
+  //  Замінив в пекейдж джейсон версію з "react-redux": "^9.2.0" на "react-redux": "^9.0.0"

@@ -118,5 +118,5 @@ export const fetchAllTruckLanguage = createAsyncThunk<
 // export const fetchAllTruck = createAsyncThunk<
 //   TruckListResponse,         // Тип даних, які повертаються
 //   FetchAllTruckParams,       // Тип параметрів (наприклад, { page })
-//   { state: RootState }       // Тип стану (getState)
+//   { state: RootState }       // Тип стану (getState) - стан вітповіді - rejectWithValue(e.message);
 
