@@ -16,7 +16,7 @@ const GoogleRedirectHandler = lazy(() =>
 
 import { Layout } from "../Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, refreshUser} from "../../redux/auth/operations";
+// import { getUser, refreshUser} from "../../redux/auth/operations";
 import { AppThunkDispatch, RootState } from "../../redux/store";
 import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
@@ -32,33 +32,7 @@ export default function App() {
   const user = useSelector((state: RootState) => state.auth.user);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const location = useLocation();
-  const isFirstLogin = useRef(true);
-
-//   useEffect(() => {
-//   console.log("🟢 useEffect TRIGGERED (Token Check)");
-//   console.log("📌 Поточний маршрут:", location.pathname);
-//   console.log("📌 isLoggedIn:", isLoggedIn);
-//   console.log("📌 accessToken:", accessToken);
-
-//   const savedToken = localStorage.getItem("jwt-token");
-//     console.log("📦 Token from LocalStorage:", savedToken);
-//     if (savedToken && !accessToken) {
-//     console.log("📦 Loaded token from LocalStorage:", savedToken);
-//     dispatch(setToken({ accessToken: savedToken, user }));
-//   }
-    
-//     if (!isLoggedIn && !isRefreshing) {
-//       console.log("🚀 Redirecting to login");
-//       navigate("/login", { replace: true });
-//     return;
-//     }
-//     if (isLoggedIn && isRefreshing) {
-//       console.log("🚀 Redirecting to login");
-//       navigate("/catalog", { replace: true });
-//     return;
-//   }
-
-// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+  
 
 useEffect(() => {
   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -74,11 +48,17 @@ useEffect(() => {
     dispatch(setToken({ accessToken: savedToken, user }));
   }
 
-  // 🔴 Якщо користувач не залогінений і це його перший візит → відправляємо на реєстрацію
-  if (!isLoggedIn && !isRefreshing && location.pathname === "/") {
-    console.log("🚀 Redirecting to /register (first visit)");
-    navigate("/register", { replace: true });
-    return;
+ // 🟢 Перевіряємо, чи це перший візит (якщо "firstVisit" ще не записано)
+  if (!localStorage.getItem("firstVisit")) {
+    console.log("🔥 First visit detected! Saving flag...");
+    localStorage.setItem("firstVisit", "true");
+
+    // Якщо користувач не залогінений, відправляємо його на реєстрацію
+    if (!isLoggedIn && !isRefreshing) {
+      console.log("🚀 Redirecting to /register (first visit)");
+      navigate("/register", { replace: true });
+      return;
+    }
   }
 
   // 🔵 Якщо користувач не залогінений і намагається зайти в закритий розділ → відправляємо на логін
@@ -87,16 +67,8 @@ useEffect(() => {
     navigate("/login", { replace: true });
     return;
   }
-
-  // 🟢 Якщо користувач залогінений, але ще не в каталозі – перенаправляємо
-  // if (isLoggedIn && location.pathname !== "/catalog") {
-  //   console.log("🚀 Redirecting to /catalog");
-  //   // setTimeout(() => navigate("/catalog", { replace: true }), 100);
-  //   navigate("/catalog", { replace: true });
-  // }
-
       if (isLoggedIn && isRefreshing) {
-      console.log("🚀 Redirecting to login");
+      console.log("🚀 Redirecting to /catalog");
       navigate("/catalog", { replace: true });
     return;
   }
@@ -115,9 +87,9 @@ useEffect(() => {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Головна сторінка */}
-          <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
 
-          {/* Захищені маршрути */}
+            {/* Захищені маршрути */}
           <Route path="/catalog" element={<PrivateRoute redirectTo="/login" component={() => <TruckPageFilters />} />} />
           <Route path="/catalog/:id" element={<PrivateRoute redirectTo="/login" component={() => <TruckDetalsPage />} />} >
             <Route path="features" element={<TruckFeatures />} />
@@ -161,6 +133,47 @@ useEffect(() => {
 
 
 
+
+// Пробува такий маршрут але чат пише що поки не варто додав перевірку на ФЕРСТ візіт
+
+            /* Додаю додатковий маршрут(його раніше не було) для НЕ зарегестрованого Юзера */
+            // <Route path="/catalog" element={<PrivateRoute redirectTo="/register" component={() => <TruckPageFilters />} />} />
+          
+
+
+//   useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//   console.log("📌 accessToken:", accessToken);
+
+//   const savedToken = localStorage.getItem("jwt-token");
+//     console.log("📦 Token from LocalStorage:", savedToken);
+//     if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
+    
+//     if (!isLoggedIn && !isRefreshing) {
+//       console.log("🚀 Redirecting to login");
+//       navigate("/login", { replace: true });
+//     return;
+//     }
+//     if (isLoggedIn && isRefreshing) {
+//       console.log("🚀 Redirecting to login");
+//       navigate("/catalog", { replace: true });
+//     return;
+//   }
+
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+// цей варіант блокує перехід далі по АЙДІ!!!
+// 🟢 Якщо користувач залогінений, але ще не в каталозі – перенаправляємо
+  // if (isLoggedIn && location.pathname !== "/catalog") {
+  //   console.log("🚀 Redirecting to /catalog");
+  //   // setTimeout(() => navigate("/catalog", { replace: true }), 100);
+  //   navigate("/catalog", { replace: true });
+  // }
 
 
 //   useEffect(() => {
