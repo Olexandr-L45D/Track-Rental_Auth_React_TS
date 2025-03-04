@@ -24,11 +24,26 @@ const RegisterPage = (): JSX.Element => {
     dispatch(setToken({ accessToken: token }));
   }
 
-  if (isLoggedIn) {
+  if (isLoggedIn && location.pathname === "/register") {
     console.log("🚀 User is logged in! Navigating to /catalog");
     navigate("/catalog", { replace: true });
   }
-}, [dispatch, navigate, isLoggedIn]);
+}, [dispatch, navigate, isLoggedIn, location.pathname]);
+
+//   useEffect(() => {
+//   console.log("🟢 RegisterPage useEffect triggered");
+
+//   const token = localStorage.getItem("jwt-token");
+//   if (token) {
+//     console.log("📦 Loaded token from LocalStorage:", token);
+//     dispatch(setToken({ accessToken: token }));
+//   }
+
+//   if (isLoggedIn) {
+//     console.log("🚀 User is logged in! Navigating to /catalog");
+//     navigate("/catalog", { replace: true });
+//   }
+// }, [dispatch, navigate, isLoggedIn]);
 
 
   return (

@@ -23,6 +23,14 @@ import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
 
+// Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан
+//Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
+/// <reference lib="dom" />
+declare global {
+  interface Window {
+    redirected?: boolean;
+  }
+}
 
 export default function App() {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -32,48 +40,95 @@ export default function App() {
   const user = useSelector((state: RootState) => state.auth.user);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const location = useLocation();
-  
 
 useEffect(() => {
   console.log("🟢 useEffect TRIGGERED (Token Check)");
   console.log("📌 Поточний маршрут:", location.pathname);
   console.log("📌 isLoggedIn:", isLoggedIn);
   console.log("📌 accessToken:", accessToken);
+  console.log("⚠️ Already redirected:", window.redirected);
+  console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
 
-  const savedToken = localStorage.getItem("jwt-token");
-  console.log("📦 Token from LocalStorage:", savedToken);
-
-  if (savedToken && !accessToken) {
-    console.log("📦 Loaded token from LocalStorage:", savedToken);
-    dispatch(setToken({ accessToken: savedToken, user }));
+  if (window.redirected) {
+    console.log("🛑 Skipping redirect, already redirected.");
+    return;
   }
 
- // 🟢 Перевіряємо, чи це перший візит (якщо "firstVisit" ще не записано)
-  if (!localStorage.getItem("firstVisit")) {
+  const isFirstVisit = !localStorage.getItem("firstVisit");
+
+  if (isFirstVisit) {
     console.log("🔥 First visit detected! Saving flag...");
     localStorage.setItem("firstVisit", "true");
 
-    // Якщо користувач не залогінений, відправляємо його на реєстрацію
     if (!isLoggedIn && !isRefreshing) {
-      console.log("🚀 Redirecting to /register (first visit)");
-      navigate("/register", { replace: true });
+      console.log("⏳ Redirecting to / (home)...");
+      window.redirected = true;
+      navigate("/", { replace: true });
       return;
     }
   }
 
-  // 🔵 Якщо користувач не залогінений і намагається зайти в закритий розділ → відправляємо на логін
-  if (!isLoggedIn && !isRefreshing && location.pathname !== "/register") {
-    console.log("🚀 Redirecting to /login");
+  if (!isLoggedIn && !isRefreshing && location.pathname !== "/register" && location.pathname !== "/") {
+    console.log("🔄 Redirecting to /login...");
+    window.redirected = true;
     navigate("/login", { replace: true });
     return;
   }
-      if (isLoggedIn && isRefreshing) {
-      console.log("🚀 Redirecting to /catalog");
-      navigate("/catalog", { replace: true });
+
+  if (isLoggedIn) {
+    console.log("🚀 Redirecting to /catalog");
+    navigate("/catalog", { replace: true });
     return;
   }
 
-}, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+}, [isLoggedIn, isRefreshing, navigate, location.pathname]);
+
+//   useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//   console.log("📌 accessToken:", accessToken);
+//   console.log("⚠️ Already redirected:", window.redirected);
+//   console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
+
+//   if (window.redirected) {
+//     console.log("🛑 Skipping redirect, already redirected.");
+//     return;
+//   }
+
+//   if (!localStorage.getItem("firstVisit")) {
+//     console.log("🔥 First visit detected! Saving flag...");
+//     localStorage.setItem("firstVisit", "true");
+
+
+    
+//     if (!isLoggedIn && !isRefreshing) {
+//       console.log("⏳ Redirecting to /register in 100ms...");
+//       window.redirected = true;
+
+//       setTimeout(() => {
+//         console.log("🚀 Now navigating to /register");
+//         navigate("/register", { replace: true });
+//       }, 100);
+
+//       return;
+//     }
+//   }
+
+//   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register") {
+//     console.log("🔄 Checking redirect to /login...");
+//     window.redirected = true;
+//     navigate("/login", { replace: true });
+//     return;
+//   }
+
+//   if (isLoggedIn && isRefreshing) {
+//     console.log("🚀 Redirecting to /catalog");
+//     navigate("/catalog", { replace: true });
+//     return;
+//   }
+
+// }, [isLoggedIn, isRefreshing, navigate, location.pathname]);
 
   
   if (isRefreshing) {
@@ -130,6 +185,95 @@ useEffect(() => {
   );
 };
 
+
+  //  цей юзефект з записсом в СеіюСторедж sessionStorage.getItem("alreadyRedirected"));
+//   useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//     console.log("📌 accessToken:", accessToken);
+//    console.log("⚠️ Already redirected (sessionStorage):", sessionStorage.getItem("alreadyRedirected"));
+//     console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
+    
+//     // 🛑 Якщо ми вже перенаправляли на /register, більше не робимо редіректи
+//   if (sessionStorage.getItem("alreadyRedirected")) {
+//     console.log("🛑 Skipping redirect, already redirected.");
+//     return;
+//   }
+
+//   if (!localStorage.getItem("firstVisit")) {
+//     console.log("🔥 First visit detected! Saving flag...");
+//     localStorage.setItem("firstVisit", "true");
+
+//   if (!isLoggedIn && !isRefreshing) {
+//       console.log("⏳ Redirecting to /register in 100ms...");
+//       sessionStorage.setItem("alreadyRedirected", "true");
+
+//       setTimeout(() => {
+//         console.log("🚀 Now navigating to /register");
+//         navigate("/register", { replace: true });
+//       }, 100);
+
+//       return;
+//     }
+//   }
+
+//   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register") {
+//     console.log("🔄 Checking redirect to /login...");
+//     sessionStorage.setItem("alreadyRedirected", "true");
+//     navigate("/login", { replace: true });
+//     return;
+//   }
+
+//   if (isLoggedIn && isRefreshing) {
+//     console.log("🚀 Redirecting to /catalog");
+//     navigate("/catalog", { replace: true });
+//     return;
+//   }
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
+
+
+// useEffect(() => {
+//   console.log("🟢 useEffect TRIGGERED (Token Check)");
+//   console.log("📌 Поточний маршрут:", location.pathname);
+//   console.log("📌 isLoggedIn:", isLoggedIn);
+//   console.log("📌 accessToken:", accessToken);
+
+//   const savedToken = localStorage.getItem("jwt-token");
+//   console.log("📦 Token from LocalStorage:", savedToken);
+//   console.log("📦 First visit flag:", localStorage.getItem("firstVisit")); // 🛠 Додаємо лог
+  
+//   if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
+
+//  // 🟢 Перевіряємо, чи це перший візит (якщо "firstVisit" ще не записано)
+//   if (!localStorage.getItem("firstVisit")) {
+//     console.log("🔥 First visit detected! Saving flag...");
+//     localStorage.setItem("firstVisit", "true");
+
+//     // Якщо користувач не залогінений, відправляємо його на реєстрацію
+//     if (!isLoggedIn && !isRefreshing) {
+//       console.log("🚀 Redirecting to /register (first visit)");
+//       navigate("/register", { replace: true });
+//       return;
+//     }
+//   }
+
+//   // 🔵 Якщо користувач не залогінений і намагається зайти в закритий розділ → відправляємо на логін
+//   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register") {
+//     console.log("🚀 Redirecting to /login");
+//     navigate("/login", { replace: true });
+//     return;
+//   }
+//       if (isLoggedIn && isRefreshing) {
+//       console.log("🚀 Redirecting to /catalog");
+//       navigate("/catalog", { replace: true });
+//     return;
+//   }
+
+// }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
 
 

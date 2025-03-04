@@ -12,17 +12,20 @@ export default function HomePage(): JSX.Element {
   const navigate = useNavigate();
   const [showAuth, setShowAuth] = useState(false);
 // Якщо користувач залогінений  перекидаємо на /catalog
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/catalog");
-    }
-  }, [isLoggedIn, navigate]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate("/catalog");
+  //   }
+  // }, [isLoggedIn, navigate]);
   
   return (
     <div className={css.background}>
       <section className={css.card}>
         <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
         <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>
+        {!isLoggedIn && (
+        <button onClick={() => navigate("/register")}>Register</button>
+      )}
         <section className={css.cartBtn}>
 
           {/* <Link to="/catalog">
@@ -38,3 +41,4 @@ export default function HomePage(): JSX.Element {
     </div>
   );
 };
+

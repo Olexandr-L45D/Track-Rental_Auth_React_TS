@@ -1,8 +1,7 @@
 
-// import { RootState } from "../redux/store";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../redux/auth/selectors";
+import { RootState } from "../redux/store";
 
 interface PrivateRouteProps {
   // component: () => JSX.Element;
@@ -11,16 +10,22 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ component, redirectTo }: PrivateRouteProps): JSX.Element {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
 
-  console.log("🔍 PrivateRoute check: isLoggedIn =", isLoggedIn);
+  if (isRefreshing) {
+    return <p>Loading...</p>; // Або спінер
+  }
+
+  // console.log("🔍 PrivateRoute check: isLoggedIn =", isLoggedIn);
 
   if (!isLoggedIn) {
-    console.log("❌ User not logged in! Redirecting to", redirectTo);
+    // console.log("❌ User not logged in! Redirecting to", redirectTo);
     return <Navigate to={redirectTo} />;
   }
 
-  console.log("✅ User logged in! Rendering component.");
+  // console.log("✅ User logged in! Rendering component.");
   return typeof component === "function" ? component() : component; // ✅ Виконуємо функцію, якщо це функція
 };
 

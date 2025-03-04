@@ -4,21 +4,30 @@ import css from "./LoginPage.module.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import { RootState } from "../../redux/store";
 
 const LoginPage = (): JSX.Element => {
   const { t } = useTranslation();
   const [attempts, setAttempts] = useState(0);
-   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("🔄 Checking isLoggedIn in LoginPage:", isLoggedIn);
-    if (isLoggedIn) {
-      console.log("✅ User is logged in! Navigating to /catalog...");
-      navigate("/catalog", { replace: true });
-    }
-  }, [isLoggedIn, navigate]);
+  console.log("🔄 Checking isLoggedIn in LoginPage:", isLoggedIn);
+
+  if (isLoggedIn && location.pathname === "/login") {
+    console.log("✅ User is logged in! Navigating to /catalog...");
+    navigate("/catalog", { replace: true });
+  }
+}, [isLoggedIn, navigate, location.pathname]);
+
+  // useEffect(() => {
+  //   console.log("🔄 Checking isLoggedIn in LoginPage:", isLoggedIn);
+  //   if (isLoggedIn) {
+  //     console.log("✅ User is logged in! Navigating to /catalog...");
+  //     navigate("/catalog", { replace: true });
+  //   }
+  // }, [isLoggedIn, navigate]);
  
    return (
     <section className={css.background}>

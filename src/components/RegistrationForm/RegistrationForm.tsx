@@ -42,46 +42,6 @@ const validationSchema = Yup.object({
     .min(6, "Min 6 chars")
     .required(" Password is Required"),
 });
-
-//   const handleRegister = async (values: UsRegisterVelues,
-//     { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
-//     // Очищення пробілів перед відправкою
-//   const trimmedValues = {
-//     name: values.name.trim(),
-//     email: values.email.trim(),
-//     password: values.password.trim(),
-//     };
-//    try {
-//      const registerResponse = await dispatch(register(trimmedValues)).unwrap();
-//      toast.success("You have successfully registered!");
-    
-//   //    if (registerResponse && "payload" in registerResponse && registerResponse.payload?.data?.accessToken) {
-//   // window.location.reload();
-//   //    }
-     
-//      if (registerResponse && "payload" in registerResponse && registerResponse.payload?.accessToken) {
-//   window.location.reload();
-// }
-
-//     if (registerResponse.status === 201) {
-//       console.log("REGISTER SUCCESS:", registerResponse);
-//       toast.success("You have successfully registered!");
-//       navigate("/catalog");
-//       console.log("Auth response:", registerResponse); // Перевіримо, що приходить
-  
-//      }
-     
-//     } catch (error: any) {
-//     if (error.response?.status === 409) {
-//       toast.error("This email is already in use. Try logging in.");
-//     } else {
-//       toast.error("Try again more carefully!");
-//     }
-//   } finally {
-//     setSubmitting(false);
-//     resetForm();
-//   }
-  //   };
   
   const handleRegister = async (
   values: UsRegisterVelues,
@@ -201,11 +161,52 @@ const validationSchema = Yup.object({
 // "123Sidor552g"
 
 // email
-// : 
+// :
 // "Alina_Sidora234.LenaOl1552@gmail.com"
 // name
-// : 
+// :
 // "Olena"
 // password
-// : 
+// :
 // "123Sidor55"
+
+
+//   const handleRegister = async (values: UsRegisterVelues,
+//     { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>) => {
+//     // Очищення пробілів перед відправкою
+//   const trimmedValues = {
+//     name: values.name.trim(),
+//     email: values.email.trim(),
+//     password: values.password.trim(),
+//     };
+//    try {
+//      const registerResponse = await dispatch(register(trimmedValues)).unwrap();
+//      toast.success("You have successfully registered!");
+    
+//   //    if (registerResponse && "payload" in registerResponse && registerResponse.payload?.data?.accessToken) {
+//   // window.location.reload();
+//   //    }
+     
+//      if (registerResponse && "payload" in registerResponse && registerResponse.payload?.accessToken) {
+//   window.location.reload();
+// }
+
+//     if (registerResponse.status === 201) {
+//       console.log("REGISTER SUCCESS:", registerResponse);
+//       toast.success("You have successfully registered!");
+//       navigate("/catalog");
+//       console.log("Auth response:", registerResponse); // Перевіримо, що приходить
+  
+//      }
+     
+//     } catch (error: any) {
+//     if (error.response?.status === 409) {
+//       toast.error("This email is already in use. Try logging in.");
+//     } else {
+//       toast.error("Try again more carefully!");
+//     }
+//   } finally {
+//     setSubmitting(false);
+//     resetForm();
+//   }
+  //   };

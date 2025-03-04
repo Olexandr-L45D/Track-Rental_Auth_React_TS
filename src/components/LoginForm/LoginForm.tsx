@@ -33,8 +33,7 @@ interface LoginFormProps {
 };
 // export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
 export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
-  // const dispatch: AppDispatch = useDispatch();
-  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  
   const [isModalOpen, setIsModalOpen] = useState(false); // <-- Стан модального вікна
   const isLoading = useSelector(selectIsLoading);
   const dispatch: AppThunkDispatch = useDispatch();
