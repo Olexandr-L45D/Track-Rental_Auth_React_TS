@@ -17,7 +17,7 @@
 }
 
 .items {
-    width: 300px;
+    width: 290px;
     height: auto;
     /* height: 30px; */
     margin: 5px;
@@ -71,7 +71,7 @@
 
 .inp {
     width: 100%;
-    height: 30px;
+    height: 35px;
     margin-bottom: 16px;
     padding: 2px;
 }
@@ -109,12 +109,34 @@
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+    /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); */
+}
+
+.inpPas {
+    width: 100%;
+    /* flex-grow: 1; */
+    height: 35px;
+    margin-bottom: 16px;
+    padding: 2px;
+    padding-right: 40px;
+    /* Відступ для іконки */
 }
 
 .togglePasswordBtn {
-    margin-left: 10px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    display: flex;
+    align-items: top;
+    justify-content: top;
+    text-align: top;
+    padding: 0px;
+    /* margin-bottom: 20px; */
+    z-index: 1;
+    /* z-index: 1; - високий рівень щоб кнопка не ховалась під іншими компонентами */
 }

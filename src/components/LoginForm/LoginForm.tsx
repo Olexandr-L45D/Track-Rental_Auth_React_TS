@@ -128,7 +128,7 @@ const handleSubmit = async (
               <label className={css.label}>Password</label>
               <div className={css.passwordWrapper}>
                 <Field
-                  className={css.inp}
+                  className={css.inpPas}
                    type={showPassword ? "text" : "password"} // <-- Міняємо тип поля  при натисканні - відображаю пароль
                   name="password"
                   placeholder="Please enter a strong password..."

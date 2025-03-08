@@ -30,8 +30,8 @@ export default function RestrictedRoute({ component, redirectTo }: RestrictedRou
     console.log("🔄 User already logged in! Redirecting to", redirectTo);
     return <Navigate to={redirectTo} />;
   }
-
-  return typeof component === "function" ? component() : component;
+ return isLoggedIn ? (<Navigate to={redirectTo} replace />) : (typeof component === "function" ? component() : component);
+  // return typeof component === "function" ? component() : component;
 }
 
 
