@@ -12,14 +12,16 @@ interface PrivateRouteProps {
 export default function PrivateRoute({ component, redirectTo }: PrivateRouteProps): JSX.Element {
   
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
-
+  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
+   console.log("🔒 PrivateRoute check:", { isLoggedIn, isRefreshing });
+  // ⏳ Поки йде оновлення стану, не редиректимо
   if (isRefreshing) {
     return <p>Loading...</p>; // Або спінер
   }
-
-  // console.log("🔍 PrivateRoute check: isLoggedIn =", isLoggedIn);
-
+// Якщо юзер не залогінений і на сторінці реєстрації чи логіну — пропускаємо
+  if (!isLoggedIn && (location.pathname === "/register" || location.pathname === "/login")) {
+    return typeof component === "function" ? component() : component;
+  }
   if (!isLoggedIn) {
     // console.log("❌ User not logged in! Redirecting to", redirectTo);
     return <Navigate to={redirectTo} />;

@@ -16,6 +16,7 @@ import { selectIsLoading } from "../../redux/auth/selectors";
 import ModalContainer from "../ModalContainer/ModalContainer";
 import SendResetEmailForm from "../SendResetEmailForm/SendResetEmailForm";
 import GoogleLoginButton from "../GoogleLoginButton/GoogleLoginButton";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
  interface UsLoginVelues { 
     email: string;
@@ -39,6 +40,7 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
   const dispatch: AppThunkDispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -120,17 +122,28 @@ const handleSubmit = async (
               placeholder="Enter login..."
             />
           </div>
-           <ErrorMessage name="email" component="div" className={css.errorMessage} />
+          <ErrorMessage name="email" component="div" className={css.errorMessage} />
+
           <div className={css.items}>
-            <label className={css.label}>Password</label>
-            <Field
-              className={css.inp}
-              type="password"
-              name="password"
-              placeholder="Please enter a strong password..."
-            />
-          </div>
-                      <ErrorMessage name="password" component="div" className={css.errorMessage} />
+              <label className={css.label}>Password</label>
+              <div className={css.passwordWrapper}>
+                <Field
+                  className={css.inp}
+                   type={showPassword ? "text" : "password"} // <-- Міняємо тип поля  при натисканні - відображаю пароль
+                  name="password"
+                  placeholder="Please enter a strong password..."
+                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className={css.togglePasswordBtn}
+                >
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                </button>
+              </div>
+            </div>
+            <ErrorMessage name="password" component="div" className={css.errorMessage} />
+            
           <div className={css.btn}>
             <button className={css.LoginForm} type="submit">
                {isLoading ? <Loader /> : t("auth.btnLog")}
@@ -143,12 +156,12 @@ const handleSubmit = async (
       </Formik>
       <div className={css.btnBlokBot}>
         <div className={css.LoginBtnGoogle} >
-        <GoogleLoginButton>Sign In with Google</GoogleLoginButton>
+        <GoogleLoginButton >Sign In with Google</GoogleLoginButton>
        </div>
   
      <button className={css.LoginForm} type="button">
-        <Link to="/logout" className={css.link}>
-          Logout
+          <Link to="/logout" className={css.link}>
+            {t("register.titleLogout")}
         </Link>
        </button>
         

@@ -32,8 +32,9 @@
    "titleRegistr": "АВТОРИЗАЦІЯ",
    "registerBtn": "ЗАРЕЄСТРУВАТИСЬ",
    "titleAuthen": "АУТЕНТИФІКАЦІЯ",
-   "titleEmail": "Електронний Лист",
-   "titlePassword": "Новий Пароь"
+   "titleEmail": "Лист",
+   "titlePassword": "Новий Пароь",
+   "titleLogout": "Вийти"
   },
   "login": {
    "titleLogin": "ФОРМА АВТОРИЗАЦІЇ"

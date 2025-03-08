@@ -35,7 +35,8 @@
    "registerBtn": "to register",
    "titleAuthen": "AUTHENTICATION",
    "titleEmail": "Reset Email",
-   "titlePassword": "Reset Password"
+   "titlePassword": "Reset Password",
+   "titleLogout": "Logout"
   },
   "login": {
    "titleLogin": "AUTHORIZATION FORM"

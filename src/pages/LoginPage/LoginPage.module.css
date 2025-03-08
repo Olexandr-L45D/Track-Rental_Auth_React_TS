@@ -9,6 +9,7 @@
 }
 
 .cartPage {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     text-align: center;

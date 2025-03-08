@@ -6,22 +6,11 @@ import { authReducer } from "./auth/slice";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 
-// ✅ Персистований редюсер
-
-// const persistedAuthReducer = persistReducer(
-//   {
-//     key: "jwt-token",
-//     storage,
-//     whitelist: ["accessToken", "user", "isLoggedIn"],
-//   },
-//   authReducer
-// );
-
 // ✅ Оновлений persistConfig
 const persistConfig = {
   key: "auth",
   storage,
-  whitelist: ["accessToken", "user", "isLoggedIn"], // ✅ Додано `isLoggedIn`
+  whitelist: ["accessToken", "user", "isLoggedIn"], // ✅ Додано `isLoggedIn`= Після оновлення сторінки isLoggedIn відновиться одразу з localStorage, а не після refreshUser.fulfilled.
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
