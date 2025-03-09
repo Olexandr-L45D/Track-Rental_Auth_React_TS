@@ -1,17 +1,35 @@
-import { Routes, Route, useNavigate, Navigate, Outlet, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
-const RegisterPage = lazy(() => import("../../pages/RegisterPage/RegisterPage"));
+const RegisterPage = lazy(
+  () => import("../../pages/RegisterPage/RegisterPage")
+);
 const TruckFeatures = lazy(() => import("../TruckFeatures/TruckFeatures"));
 const TruckReviews = lazy(() => import("../TruckReviews/TruckReviews"));
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
-const TruckPageFilters = lazy(() => import("../../pages/TruckPageFilters/TruckPageFilters"));
-const TruckDetalsPage = lazy(() => import("../../pages/TruckDetalsPage/TruckDetalsPage"));
-const SendEmailConfirmationPage = lazy(() => import("../../pages/SendEmailConfirmationPage/SendEmailConfirmationPage"));
-const ResetPasswordPage = lazy(() => import("../../pages/ResetPasswordPage/ResetPasswordPage"));
+const TruckPageFilters = lazy(
+  () => import("../../pages/TruckPageFilters/TruckPageFilters")
+);
+const TruckDetalsPage = lazy(
+  () => import("../../pages/TruckDetalsPage/TruckDetalsPage")
+);
+const SendEmailConfirmationPage = lazy(
+  () =>
+    import("../../pages/SendEmailConfirmationPage/SendEmailConfirmationPage")
+);
+const ResetPasswordPage = lazy(
+  () => import("../../pages/ResetPasswordPage/ResetPasswordPage")
+);
 const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
-const GoogleRedirectHandler = lazy(() =>
-  import('../../pages/GoogleRedirectHandler'),
+const GoogleRedirectHandler = lazy(
+  () => import("../../pages/GoogleRedirectHandler")
 );
 
 import { Layout } from "../Layout/Layout";
@@ -36,161 +54,119 @@ export default function App() {
   const dispatch: AppThunkDispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
+  const isRefreshing = useSelector(
+    (state: RootState) => state.auth.isRefreshing
+  );
   const user = useSelector((state: RootState) => state.auth.user);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const location = useLocation();
   // const hasRedirected = useRef(false);
   const [hasRedirected, setHasRedirected] = useState(false);
 
+  // useEffect(() => {
+  //   console.log("🟢 useEffect TRIGGERED (Token Check)");
+  //   console.log("📌 Поточний маршрут:", location.pathname);
+  //   console.log("📌 isLoggedIn:", isLoggedIn);
+  //   console.log("📌 accessToken:", accessToken);
+  //   console.log("⚠️ Already redirected:", hasRedirected);
+  //   console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
 
-useEffect(() => {
-  console.log("🟢 useEffect TRIGGERED (Token Check)");
-  console.log("📌 Поточний маршрут:", location.pathname);
-  console.log("📌 isLoggedIn:", isLoggedIn);
-  console.log("📌 accessToken:", accessToken);
-  console.log("⚠️ Already redirected:", hasRedirected);
-  console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
+  //   if (hasRedirected) {
+  //     console.log("🛑 Skipping redirect, already redirected.");
+  //     return;
+  //   }
 
-  if (hasRedirected) {
-    console.log("🛑 Skipping redirect, already redirected.");
-    return;
-  }
+  //   const isFirstVisit = !localStorage.getItem("firstVisit");
 
-  const isFirstVisit = !localStorage.getItem("firstVisit");
+  //   if (isFirstVisit) {
+  //     console.log("🔥 First visit detected! Saving flag...");
+  //     localStorage.setItem("firstVisit", "true");
 
-  if (isFirstVisit) {
-    console.log("🔥 First visit detected! Saving flag...");
-    localStorage.setItem("firstVisit", "true");
+  //     if (!isLoggedIn && !isRefreshing) {
+  //       console.log("⏳ Redirecting to /register...");
+  //       setHasRedirected(true);
+  //       navigate("/register", { replace: true });
+  //       return;
+  //     }
+  //   }
 
-    if (!isLoggedIn && !isRefreshing) {
-      console.log("⏳ Redirecting to /register...");
-      setHasRedirected(true);
-      navigate("/register", { replace: true });
-      return;
-    }
-  }
+  //   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register" && location.pathname !== "/") {
+  //     console.log("🔄 Redirecting to /login...");
+  //     setHasRedirected(true);
+  //     navigate("/login", { replace: true });
+  //     return;
+  //   }
 
-  if (!isLoggedIn && !isRefreshing && location.pathname !== "/register" && location.pathname !== "/") {
-    console.log("🔄 Redirecting to /login...");
-    setHasRedirected(true);
-    navigate("/login", { replace: true });
-    return;
-  }
+  //   if (isLoggedIn) {
+  //     console.log("🚀 Redirecting to /catalog");
+  //     setHasRedirected(true);
+  //     navigate("/catalog", { replace: true });
+  //     return;
+  //   }
 
-  if (isLoggedIn) {
-    console.log("🚀 Redirecting to /catalog");
-    setHasRedirected(true);
-    navigate("/catalog", { replace: true });
-    return;
-  }
-
-}, [isLoggedIn, isRefreshing, navigate, location.pathname, hasRedirected]);
-
-// useEffect(() => {
-//   console.log("🟢 useEffect TRIGGERED (Token Check)");
-//   console.log("📌 Поточний маршрут:", location.pathname);
-//   console.log("📌 isLoggedIn:", isLoggedIn);
-//   console.log("📌 accessToken:", accessToken);
-//   // console.log("⚠️ Already redirected:", hasRedirected.current);
-//   console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
-
-//   if (hasRedirected.current) {
-//     console.log("🛑 Skipping redirect, already redirected.");
-//     return;
-//   }
-
-//   const isFirstVisit = !localStorage.getItem("firstVisit");
-
-//   if (isFirstVisit) {
-//   console.log("🔥 First visit detected! Saving flag...");
-//   localStorage.setItem("firstVisit", "true");
-
-//   if (!isLoggedIn && !isRefreshing) {
-//     console.log("⏳ Redirecting to /register...");
-//     setTimeout(() => {
-//       hasRedirected.current = true;
-//       navigate("/register", { replace: true });
-//     }, 100);  // Затримка в 100 мс
-//     return;
-//   }
-// }
-
-//   // if (isFirstVisit) {
-//   //   console.log("🔥 First visit detected! Saving flag...");
-//   //   localStorage.setItem("firstVisit", "true");
-
-//   //   if (!isLoggedIn && !isRefreshing) {
-//   //     console.log("⏳ Redirecting to /register...");
-//   //     hasRedirected.current = true;
-//   //     navigate("/register", { replace: true });
-//   //     return;
-//   //   }
-//   // }
-
-//   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register" && location.pathname !== "/") {
-//     console.log("🔄 Redirecting to /login...");
-//     hasRedirected.current = true;
-//     navigate("/login", { replace: true });
-//     return;
-//   }
-
-//   if (isLoggedIn) {
-//     console.log("🚀 Redirecting to /catalog");
-//     hasRedirected.current = true;
-//     navigate("/catalog", { replace: true });
-//     return;
-//   }
-
-// }, [isLoggedIn, isRefreshing, navigate, location.pathname]);
-
-  
-  
-  if (isRefreshing) {
-    return <Loader />;
-  }
+  // }, [isLoggedIn, isRefreshing, navigate, location.pathname, hasRedirected]);
 
   return isRefreshing ? (
-    <b>Refreshing user ...</b>
+    <Loader />
   ) : (
     <Layout>
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Головна сторінка */}
-            <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
 
-            {/* Захищені маршрути */}
-          <Route path="/catalog" element={<PrivateRoute redirectTo="/login" component={() => <TruckPageFilters />} />} />
-          <Route path="/catalog/:id" element={<PrivateRoute redirectTo="/login" component={() => <TruckDetalsPage />} />} >
+          {/* Захищені маршрути */}
+          <Route
+            path="/catalog"
+            element={
+              <PrivateRoute redirectTo="/login" component={TruckPageFilters} />
+            }
+          />
+          <Route
+            path="/catalog/:id"
+            element={
+              <PrivateRoute redirectTo="/login" component={TruckDetalsPage} />
+            }
+          >
             <Route path="features" element={<TruckFeatures />} />
             <Route path="reviews" element={<TruckReviews />} />
           </Route>
 
           {/* Доступні тільки для НЕ залогінених */}
-          <Route path="/register" element={<RestrictedRoute redirectTo="/catalog" component={() => <RegisterPage />} />} />
-          <Route path="/login" element={<RestrictedRoute redirectTo="/catalog" component={() => <LoginPage />} />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute redirectTo="/catalog" component={RegisterPage} />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute redirectTo="/catalog" component={LoginPage} />
+            }
+          />
 
-            {/* Форми скидання пароля */}
-            <Route
+          {/* Форми скидання пароля */}
+          {/* <Route
               path="/confirm-email"
               element={
                 <RestrictedRoute
-                  component={<SendEmailConfirmationPage />}
+                  component={SendEmailConfirmationPage }
                   redirectTo="/catalog"
                 />
               }
-            />
-      
-            <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={() => <ResetPasswordPage />} />} />
+            /> */}
+
+          {/* <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={ResetPasswordPage} />} />
             <Route
               path="/confirm-oauth"
               element={
                 <RestrictedRoute
-                  component={<GoogleRedirectHandler />}
+                  component={GoogleRedirectHandler}
                   redirectTo="/catalog"
                 />
               }
-            />
+            /> */}
 
           {/* Сторінка 404 */}
           <Route path="*" element={<NotFoundPage />} />
@@ -198,10 +174,7 @@ useEffect(() => {
       </Suspense>
     </Layout>
   );
-};
-
-
-
+}
 
 //   useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -244,7 +217,6 @@ useEffect(() => {
 //   }
 
 // }, [isLoggedIn, isRefreshing, navigate, location.pathname]);
-
 
 // useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -305,8 +277,6 @@ useEffect(() => {
 //     console.log("🔥 First visit detected! Saving flag...");
 //     localStorage.setItem("firstVisit", "true");
 
-
-    
 //     if (!isLoggedIn && !isRefreshing) {
 //       console.log("⏳ Redirecting to /register in 100ms...");
 //       window.redirected = true;
@@ -335,7 +305,7 @@ useEffect(() => {
 
 // }, [isLoggedIn, isRefreshing, navigate, location.pathname]);
 
-  //  цей юзефект з записсом в СеіюСторедж sessionStorage.getItem("alreadyRedirected"));
+//  цей юзефект з записсом в СеіюСторедж sessionStorage.getItem("alreadyRedirected"));
 //   useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
 //   console.log("📌 Поточний маршрут:", location.pathname);
@@ -343,7 +313,7 @@ useEffect(() => {
 //     console.log("📌 accessToken:", accessToken);
 //    console.log("⚠️ Already redirected (sessionStorage):", sessionStorage.getItem("alreadyRedirected"));
 //     console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
-    
+
 //     // 🛑 Якщо ми вже перенаправляли на /register, більше не робимо редіректи
 //   if (sessionStorage.getItem("alreadyRedirected")) {
 //     console.log("🛑 Skipping redirect, already redirected.");
@@ -381,7 +351,6 @@ useEffect(() => {
 //   }
 // }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
-
 // useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
 //   console.log("📌 Поточний маршрут:", location.pathname);
@@ -391,7 +360,7 @@ useEffect(() => {
 //   const savedToken = localStorage.getItem("jwt-token");
 //   console.log("📦 Token from LocalStorage:", savedToken);
 //   console.log("📦 First visit flag:", localStorage.getItem("firstVisit")); // 🛠 Додаємо лог
-  
+
 //   if (savedToken && !accessToken) {
 //     console.log("📦 Loaded token from LocalStorage:", savedToken);
 //     dispatch(setToken({ accessToken: savedToken, user }));
@@ -424,15 +393,10 @@ useEffect(() => {
 
 // }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
 
-
-
-
 // Пробува такий маршрут але чат пише що поки не варто додав перевірку на ФЕРСТ візіт
 
-            /* Додаю додатковий маршрут(його раніше не було) для НЕ зарегестрованого Юзера */
-            // <Route path="/catalog" element={<PrivateRoute redirectTo="/register" component={() => <TruckPageFilters />} />} />
-          
-
+/* Додаю додатковий маршрут(його раніше не було) для НЕ зарегестрованого Юзера */
+// <Route path="/catalog" element={<PrivateRoute redirectTo="/register" component={() => <TruckPageFilters />} />} />
 
 //   useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -446,7 +410,7 @@ useEffect(() => {
 //     console.log("📦 Loaded token from LocalStorage:", savedToken);
 //     dispatch(setToken({ accessToken: savedToken, user }));
 //   }
-    
+
 //     if (!isLoggedIn && !isRefreshing) {
 //       console.log("🚀 Redirecting to login");
 //       navigate("/login", { replace: true });
@@ -462,12 +426,11 @@ useEffect(() => {
 
 // цей варіант блокує перехід далі по АЙДІ!!!
 // 🟢 Якщо користувач залогінений, але ще не в каталозі – перенаправляємо
-  // if (isLoggedIn && location.pathname !== "/catalog") {
-  //   console.log("🚀 Redirecting to /catalog");
-  //   // setTimeout(() => navigate("/catalog", { replace: true }), 100);
-  //   navigate("/catalog", { replace: true });
-  // }
-
+// if (isLoggedIn && location.pathname !== "/catalog") {
+//   console.log("🚀 Redirecting to /catalog");
+//   // setTimeout(() => navigate("/catalog", { replace: true }), 100);
+//   navigate("/catalog", { replace: true });
+// }
 
 //   useEffect(() => {
 //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -488,7 +451,6 @@ useEffect(() => {
 //     dispatch(setToken({ accessToken: savedToken, user }));
 //   }
 // }, [accessToken, isLoggedIn, isRefreshing, dispatch, navigate, location.pathname]);
-
 
 //   useEffect(() => {
 //   console.log("📌 useEffect triggered!");
@@ -514,112 +476,100 @@ useEffect(() => {
 
 // }, [isLoggedIn, isRefreshing, location.pathname, navigate]);
 
+// useEffect(() => {
 
+//   if (!isLoggedIn && location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login") {
+//     console.log("🚀 Redirecting to home page `/`");
+//     navigate("/", { replace: true });
+//     return;
+//   }
+//   // 2️⃣ Якщо юзер залогінений і не рефрешиться, але ще НЕ в каталозі → перекидаємо в каталог 12345Alex
+//   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
+//     console.log("🚀 User just logged in! Navigating to /catalog");
+//     // ✅ Даємо Redux час оновити стан перед редіректом
+//     navigate("/catalog", { replace: true });
+//   }
 
-  // useEffect(() => {
- 
+//   const savedToken = localStorage.getItem("jwt-token");
 
-  //   if (!isLoggedIn && location.pathname !== "/" && location.pathname !== "/register" && location.pathname !== "/login") {
-  //     console.log("🚀 Redirecting to home page `/`");
-  //     navigate("/", { replace: true });
-  //     return;
-  //   }
-  //   // 2️⃣ Якщо юзер залогінений і не рефрешиться, але ще НЕ в каталозі → перекидаємо в каталог 12345Alex
-  //   if (isLoggedIn && !isRefreshing && location.pathname !== "/catalog") {
-  //     console.log("🚀 User just logged in! Navigating to /catalog");
-  //     // ✅ Даємо Redux час оновити стан перед редіректом
-  //     navigate("/catalog", { replace: true });
-  //   }
+//   if (!isLoggedIn) {
+//     console.log("🚪 User logged out, skipping token restore.");
+//     return;
+//   }
+//   if (savedToken && !accessToken) {
+//     console.log("📦 Loaded token from LocalStorage:", savedToken);
+//     dispatch(setToken({ accessToken: savedToken, user }));
+//   }
 
-  //   const savedToken = localStorage.getItem("jwt-token");
+// return (
+//   <div>
+//     <ToastContainer limit={3} />
+//     <SharedLayout>
+//       <Suspense fallback={<Loader />}>
+//         <Routes>
+//           <Route path="/welcome" element={<WelcomePage />} />
+//           <Route
+//             index
+//             element={
+//               <RestrictedRoute
+//                 redirectTo="/home"
+//                 component={<WelcomePage />}
+//               />
+//             }
+//           />
+//           <Route
+//             path="/signup"
+//             element={
+//               <RestrictedRoute component={<SignupPage />} redirectTo="/" />
+//             }
+//           />
+//           <Route
+//             path="/confirm-email"
+//             element={
+//               <RestrictedRoute
+//                 component={<ConfirmEmailPage />}
+//                 redirectTo="/home"
+//               />
+//             }
+//           />
 
-  //   if (!isLoggedIn) {
-  //     console.log("🚪 User logged out, skipping token restore.");
-  //     return;
-  //   }
-  //   if (savedToken && !accessToken) {
-  //     console.log("📦 Loaded token from LocalStorage:", savedToken);
-  //     dispatch(setToken({ accessToken: savedToken, user }));
-  //   }
+//           <Route
+//             path="/signin"
+//             element={
+//               <RestrictedRoute
+//                 component={<SigninPage />}
+//                 redirectTo="/home"
+//               />
+//             }
+//           />
+//           <Route
+//             path="/home"
+//             element={
+//               <PrivateRoute redirectTo="/signin" component={<HomePage />} />
+//             }
+//           />
+//           <Route
+//             path="/reset-pwd"
+//             element={
+//               <RestrictedRoute
+//                 redirectTo="/home"
+//                 component={<PasswordResetPage />}
+//               />
+//             }
+//           />
+//           <Route
+//             path="/googleauth"
+//             element={
+//               <RestrictedRoute
+//                 component={<GoogleRedirectHandler />}
+//                 redirectTo="/home"
+//               />
+//             }
+//           />
 
-  
-
-
-
- // return (
-  //   <div>
-  //     <ToastContainer limit={3} />
-  //     <SharedLayout>
-  //       <Suspense fallback={<Loader />}>
-  //         <Routes>
-  //           <Route path="/welcome" element={<WelcomePage />} />
-  //           <Route
-  //             index
-  //             element={
-  //               <RestrictedRoute
-  //                 redirectTo="/home"
-  //                 component={<WelcomePage />}
-  //               />
-  //             }
-  //           />
-  //           <Route
-  //             path="/signup"
-  //             element={
-  //               <RestrictedRoute component={<SignupPage />} redirectTo="/" />
-  //             }
-  //           />
-  //           <Route
-  //             path="/confirm-email"
-  //             element={
-  //               <RestrictedRoute
-  //                 component={<ConfirmEmailPage />}
-  //                 redirectTo="/home"
-  //               />
-  //             }
-  //           />
-
-  //           <Route
-  //             path="/signin"
-  //             element={
-  //               <RestrictedRoute
-  //                 component={<SigninPage />}
-  //                 redirectTo="/home"
-  //               />
-  //             }
-  //           />
-  //           <Route
-  //             path="/home"
-  //             element={
-  //               <PrivateRoute redirectTo="/signin" component={<HomePage />} />
-  //             }
-  //           />
-  //           <Route
-  //             path="/reset-pwd"
-  //             element={
-  //               <RestrictedRoute
-  //                 redirectTo="/home"
-  //                 component={<PasswordResetPage />}
-  //               />
-  //             }
-  //           />
-  //           <Route
-  //             path="/googleauth"
-  //             element={
-  //               <RestrictedRoute
-  //                 component={<GoogleRedirectHandler />}
-  //                 redirectTo="/home"
-  //               />
-  //             }
-  //           />
-
-  //           <Route path="*" element={<NotFoundPage />} />
-  //         </Routes>
-  //       </Suspense>
-  //     </SharedLayout>
-  //   </div>
-  // );
-
-
-
-
-
+//           <Route path="*" element={<NotFoundPage />} />
+//         </Routes>
+//       </Suspense>
+//     </SharedLayout>
+//   </div>
+// );

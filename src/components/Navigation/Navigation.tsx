@@ -2,9 +2,9 @@ import clsx from "clsx";
 import css from "./Navigation.module.css";
 import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
-import {Link, NavLink, NavLinkProps } from "react-router-dom";
-import {  useSelector } from "react-redux";
-import {  RootState } from "../../redux/store";
+import { Link, NavLink, NavLinkProps } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import  AuthorizationAuthentic  from "../AuthorizationAuthentic/AuthorizationAuthentic";
@@ -14,17 +14,16 @@ const newLinkClass: NavLinkProps["className"] = ({ isActive }) => {
 };
 
 export const Navigation = (): JSX.Element => {
-
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
-   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
   const navigate = useNavigate();
 
-   useEffect(() => {
-  if (!isLoggedIn) {
-    navigate("/login"); // Перенаправляємо без диспатчу до лоігну
-  }
-}, [isLoggedIn, navigate]);
+  //    useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate("/login"); // Перенаправляємо без диспатчу до лоігну
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("appLanguage") || "en";
@@ -38,7 +37,6 @@ export const Navigation = (): JSX.Element => {
     }
   };
 
-  
   return (
     <section className={css.container}>
       <div className={css.title}>
@@ -51,16 +49,14 @@ export const Navigation = (): JSX.Element => {
 
       <section className={css.card}>
         <nav className={css.nav}>
-          {
-            isLoggedIn && (
-          <NavLink to="/catalog" className={newLinkClass}>
-            {t("navigation.catalog")}
-          </NavLink>
-            )
-          }
+          {isLoggedIn && (
+            <NavLink to="/catalog" className={newLinkClass}>
+              {t("navigation.catalog")}
+            </NavLink>
+          )}
         </nav>
       </section>
-     
+
       <div className={css.languageSwitcher}>
         <button
           className={css.activeButton}
@@ -78,4 +74,3 @@ export const Navigation = (): JSX.Element => {
     </section>
   );
 };
-

@@ -1,39 +1,27 @@
-
-
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "../redux/auth/selectors";
 import { RootState } from "../redux/store";
 
 interface RestrictedRouteProps {
-  component: JSX.Element | (() => JSX.Element);
+  component: React.ComponentType;
   redirectTo: string;
 }
 
-export default function RestrictedRoute({ component, redirectTo }: RestrictedRouteProps): JSX.Element {
+export default function RestrictedRoute({
+  component: Component,
+  redirectTo,
+}: RestrictedRouteProps): JSX.Element {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
-  const location = useLocation();
+  // const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
+  // const location = useLocation();
 
-   console.log("🔍 RestrictedRoute check:", { isLoggedIn, isRefreshing, pathname: location.pathname });
+  console.log("🔍 RestrictedRoute check:", { isLoggedIn });
   // ⏳ Не редиректимо, поки триває рефреш
-  if (isRefreshing) {
-    return <p>Loading...</p>;
-  }
-// 🛑 Не редіректимо, якщо це сторінка реєстрації (або інша публічна)
-  if (location.pathname === "/register" || location.pathname === "/login") {
-    console.log("✅ Allowing access to", location.pathname);
-    return typeof component === "function" ? component() : component;
-  }
 
-  if (isLoggedIn) {
-    console.log("🔄 User already logged in! Redirecting to", redirectTo);
-    return <Navigate to={redirectTo} />;
-  }
- return isLoggedIn ? (<Navigate to={redirectTo} replace />) : (typeof component === "function" ? component() : component);
+  return isLoggedIn ? <Navigate to={redirectTo} replace /> : <Component />;
   // return typeof component === "function" ? component() : component;
 }
-
 
 // export default function RestrictedRoute({ component, redirectTo }: RestrictedRouteProps): JSX.Element {
 //  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -52,4 +40,36 @@ export default function RestrictedRoute({ component, redirectTo }: RestrictedRou
 //   return typeof component === "function" ? component() : component;
 // }
 
+// import { Navigate, useLocation } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { selectIsLoggedIn } from "../redux/auth/selectors";
+// import { RootState } from "../redux/store";
 
+// interface RestrictedRouteProps {
+//   component: JSX.Element | (() => JSX.Element);
+//   redirectTo: string;
+// }
+
+// export default function RestrictedRoute({ component, redirectTo }: RestrictedRouteProps): JSX.Element {
+//   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+//   const isRefreshing = useSelector((state: RootState) => state.auth.isRefreshing);
+//   const location = useLocation();
+
+//    console.log("🔍 RestrictedRoute check:", { isLoggedIn, isRefreshing, pathname: location.pathname });
+//   // ⏳ Не редиректимо, поки триває рефреш
+//   if (isRefreshing) {
+//     return <p>Loading...</p>;
+//   }
+// // 🛑 Не редіректимо, якщо це сторінка реєстрації (або інша публічна)
+//   if (location.pathname === "/register" || location.pathname === "/login") {
+//     console.log("✅ Allowing access to", location.pathname);
+//     return typeof component === "function" ? component() : component;
+//   }
+
+//   if (isLoggedIn) {
+//     console.log("🔄 User already logged in! Redirecting to", redirectTo);
+//     return <Navigate to={redirectTo} />;
+//   }
+//  return isLoggedIn ? (<Navigate to={redirectTo} replace />) : (typeof component === "function" ? component() : component);
+//   // return typeof component === "function" ? component() : component;
+// }

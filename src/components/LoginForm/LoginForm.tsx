@@ -1,7 +1,6 @@
-
 import css from "./LoginForm.module.css";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
@@ -18,23 +17,25 @@ import SendResetEmailForm from "../SendResetEmailForm/SendResetEmailForm";
 import GoogleLoginButton from "../GoogleLoginButton/GoogleLoginButton";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
- interface UsLoginVelues { 
-    email: string;
-    password: string;
-  }
-  // Початкові значення форми
-  const initialLoginValues: UsLoginVelues = {
-    email: "",
-    password: "",
+interface UsLoginVelues {
+  email: string;
+  password: string;
+}
+// Початкові значення форми
+const initialLoginValues: UsLoginVelues = {
+  email: "",
+  password: "",
 };
 
 interface LoginFormProps {
   attempts: number;
   setAttempts: React.Dispatch<React.SetStateAction<number>>;
-};
+}
 // export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
-export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
-  
+export default function LoginForm({
+  attempts,
+  setAttempts,
+}: LoginFormProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false); // <-- Стан модального вікна
   const isLoading = useSelector(selectIsLoading);
   const dispatch: AppThunkDispatch = useDispatch();
@@ -44,55 +45,59 @@ export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JS
   const { t } = useTranslation();
 
   useEffect(() => {
-  if (attempts >= 3) {
-    // Використовуємо setTimeout для затримки редіректу
-    setTimeout(() => {
-      console.log("Navigating to /register");
-      navigate("/register");
-    }, 500); // Затримка в 300 мс
-  }
+    if (attempts >= 3) {
+      // Використовуємо setTimeout для затримки редіректу
+      setTimeout(() => {
+        console.log("Navigating to /register");
+        navigate("/register");
+      }, 500); // Затримка в 300 мс
+    }
   }, [attempts, navigate]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   // Схема валідації для реєстраційної форми
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email")
-      .required(" Email is Required"),
+    email: Yup.string().email("Invalid email").required(" Email is Required"),
     password: Yup.string()
       .min(6, "Min 6 chars")
       .required(" Password is Required"),
   });
- 
-  const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-const handleSubmit = async (
-  values: UsLoginVelues,
-  { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
-) => {
-  try {
-    await dispatch(logIn(values));
-    toast.success("You have successfully logged in!");
-     console.log("✅ Login successful! Forcing re-render...");
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+  const handleSubmit = async (
+    values: UsLoginVelues,
+    { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+  ) => {
+    try {
+      await dispatch(logIn(values));
+      toast.success("You have successfully logged in!");
+      console.log("✅ Login successful! Forcing re-render...");
       forceUpdate(); // ✅ Примусовий ре-рендер  (в звязку з тим що в мене в АПП роути з функцією)
       navigate("/catalog", { replace: true });
-  } catch (error) {
-    const newAttempts = attempts + 1;
-    setAttempts(newAttempts);
+    } catch (error) {
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
 
-    if (newAttempts >= 3) {
-      console.log("Too many failed login attempts, redirecting to /register...");
-      toast.error("Too many failed login attempts. Redirecting to registration.");
-      setTimeout(() => {
-        navigate("/register");
-      }, 500); // Невелика затримка перед редіректом
-    } else {
-      setError(`Incorrect email or password. Attempts left: ${3 - newAttempts}`);
+      if (newAttempts >= 3) {
+        console.log(
+          "Too many failed login attempts, redirecting to /register..."
+        );
+        toast.error(
+          "Too many failed login attempts. Redirecting to registration."
+        );
+        setTimeout(() => {
+          navigate("/register");
+        }, 500); // Невелика затримка перед редіректом
+      } else {
+        setError(
+          `Incorrect email or password. Attempts left: ${3 - newAttempts}`
+        );
+      }
     }
-  }
-  resetForm();
-};
+    resetForm();
+  };
 
   return (
     <div className={css.item}>
@@ -122,78 +127,71 @@ const handleSubmit = async (
               placeholder="Enter login..."
             />
           </div>
-          <ErrorMessage name="email" component="div" className={css.errorMessage} />
+          <ErrorMessage
+            name="email"
+            component="div"
+            className={css.errorMessage}
+          />
 
           <div className={css.items}>
-              <label className={css.label}>Password</label>
-              <div className={css.passwordWrapper}>
-                <Field
-                  className={css.inpPas}
-                   type={showPassword ? "text" : "password"} // <-- Міняємо тип поля  при натисканні - відображаю пароль
-                  name="password"
-                  placeholder="Please enter a strong password..."
-                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  className={css.togglePasswordBtn}
-                >
-                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-                </button>
-              </div>
+            <label className={css.label}>Password</label>
+            <div className={css.passwordWrapper}>
+              <Field
+                className={css.inpPas}
+                type={showPassword ? "text" : "password"} // <-- Міняємо тип поля  при натисканні - відображаю пароль
+                name="password"
+                placeholder="Please enter a strong password..."
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className={css.togglePasswordBtn}
+              >
+                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              </button>
             </div>
-            <ErrorMessage name="password" component="div" className={css.errorMessage} />
-            
+          </div>
+
+          <ErrorMessage
+            name="password"
+            component="div"
+            className={css.errorMessage}
+          />
+
           <div className={css.btn}>
             <button className={css.LoginForm} type="submit">
-               {isLoading ? <Loader /> : t("auth.btnLog")}
+              {isLoading ? <Loader /> : t("auth.btnLog")}
             </button>
           </div>
-          
+
           {error && <p style={{ color: "red" }}>{error}</p>}
-     
         </Form>
       </Formik>
       <div className={css.btnBlokBot}>
-        <div className={css.LoginBtnGoogle} >
-        <GoogleLoginButton >Sign In with Google</GoogleLoginButton>
-       </div>
-  
-     <button className={css.LoginForm} type="button">
+        <div className={css.LoginBtnGoogle}>
+          <GoogleLoginButton>Sign In with Google</GoogleLoginButton>
+        </div>
+
+        <button className={css.LoginForm} type="button">
           <Link to="/logout" className={css.link}>
             {t("register.titleLogout")}
-        </Link>
-       </button>
-        
-      <button className={css.LoginForm} type="button">
-        <span className={css.forgotPwd} onClick={openModal}>
-          {t("register.titleEmail")}
-        </span>
-       </button>
-        
-        
-</div>
+          </Link>
+        </button>
+
+        <button className={css.LoginForm} type="button">
+          <span className={css.forgotPwd} onClick={openModal}>
+            {t("register.titleEmail")}
+          </span>
+        </button>
+      </div>
       {isModalOpen && (
         <ModalContainer onClose={closeModal}>
           <SendResetEmailForm onClose={closeModal} />
         </ModalContainer>
       )}
-
     </div>
   );
-};
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 //  Реакт-ТайпСкрипт очікує пропси тому підкреслювало в АПП - я додав в сам РОУТ але якщо не працює то треба передати в сам ЛОГІН-Форм в аргументах
 // так як має працювати лічильник спроб авторизаціїї до 3 -х разів і якщо ні то перекидати на регістрацію
@@ -202,27 +200,25 @@ const handleSubmit = async (
 //   setAttempts = () => {}
 // }: LoginFormProps): JSX.Element {
 
-// Було так без стрілочної функціїї як пропс в аргументах: 
+// Було так без стрілочної функціїї як пропс в аргументах:
 // export default function LoginForm({ attempts, setAttempts }: LoginFormProps): JSX.Element {
 
-
-
 // useEffect(() => {
-  //   console.log("Checking attempts in useEffect:", attempts);
-  //   if (attempts >= 3) {
-  //     console.log("Navigating to /register");
-  //     setTimeout(() => navigate("/register"), 0);
-  //   }
+//   console.log("Checking attempts in useEffect:", attempts);
+//   if (attempts >= 3) {
+//     console.log("Navigating to /register");
+//     setTimeout(() => navigate("/register"), 0);
+//   }
 // }, [attempts, navigate]);
-  
+
 // setAttempts(prev => {
-      //   const newAttempts = prev + 1;
-      //   if (newAttempts >= 3) {
-      //     console.log("Setting attempts to 3, triggering redirect...");
-      //     setTimeout(() => navigate("/register"), 0);
-      //   }
-      //   return newAttempts;
-      // });
+//   const newAttempts = prev + 1;
+//   if (newAttempts >= 3) {
+//     console.log("Setting attempts to 3, triggering redirect...");
+//     setTimeout(() => navigate("/register"), 0);
+//   }
+//   return newAttempts;
+// });
 
 // export default function LoginForm(): JSX.Element {
 //   const dispatch: AppDispatch = useDispatch();
@@ -230,7 +226,7 @@ const handleSubmit = async (
 //   const navigate = useNavigate();
 //   const [error, setError] = useState("");
 //   const [attempts, setAttempts] = useState(0);
- 
+
 //  // Перевіряємо, якщо спроб більше 3 -> редірект на реєстрацію
 //   useEffect(() => {
 //     console.log("Attempts:", attempts); // Додаю ЛОГ для перевірки лічильника
@@ -253,7 +249,7 @@ const handleSubmit = async (
 //     navigate("/catalog");
 //   } catch (error) {
 //     setAttempts(prev => prev + 1); // 🔹 Просто збільшуємо лічильник
-  
+
 //     if (attempts + 1 < 3) {
 //       setError(`Incorrect password or email. Attempts left: ${3 - (attempts + 1)}`);
 //     }
