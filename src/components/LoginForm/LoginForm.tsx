@@ -147,7 +147,11 @@ export default function LoginForm({
                 onClick={() => setShowPassword(prev => !prev)}
                 className={css.togglePasswordBtn}
               >
-                {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                {showPassword ? (
+                  <FaEyeSlash className={css.inpicon} size={18} />
+                ) : (
+                  <FaEye className={css.inpicon} size={18} />
+                )}
               </button>
             </div>
           </div>

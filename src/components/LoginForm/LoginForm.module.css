@@ -1,142 +1,156 @@
-
 .item {
-    width: 320px;
-    height: auto;
-    margin: 5px;
-    padding: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    list-style: none;
-    border: 1px solid rgb(104, 102, 102);
-    border-radius: 8px;
-    color: rgb(14, 15, 15);
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    align-items: left;
+  width: 320px;
+  height: auto;
+  margin: 5px;
+  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  list-style: none;
+  border: 1px solid rgb(104, 102, 102);
+  border-radius: 8px;
+  color: rgb(14, 15, 15);
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: left;
 }
 
 .items {
-    width: 290px;
-    height: auto;
-    /* height: 30px; */
-    margin: 5px;
-    padding: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+  width: 290px;
+  height: auto;
+  /* height: 30px; */
+  margin: 5px;
+  padding: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .label {
-    margin-bottom: 8px;
-    padding: 8px;
-    color: white;
+  margin-bottom: 8px;
+  padding: 8px;
+  color: white;
 }
 
 .btn {
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 }
 
 .LoginForm {
-    width: 150px;
-    height: 35px;
-    margin: 3px;
-    padding: 3px;
-    border: 1px solid rgb(104, 102, 102);
-    border-radius: 10px;
-    color: rgb(14, 15, 15);
-    background-color: white;
-    transition: color 0.3s ease-in-out;
-    /* Плавна зміна кольору текту кнопки на червоний */
+  width: 150px;
+  height: 35px;
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid rgb(104, 102, 102);
+  border-radius: 10px;
+  color: rgb(14, 15, 15);
+  background-color: white;
+  transition: color 0.3s ease-in-out;
+  /* Плавна зміна кольору текту кнопки на червоний */
 }
 
 .LoginForm:hover {
-    color: red;
+  color: red;
 }
 
 .messag {
-    margin: 5px;
-    margin-bottom: 16px;
-    padding: 10px;
+  margin: 5px;
+  margin-bottom: 16px;
+  padding: 10px;
 }
 
 .errorMessage {
-    color: #4dabf7;
-    font-size: 14px;
-    margin-top: 4px;
+  color: #4dabf7;
+  font-size: 14px;
+  margin-top: 4px;
 }
 
 .inp {
-    width: 100%;
-    height: 35px;
-    margin-bottom: 16px;
-    padding: 2px;
+  width: 100%;
+  height: 35px;
+  margin-bottom: 16px;
+  padding: 2px;
 }
 
 .btnBlokBot {
-   
-    display: flex;
-    flex-direction: column;
-     text-align: center;
-     align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 }
 
 .LoginBtnGoogle {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 280px;
-    height: 40px;
-    margin: 2px;
-    padding: 2px;
-    border: 1px solid rgb(104, 102, 102);
-    border-radius: 10px;
-    color: rgb(14, 15, 15); 
-    background-color: white;
-    transition: color 0.3s ease-in-out;
-    /* Плавна зміна кольору текту кнопки на червоний */
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  height: 40px;
+  margin: 2px;
+  padding: 2px;
+  border: 1px solid rgb(104, 102, 102);
+  border-radius: 10px;
+  color: rgb(14, 15, 15);
+  background-color: white;
+  transition: color 0.3s ease-in-out;
+  /* Плавна зміна кольору текту кнопки на червоний */
 }
 
 .LoginBtnGoogle:hover {
-    color: red;
+  color: red;
 }
 
 .passwordWrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); */
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2); */
 }
 
 .inpPas {
-    width: 100%;
-    /* flex-grow: 1; */
-    height: 35px;
-    margin-bottom: 16px;
-    padding: 2px;
-    padding-right: 40px;
-    /* Відступ для іконки */
+  width: 100%;
+  /* flex-grow: 1; */
+  height: 35px;
+  margin-bottom: 16px;
+  padding: 2px;
+  padding-right: 40px;
+  /* Відступ для іконки */
 }
 
 .togglePasswordBtn {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: top;
-    justify-content: top;
-    text-align: top;
-    padding: 0px;
-    /* margin-bottom: 20px; */
-    z-index: 1;
-    /* z-index: 1; - високий рівень щоб кнопка не ховалась під іншими компонентами */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  outline: none; /* Прибирає рамку при фокусі */
+  /* z-index: 1; */
+  /* z-index: 1; - високий рівень щоб кнопка не ховалась під іншими компонентами */
+}
+
+.togglePasswordBtn:focus,
+.togglePasswordBtn:active {
+  outline: none;
+  border: none;
+  box-shadow: none; /* Прибирає синю підсвітку у браузерах */
+}
+
+.inpicon {
+  margin: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
 }

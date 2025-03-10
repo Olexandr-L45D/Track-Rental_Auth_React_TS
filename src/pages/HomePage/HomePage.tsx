@@ -1,4 +1,4 @@
-import {  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import css from "./HomePage.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -11,34 +11,31 @@ export default function HomePage(): JSX.Element {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const navigate = useNavigate();
   const [showAuth, setShowAuth] = useState(false);
-// Якщо користувач залогінений  перекидаємо на /catalog
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/catalog");
-  //   }
-  // }, [isLoggedIn, navigate]);
-  
+
   return (
     <div className={css.background}>
       <section className={css.card}>
         <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
         <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>
-        {!isLoggedIn && (
-        <button onClick={() => navigate("/register")}>Register</button>
-      )}
-        <section className={css.cartBtn}>
 
-          {/* <Link to="/catalog">
+        <section className={css.cartBtn}>
+          <Link to="/gallery">
             <div className={css.buttonViews}>
               <button className={css.btnVie} type="submit">
-                {t("navigation.View")}
+                {/* {t("navigation.View")} */}
+                View car images
               </button>
             </div>
-          </Link> */}
-          
+          </Link>
         </section>
       </section>
     </div>
   );
-};
+}
 
+// Якщо користувач залогінений  перекидаємо на /catalog
+// useEffect(() => {
+//   if (isLoggedIn) {
+//     navigate("/catalog");
+//   }
+// }, [isLoggedIn, navigate]);

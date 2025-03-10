@@ -298,24 +298,26 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.isLoggedIn = false;
       })
-      //    .addCase(REHYDRATE, (state, action: Action<"persist/REHYDRATE">) => {
-      //   // Якщо payload існує, перевіряємо його тип і працюємо з ним
-      //   if ((action as any).payload) {
-      //     //  const payload = (action as any).payload as { auth: AuthStateRehydrate };
-      //     const payload = (action as any).payload as { auth?: Record<string, any> };
-      //     state.accessToken = payload.auth?.accessToken ?? null;
-      //     state.user = payload.auth?.user ?? null;
-      //  // ЛОГ перед встановленням
-      // console.log("🔍 isLoggedIn у payload:", payload.auth?.isLoggedIn);
+      .addCase(REHYDRATE, (state, action: Action<"persist/REHYDRATE">) => {
+        // Якщо payload існує, перевіряємо його тип і працюємо з ним
+        if ((action as any).payload) {
+          //  const payload = (action as any).payload as { auth: AuthStateRehydrate };
+          const payload = (action as any).payload as {
+            auth?: Record<string, any>;
+          };
+          state.accessToken = payload.auth?.accessToken ?? null;
+          state.user = payload.auth?.user ?? null;
+          // ЛОГ перед встановленням
+          console.log("🔍 isLoggedIn у payload:", payload.auth?.isLoggedIn);
 
-      // state.isLoggedIn = JSON.parse(payload.auth?.isLoggedIn ?? "false");
+          state.isLoggedIn = JSON.parse(payload.auth?.isLoggedIn ?? "false");
 
-      // // ЛОГ після встановлення
-      // console.log("🟢 Updated state.isLoggedIn:", state.isLoggedIn);
-      // console.log("🔥 REHYDRATE payload:", payload);
-      // console.log("🟢 Updated state after REHYDRATE:", state);
-      //     }
-      //    })
+          // ЛОГ після встановлення
+          console.log("🟢 Updated state.isLoggedIn:", state.isLoggedIn);
+          console.log("🔥 REHYDRATE payload:", payload);
+          console.log("🟢 Updated state after REHYDRATE:", state);
+        }
+      })
 
       .addMatcher(
         isAnyOf(

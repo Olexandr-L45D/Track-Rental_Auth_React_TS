@@ -31,6 +31,9 @@ const NotFoundPage = lazy(() => import("../../pages/NotFoundPage"));
 const GoogleRedirectHandler = lazy(
   () => import("../../pages/GoogleRedirectHandler")
 );
+const TruckPageImages = lazy(
+  () => import("../../pages/TruckPageImages/TruckPageImages")
+);
 
 import { Layout } from "../Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,9 +43,9 @@ import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
+import { refreshUser } from "../../redux/auth/operations";
 
-// Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан
-//Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
+// Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
 /// <reference lib="dom" />
 declare global {
   interface Window {
@@ -61,7 +64,12 @@ export default function App() {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const location = useLocation();
   // const hasRedirected = useRef(false);
-  const [hasRedirected, setHasRedirected] = useState(false);
+  // const [hasRedirected, setHasRedirected] = useState(false);
+
+  // запит на ТОКЕН isRefreshing (чи валідний токен?)
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
 
   // useEffect(() => {
   //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -114,23 +122,7 @@ export default function App() {
         <Routes>
           {/* Головна сторінка */}
           <Route path="/" element={<HomePage />} />
-
-          {/* Захищені маршрути */}
-          <Route
-            path="/catalog"
-            element={
-              <PrivateRoute redirectTo="/login" component={TruckPageFilters} />
-            }
-          />
-          <Route
-            path="/catalog/:id"
-            element={
-              <PrivateRoute redirectTo="/login" component={TruckDetalsPage} />
-            }
-          >
-            <Route path="features" element={<TruckFeatures />} />
-            <Route path="reviews" element={<TruckReviews />} />
-          </Route>
+          <Route path="/gallery" element={<TruckPageImages />} />
 
           {/* Доступні тільки для НЕ залогінених */}
           <Route
@@ -157,18 +149,42 @@ export default function App() {
               }
             /> */}
 
-          {/* <Route path="/reset-pwd" element={<RestrictedRoute redirectTo="/catalog" component={ResetPasswordPage} />} />
-            <Route
-              path="/confirm-oauth"
-              element={
-                <RestrictedRoute
-                  component={GoogleRedirectHandler}
-                  redirectTo="/catalog"
-                />
-              }
-            /> */}
+          <Route
+            path="/reset-pwd"
+            element={
+              <RestrictedRoute
+                redirectTo="/catalog"
+                component={ResetPasswordPage}
+              />
+            }
+          />
+          <Route
+            path="/confirm-oauth"
+            element={
+              <RestrictedRoute
+                component={GoogleRedirectHandler}
+                redirectTo="/catalog"
+              />
+            }
+          />
 
-          {/* Сторінка 404 */}
+          {/* Захищені маршрути */}
+          <Route
+            path="/catalog"
+            element={
+              <PrivateRoute redirectTo="/login" component={TruckPageFilters} />
+            }
+          />
+          <Route
+            path="/catalog/:id"
+            element={
+              <PrivateRoute redirectTo="/login" component={TruckDetalsPage} />
+            }
+          >
+            <Route path="features" element={<TruckFeatures />} />
+            <Route path="reviews" element={<TruckReviews />} />
+          </Route>
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>

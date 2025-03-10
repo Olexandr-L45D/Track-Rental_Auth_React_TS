@@ -54,7 +54,6 @@ const RegisterPage = (): JSX.Element => {
         <section className={css.cartFormSection}>
           <div className={css.cartPage}>
             <h3 className={css.cartForm}>{t("register.titleRegistr")}</h3>
-
             <RegistrationForm />
           </div>
         </section>

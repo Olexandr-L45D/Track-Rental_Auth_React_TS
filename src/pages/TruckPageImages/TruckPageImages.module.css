@@ -1,0 +1,23 @@
+.cartAll {
+  width: 1440px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.cartAllPage {
+  width: 1440px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}

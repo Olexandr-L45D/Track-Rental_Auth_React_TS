@@ -10,24 +10,25 @@ import { selectFilters } from "../../redux/filters/selectors";
 import { useSearchParams } from "react-router-dom";
 import ButtonLoadMore from "../../components/ButtonLoadMore/ButtonLoadMore";
 import { setChangeFilter } from "../../redux/filters/slice";
-import {  useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { AppThunkDispatch } from "../../redux/store";
 
 export default function TruckPageFilters(): JSX.Element {
   const dispatchset = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
   const dispatch: AppThunkDispatch = useDispatch();
-  const isLoading = useAppSelector((state) => state.campers.loading);
+  const isLoading = useAppSelector(state => state.campers.loading);
   const filteres = useSelector(selectFilters);
   const page = useSelector(selectPage);
   const [params, setParams] = useSearchParams();
 
   useEffect(() => {
     const existingFilters = Object.fromEntries(params.entries());
-    
-    if (!Object.keys(filteres).length && Object.keys(existingFilters).length) {  // Якщо URL містить параметри, а Redux-параметри порожні
+
+    if (!Object.keys(filteres).length && Object.keys(existingFilters).length) {
+      // Якщо URL містить параметри, а Redux-параметри порожні
       console.log("Initializing Redux with existing filters:", existingFilters);
-      
+
       dispatchset(setChangeFilter({ location: "" })); // Синхронізація Redux з URL { location: "" }
       return;
     }
@@ -45,15 +46,6 @@ export default function TruckPageFilters(): JSX.Element {
     }
   }, [params, filteres, dispatch, setParams]);
 
-//   useEffect(() => {
-//   if (page === 1) {
-//     dispatch(fetchAllTruck({ page })).unwrap();
-//       .catch((error) => {
-//       console.error("❌ Error fetching trucks:", error);
-//     });
-//   }
-// }, [dispatch, page, filteres]);
-
   useEffect(() => {
     if (page === 1) {
       dispatch(fetchAllTruck({ page }));
@@ -69,4 +61,4 @@ export default function TruckPageFilters(): JSX.Element {
       <ButtonLoadMore />
     </div>
   );
-};
+}

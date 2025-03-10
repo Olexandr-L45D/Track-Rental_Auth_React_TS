@@ -4,10 +4,9 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import {
-  logIn,
   register,
   setAuthHeader,
-  UsRegisterVelues,
+  UsRegisterValues,
 } from "../../redux/auth/operations";
 import { AppDispatch, AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,7 +20,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 // import { useAppDispatch } from "../../hooks/useAppDispatch";
 // import { useAppDispatch } from "../../redux/hooks";
 // import { setToken } from "../../redux/authSlice"; // перевір правильний шлях
-const initialValues: UsRegisterVelues = {
+const initialValues: UsRegisterValues = {
   name: "",
   email: "",
   password: "",
@@ -45,8 +44,8 @@ export default function RegistrationForm(): JSX.Element {
   });
 
   const handleRegister = async (
-    values: UsRegisterVelues,
-    { setSubmitting, resetForm }: FormikHelpers<UsRegisterVelues>
+    values: UsRegisterValues,
+    { setSubmitting, resetForm }: FormikHelpers<UsRegisterValues>
   ) => {
     const trimmedValues = {
       name: values.name.trim(),
@@ -64,7 +63,10 @@ export default function RegistrationForm(): JSX.Element {
           registerResponse.data.data.accessToken
         );
         // Зберігаємо токен у LocalStorage
-        // localStorage.setItem("token", registerResponse?.data?.data?.accessToken);
+        localStorage.setItem(
+          "token",
+          registerResponse?.data?.data?.accessToken
+        );
 
         // Оновлюємо стан Redux
         dispatch(
@@ -90,6 +92,15 @@ export default function RegistrationForm(): JSX.Element {
       resetForm();
     }
   };
+
+  // const handleSubmit = (
+  //   values: UsRegisterValues,
+  //   { resetForm }: FormikHelpers<UsRegisterValues>
+  // ) => {
+  //   console.log(values);
+  //   dispatch(register(values));
+  //   resetForm();
+  // };
 
   return (
     <div className={css.item}>
@@ -193,8 +204,8 @@ export default function RegistrationForm(): JSX.Element {
 // "Alina_Sidora234.LenaOl1552@gmail.com"
 // name
 // :
-// "Olena"
-// password
+// "Olena"   Olenushka1Ivan2@gmail.com.ua
+// password   Ivan246810
 // :
 // "123Sidor55"
 

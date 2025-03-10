@@ -14,7 +14,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Loader from "../Loader/Loader";
 import { selectIsLoading } from "../../redux/auth/selectors";
 import { setToken } from "../../redux/auth/slice";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ResetPasswordForm = (): JSX.Element => {
   const [searchParams] = useSearchParams();
@@ -29,10 +29,10 @@ const ResetPasswordForm = (): JSX.Element => {
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   const toggleShowPassword = () => {
-    setShowPassword((prevState) => !prevState);
+    setShowPassword(prevState => !prevState);
   };
   const toggleShowRepeatPassword = () => {
-    setShowRepeatPassword((prevState) => !prevState);
+    setShowRepeatPassword(prevState => !prevState);
   };
   // Схема валідації
   const validationSchema = Yup.object().shape({
@@ -40,34 +40,47 @@ const ResetPasswordForm = (): JSX.Element => {
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
     repeatPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-      .required('Confirm password field must be filled'),
+      .oneOf([Yup.ref("password")], "Passwords must match")
+      .required("Confirm password field must be filled"),
     token: Yup.string().required(), // ✅ Додаємо token, щоб він був обов'язковим
   });
 
   // Початкові значення було тільки пароль
   // const initialValues = { password: "" };
 
-   const initialValues = {
-    password: '',
-    repeatPassword: '',
+  const initialValues = {
+    password: "",
+    repeatPassword: "",
     token,
   };
 
   // Функція обробки сабміту
   const handleResetPassword = async (
-    values: { password: string, repeatPassword: string, token: string  },
-    { setSubmitting, resetForm }: FormikHelpers<{ password: string, repeatPassword: string, token: string  }>
+    values: { password: string; repeatPassword: string; token: string },
+    {
+      setSubmitting,
+      resetForm,
+    }: FormikHelpers<{
+      password: string;
+      repeatPassword: string;
+      token: string;
+    }>
   ) => {
     try {
-     const response = await dispatch(resetPassword({ newPassword: values.password.trim(), token: values.token }));
+      const response = await dispatch(
+        resetPassword({
+          newPassword: values.password.trim(),
+          token: values.token,
+        })
+      );
 
-      if (response.payload?.token) { // Якщо бекенд повертає новий токен
-      dispatch(setToken({ accessToken: response.payload.token })); // Зберігаємо в Redux
-      navigate('/catalog'); // ✅ Автоматично перекидаємо в каталог
-    } else {
-      navigate('/login'); // Якщо токен не повернули — на логін
-    }
+      if (response.payload?.token) {
+        // Якщо бекенд повертає новий токен
+        dispatch(setToken({ accessToken: response.payload.token })); // Зберігаємо в Redux
+        navigate("/catalog"); // ✅ Автоматично перекидаємо в каталог
+      } else {
+        navigate("/login"); // Якщо токен не повернули — на логін
+      }
 
       toast.success("You have successfully reset your password!");
       // resetForm(); // Очищення форми після успішної операції
@@ -82,110 +95,89 @@ const ResetPasswordForm = (): JSX.Element => {
   return (
     <div className={css.item}>
       <ToastContainer position="top-right" autoClose={5000} />
-     
-      <Formik initialValues={initialValues}
+
+      <Formik
+        initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleResetPassword}>
-        
-               {({ errors, touched }) => (
-            <Form className={css.form} autoComplete="off">
-              <h2 className={css.title}>Reset password</h2>
-              <label className={css.label}>
-                <p className={css.text}>Enter your new password</p>
-                <div className={css.inputContainer}>
-                  <Field
-                    name="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
-                    className={
-                      errors.password && touched.password
-                        ? `${css.input} ${css.inputError}`
-                        : css.input
-                    }
-                  />
-                  <svg
-                    className={css.icon}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleShowPassword();
-                    }}
-                  >
-                    {showPassword ? (
-                      <use href={`${sprite}#icon-eye`} />
-                    ) : (
-                      <use href={`${sprite}#icon-eye-hidden`} />
-                    )}
-                  </svg>
-                </div>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className={css.error}
-                />
-              </label>
-
-              <label className={css.label}>
-                <p className={css.text}>Repeat your new password</p>
-                <div className={css.inputContainer}>
-                  <Field
-                    name="repeatPassword"
-                    type={showRepeatPassword ? 'text' : 'password'}
-                    placeholder="Repeat password"
-                    className={
-                      errors.repeatPassword && touched.repeatPassword
-                        ? `${css.input} ${css.inputError}`
-                        : css.input
-                    }
-                  />
-
-                  <svg
-                    className={css.icon}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      toggleShowRepeatPassword();
-                    }}
-                  >
-                    {showRepeatPassword ? (
-                      <use href={`${sprite}#icon-eye`} />
-                    ) : (
-                      <use href={`${sprite}#icon-eye-hidden`} />
-                    )}
-                  </svg>
-                </div>
-                <ErrorMessage
-                  name="repeatPassword"
-                  component="div"
-                  className={css.error}
-                />
-              </label>
-
-              <button type="submit" className={css.button}>
-                {isLoading ? <Loader /> : 'Reset Password'}
+        onSubmit={handleResetPassword}
+      >
+        <Form className={css.form} autoComplete="off">
+          <label className={css.label}>
+            <p className={css.text}>Enter your new password</p>
+            <div className={css.passwordWrapper}>
+              <Field
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className={css.inpPas}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className={css.togglePasswordBtn}
+              >
+                {showPassword ? (
+                  <FaEyeSlash className={css.inpicon} size={18} />
+                ) : (
+                  <FaEye className={css.inpicon} size={18} />
+                )}
               </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    
+            </div>
+            <ErrorMessage
+              name="password"
+              component="div"
+              className={css.errorMessage}
+            />
+          </label>
+
+          <label className={css.label}>
+            <p className={css.text}>Repeat your new password</p>
+            <div className={css.passwordWrapper}>
+              <Field
+                name="repeatPassword"
+                type={showRepeatPassword ? "text" : "password"}
+                placeholder="Repeat password"
+                className={css.inpPas}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className={css.togglePasswordBtn}
+              >
+                {showPassword ? (
+                  <FaEyeSlash className={css.inpicon} size={18} />
+                ) : (
+                  <FaEye className={css.inpicon} size={18} />
+                )}
+              </button>
+            </div>
+            <ErrorMessage
+              name="repeatPassword"
+              component="div"
+              className={css.errorMessage}
+            />
+          </label>
+
+          <button type="submit" className={css.button}>
+            {isLoading ? <Loader /> : "Reset Password"}
+          </button>
+        </Form>
+      </Formik>
+    </div>
   );
 };
-        
 
 export default ResetPasswordForm;
-
-
 
 // return (
 //     <div className={css.item}>
 //       <ToastContainer position="top-right" autoClose={5000} />
-     
+
 //       <Formik initialValues={initialValues}
 //         validationSchema={validationSchema}
-          //         onSubmit={handleResetPassword}>
-        
+//         onSubmit={handleResetPassword}>
 
-        
-        
 //         {({ isSubmitting }) => (
 //           <Form>
 //             <div className={css.items}>
@@ -204,12 +196,8 @@ export default ResetPasswordForm;
 //       </Formik>
 //     </div>
 //   );
-  
+
 // };
-
-
-
-
 
 // доробити компонент ResetPasswordForm (додати repeatPassword)
 
