@@ -1,0 +1,13 @@
+{
+  "/_error": "pages/_error.js",
+  "/GoogleRedirectHandler": "pages/GoogleRedirectHandler.js",
+  "/LoginPage/LoginPage": "pages/LoginPage/LoginPage.js",
+  "/NotFoundPage": "pages/NotFoundPage.js",
+  "/HomePage/HomePage": "pages/HomePage/HomePage.js",
+  "/RegisterPage/RegisterPage": "pages/RegisterPage/RegisterPage.js",
+  "/ResetPasswordPage/ResetPasswordPage": "pages/ResetPasswordPage/ResetPasswordPage.js",
+  "/TruckDetalsPage/TruckDetalsPage": "pages/TruckDetalsPage/TruckDetalsPage.js",
+  "/TruckPageFilters/TruckPageFilters": "pages/TruckPageFilters/TruckPageFilters.js",
+  "/TruckPageImages/TruckPageImages": "pages/TruckPageImages/TruckPageImages.js",
+  "/SendEmailConfirmationPage/SendEmailConfirmationPage": "pages/SendEmailConfirmationPage/SendEmailConfirmationPage.js"
+}

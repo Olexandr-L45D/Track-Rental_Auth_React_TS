@@ -25,8 +25,6 @@ const initialResValues: UsEmailVelues = {
 export default function SendResetEmailForm({
   onClose,
 }: SendResetEmailFormProps): JSX.Element {
-  // const dispatch: AppDispatch = useDispatch();
-  //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
   const dispatch: AppThunkDispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -48,6 +46,9 @@ export default function SendResetEmailForm({
     } finally {
       setSubmitting(false);
       resetForm();
+      setTimeout(() => {
+        onClose();
+      }, 500);
     }
   };
   return (
@@ -64,29 +65,51 @@ export default function SendResetEmailForm({
         pauseOnHover
       />
       <Formik initialValues={initialResValues} onSubmit={handleSendResetEmail}>
-        <Form>
-          <div className={css.items}>
-            <label className={css.label}>Email</label>
-            <Field
-              className={css.inp}
-              type="email"
-              name="email"
-              placeholder="Enter email..."
-            />
-          </div>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
+            <div className={css.items}>
+              <label className={css.label}>Email</label>
+              <Field
+                className={css.inp}
+                type="email"
+                name="email"
+                placeholder="Enter email..."
+              />
+            </div>
 
-          <div className={css.btn}>
-            <button onClick={onClose} className={css.LoginForm} type="submit">
-              {t("auth.btnsend")}
-            </button>
-          </div>
+            <div className={css.btn}>
+              <button className={css.LoginForm} type="submit">
+                {t("auth.btnsend")}
+              </button>
+            </div>
 
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </Form>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+          </Form>
+        )}
       </Formik>
     </div>
   );
 }
+
+//  <Form>
+//    <div className={css.items}>
+//      <label className={css.label}>Email</label>
+//      <Field
+//        className={css.inp}
+//        type="email"
+//        name="email"
+//        placeholder="Enter email..."
+//      />
+//    </div>
+
+//    <div className={css.btn}>
+//      <button className={css.LoginForm} type="submit">
+//        {t("auth.btnsend")}
+//      </button>
+//    </div>
+
+//    {error && <p style={{ color: "red" }}>{error}</p>}
+//  </Form>;
 
 // in BECEND:
 

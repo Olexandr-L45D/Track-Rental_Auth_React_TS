@@ -1,11 +1,10 @@
 import { NavLink } from "react-router-dom";
-import sprite from "../../images/sprite.svg";
+import sprite from "/images/sprite.svg";
 import css from "./AllTruckList.module.css";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { selectFilteredByLocation } from "../../redux/filters/selectors";
 import { TruckDetailAll } from "../App/App.types";
-
 
 export default function AllTruckList(): JSX.Element {
   const { t } = useTranslation();
@@ -54,7 +53,7 @@ export default function AllTruckList(): JSX.Element {
                 </section>
 
                 <p className={css.textDescr}>{truck.description}</p>
-                
+
                 <ul className={css.featuresList}>
                   <li className={css.featuresItem}>
                     <svg className={css.icon}>
@@ -73,27 +72,26 @@ export default function AllTruckList(): JSX.Element {
                       {truck.engine.charAt(0).toUpperCase() +
                         truck.engine.slice(1)}
                     </strong>
-                  </li> 
+                  </li>
                   <li className={css.featuresItem}>
                     <svg className={css.icon}>
                       <use href={`${sprite}#icon-kitch`} />
                     </svg>
                     <strong>Kitchen</strong> {truck.kitchen}
                   </li>
-              </ul>             
-              <div
-                className={css.featuresItemAc}>
+                </ul>
+                <div className={css.featuresItemAc}>
                   <svg className={css.icon}>
                     <use href={`${sprite}#icon-ac`} />
                   </svg>
                   <strong>AC</strong> {truck.AC}
                 </div>
 
-                 <button className={css.buttonIconShowe}>
+                <button className={css.buttonIconShowe}>
                   <NavLink className={css.btnShowe} to={`/catalog/${truck.id}`}>
                     {t("navigation.show_more")}
                   </NavLink>
-                </button> 
+                </button>
               </section>
             </article>
           </li>
@@ -102,8 +100,6 @@ export default function AllTruckList(): JSX.Element {
     </div>
   );
 }
-
-
 
 //  all descriptions Truck
 //             "id": "2",
@@ -132,4 +128,3 @@ export default function AllTruckList(): JSX.Element {
 // "transmission": "manual",
 //             "engine": "petrol",
 // }
-

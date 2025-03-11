@@ -6,7 +6,7 @@ import {
   Outlet,
   useLocation,
 } from "react-router-dom";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegisterPage = lazy(
   () => import("../../pages/RegisterPage/RegisterPage")
@@ -37,9 +37,7 @@ const TruckPageImages = lazy(
 
 import { Layout } from "../Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-// import { getUser, refreshUser} from "../../redux/auth/operations";
 import { AppThunkDispatch, RootState } from "../../redux/store";
-import { setToken } from "../../redux/auth/slice";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
@@ -139,15 +137,15 @@ export default function App() {
           />
 
           {/* Форми скидання пароля */}
-          {/* <Route
-              path="/confirm-email"
-              element={
-                <RestrictedRoute
-                  component={SendEmailConfirmationPage }
-                  redirectTo="/catalog"
-                />
-              }
-            /> */}
+          <Route
+            path="/confirm-email"
+            element={
+              <RestrictedRoute
+                component={SendEmailConfirmationPage}
+                redirectTo="/catalog"
+              />
+            }
+          />
 
           <Route
             path="/reset-pwd"

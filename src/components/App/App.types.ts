@@ -3,8 +3,6 @@
 // Це окей для розробки, але може викликати проблеми під час білду.
 //  створив додатковий файл .vscode/settings.json в корені проекту який допоміг прибрати багі в файлах конфігурації
 
-import { TruckAlImages } from "../../redux/campers/operations";
-
 // типізувати початковий стан initialState для юзера в слайсі:
 export interface AuthStateUser {
   user: { name: string; email: string } | null;
@@ -37,8 +35,7 @@ export interface TruckDetailWithId extends Truck {
   }[];
 }
 export interface State {
-  items: Array<Truck | TruckDetailWithId | TruckAlImages>;
-  // items: Truck[] | TruckDetailWithId[]; // Це має бути або список вантажівок, або деталі
+  items: Truck[] | TruckDetailWithId[]; // Це має бути або список вантажівок, або деталі
   total: number;
   loading: boolean;
   isFetched: boolean;

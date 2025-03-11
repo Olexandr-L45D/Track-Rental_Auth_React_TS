@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import sprite from "../../images/sprite.svg";
+import sprite from "/images/sprite.svg";
 import css from "./TruckDetails.module.css";
 import { GoArrowLeft } from "react-icons/go";
 import { findTruckById } from "../../redux/campers/operations";
@@ -7,15 +7,11 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../redux/hooks"; // Імпортуйте нові хуки
-// import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/store";
-// Тепер в компоненті TruckDetails.tsx замість стандартного useDispatch, використовуйте useAppDispatch:
 
 const TruckDetails = (): JSX.Element => {
-  // const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
-  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
   const dispatch: AppThunkDispatch = useDispatch();
   const { t } = useTranslation();
   const { selectedTruck, loading, error } = useAppSelector(
