@@ -2,7 +2,7 @@ import clsx from "clsx";
 import css from "./Navigation.module.css";
 import sprite from "../../images/sprite.svg";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export const Navigation = (): JSX.Element => {
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   //    useEffect(() => {
   //   if (!isLoggedIn) {

@@ -6,11 +6,9 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { AppThunkDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 
-   const ButtonLoadMore = (): JSX.Element => {
-  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
-     //  const dispatch = useAppDispatch(); // Використовуємо типізований dispatch (меньше коду)
-     const dispatch: AppThunkDispatch = useDispatch();
-  const { page, totalpages, loading } = useAppSelector((state) => state.campers);
+const ButtonLoadMore = (): JSX.Element => {
+  const dispatch: AppThunkDispatch = useDispatch();
+  const { page, totalpages, loading } = useAppSelector(state => state.campers);
   const { t } = useTranslation();
 
   const handleClick = () => {
@@ -32,15 +30,9 @@ import { useDispatch } from "react-redux";
       </button>
     </div>
   );
-}
+};
 
 export default ButtonLoadMore;
-
-
-
-
-
-
 
 // Як це працює:
 // При кліку по кнопці:

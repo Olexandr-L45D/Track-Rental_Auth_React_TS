@@ -4,25 +4,27 @@ import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { sendResetEmail } from "../../redux/auth/operations";
 import { useTranslation } from "react-i18next";
-import { AppDispatch, AppThunkDispatch } from "../../redux/store";
+import { AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {  useState } from "react";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useState } from "react";
+// import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 interface SendResetEmailFormProps {
   onClose: () => void; // ✅ Додаємо типізацію `onClose`
+}
+
+interface UsEmailVelues {
+  email: string;
+}
+// Початкові значення форми
+const initialResValues: UsEmailVelues = {
+  email: "",
 };
 
- interface UsEmailVelues { 
-    email: string;
-};
-  // Початкові значення форми
-  const initialResValues: UsEmailVelues = {
-    email: "",
-};
-
-export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps): JSX.Element {
+export default function SendResetEmailForm({
+  onClose,
+}: SendResetEmailFormProps): JSX.Element {
   // const dispatch: AppDispatch = useDispatch();
   //  const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
   const dispatch: AppThunkDispatch = useDispatch();
@@ -31,24 +33,23 @@ export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps)
   const [error, setError] = useState("");
   const { t } = useTranslation();
 
-
   const handleSendResetEmail = async (
-  values: UsEmailVelues,
-   { setSubmitting, resetForm }: FormikHelpers<UsEmailVelues>
- ) => {
-  const trimEmail = values.email.trim();
-  try {
-    await dispatch(sendResetEmail(trimEmail));
-    toast.success("You have successfully reset email!");
-    // Якщо в response є payload із повідомленням
-   setMessage("Check your email for the reset link!");
-  } catch (error) {
-    setMessage("Failed to send reset email. Try again.");
-    }finally {
+    values: UsEmailVelues,
+    { setSubmitting, resetForm }: FormikHelpers<UsEmailVelues>
+  ) => {
+    const trimEmail = values.email.trim();
+    try {
+      await dispatch(sendResetEmail(trimEmail));
+      toast.success("You have successfully reset email!");
+      // Якщо в response є payload із повідомленням
+      setMessage("Check your email for the reset link!");
+    } catch (error) {
+      setMessage("Failed to send reset email. Try again.");
+    } finally {
       setSubmitting(false);
       resetForm();
     }
-};
+  };
   return (
     <div className={css.item}>
       <ToastContainer
@@ -62,10 +63,7 @@ export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps)
         draggable
         pauseOnHover
       />
-      <Formik
-        initialValues={initialResValues}
-        onSubmit={handleSendResetEmail}
-      >
+      <Formik initialValues={initialResValues} onSubmit={handleSendResetEmail}>
         <Form>
           <div className={css.items}>
             <label className={css.label}>Email</label>
@@ -76,21 +74,19 @@ export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps)
               placeholder="Enter email..."
             />
           </div>
-                          
+
           <div className={css.btn}>
             <button onClick={onClose} className={css.LoginForm} type="submit">
               {t("auth.btnsend")}
             </button>
           </div>
-          
+
           {error && <p style={{ color: "red" }}>{error}</p>}
-     
         </Form>
       </Formik>
     </div>
   );
-};
-
+}
 
 // in BECEND:
 
@@ -131,8 +127,6 @@ export default function SendResetEmailForm({ onClose }: SendResetEmailFormProps)
 //         message: "User verify successfully"
 //     });
 // };
-
-
 
 // const emailRegEx = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 

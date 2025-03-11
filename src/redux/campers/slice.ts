@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   fetchAllTruck,
-  fetchAllTruckImage,
-  fetchAllTruckImages,
   fetchAllTruckLanguage,
   findTruckById,
 } from "./operations";
@@ -11,7 +9,6 @@ import {
   Truck,
   TruckDetailWithId,
 } from "../../components/App/App.types";
-import { TruckAlImages } from "../../components/AllTruckListImages/AllTruckListImages";
 
 const initialState: State = {
   items: [],
@@ -42,7 +39,9 @@ const campersSlice = createSlice({
         ) => {
           const newItems = action.payload.items.filter(
             (item: Truck) =>
-              !state.items.some((existing: Truck) => existing.id === item.id)
+              !state.items
+                .filter((existing): existing is Truck => "location" in existing) // фільтрую тільки Truck по location
+                .some(existing => existing.id === item.id)
           );
           state.items = [...state.items, ...newItems];
           state.loading = false;
@@ -79,29 +78,6 @@ const campersSlice = createSlice({
         }
       )
       .addCase(findTruckById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(fetchAllTruckImages.pending, state => {
-        state.loading = true;
-      })
-      .addCase(
-        fetchAllTruckImages.fulfilled,
-        (
-          state: State,
-          action: PayloadAction<{ items: TruckAlImages[]; total: number }>
-        ) => {
-          // state.items = action.payload.items;
-          state.items = [...state.items];
-          state.loading = false;
-          state.isFetched = true;
-          state.totalpages = Math.ceil(action.payload.total / 12);
-          if (state.page < state.totalpages) {
-            state.page += 1;
-          }
-        }
-      )
-      .addCase(fetchAllTruckImages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

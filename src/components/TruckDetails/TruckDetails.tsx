@@ -8,27 +8,29 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../redux/hooks"; // Імпортуйте нові хуки
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+// import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/store";
 // Тепер в компоненті TruckDetails.tsx замість стандартного useDispatch, використовуйте useAppDispatch:
- 
-  const TruckDetails = (): JSX.Element => {
+
+const TruckDetails = (): JSX.Element => {
   // const dispatch = useAppDispatch(); // Використовуємо типізований під капотом в Реакті dispatch
-    // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
-    const dispatch: AppThunkDispatch = useDispatch();
-    const { t } = useTranslation();
-  const { selectedTruck, loading, error } = useAppSelector((state) => state.campers);
+  // const dispatch = useAppDispatch(); // ✅ ВИКОРИСТОВУЄМО `useAppDispatch`
+  const dispatch: AppThunkDispatch = useDispatch();
+  const { t } = useTranslation();
+  const { selectedTruck, loading, error } = useAppSelector(
+    state => state.campers
+  );
   const [open, setOpen] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const { id } = useParams<{ id: string }>();  
-    console.log("🚛 Отримано ID вантажівки:", id);
-    if (!id) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const { id } = useParams<{ id: string }>();
+  console.log("🚛 Отримано ID вантажівки:", id);
+  if (!id) {
     return <div>No Truck ID provided</div>;
   }
-    useEffect(() => {
-       console.log("🚀 Викликаємо findTruckById для ID:", id);
-     dispatch(findTruckById(Number(id)));
+  useEffect(() => {
+    console.log("🚀 Викликаємо findTruckById для ID:", id);
+    dispatch(findTruckById(Number(id)));
   }, [dispatch, id]);
 
   if (loading) {
@@ -134,13 +136,13 @@ import { AppThunkDispatch } from "../../redux/store";
                 </button>
               </li>
             </ul>
-             <Lightbox
-               open={open}
-               close={() => setOpen(false)}
-               slides={slides}
-               index={currentIndex} // Заміна initialIndex на index
-               on={{ view: ({ index }) => setCurrentIndex(index) }} // Додатково, для оновлення індексу при перегляді
-             />
+            <Lightbox
+              open={open}
+              close={() => setOpen(false)}
+              slides={slides}
+              index={currentIndex} // Заміна initialIndex на index
+              on={{ view: ({ index }) => setCurrentIndex(index) }} // Додатково, для оновлення індексу при перегляді
+            />
             <Outlet />
           </div>
         </section>
@@ -150,4 +152,3 @@ import { AppThunkDispatch } from "../../redux/store";
 };
 
 export default TruckDetails;
-

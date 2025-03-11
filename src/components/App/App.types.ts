@@ -3,6 +3,8 @@
 // Це окей для розробки, але може викликати проблеми під час білду.
 //  створив додатковий файл .vscode/settings.json в корені проекту який допоміг прибрати багі в файлах конфігурації
 
+import { TruckAlImages } from "../../redux/campers/operations";
+
 // типізувати початковий стан initialState для юзера в слайсі:
 export interface AuthStateUser {
   user: { name: string; email: string } | null;
@@ -21,7 +23,7 @@ export interface Truck {
   id: number;
   name: string;
   location: string;
-};
+}
 // Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
 export interface TruckDetailWithId extends Truck {
   rating: number;
@@ -35,7 +37,8 @@ export interface TruckDetailWithId extends Truck {
   }[];
 }
 export interface State {
-  items: Truck[] | TruckDetailWithId[]; // Це має бути або список вантажівок, або деталі
+  items: Array<Truck | TruckDetailWithId | TruckAlImages>;
+  // items: Truck[] | TruckDetailWithId[]; // Це має бути або список вантажівок, або деталі
   total: number;
   loading: boolean;
   isFetched: boolean;
@@ -44,7 +47,7 @@ export interface State {
   isBooked: boolean;
   totalpages: number;
   page: number;
-};
+}
 
 export type TruckDetailById = {
   id: number;
@@ -74,7 +77,7 @@ export interface TruckAll {
     reviewer_rating: number;
     comment: string;
   }[];
-};
+}
 // Тип TruckDetailById на базі Truck розширений властивостями для детальної інформації про вантажівку
 export interface TruckDetailAll extends TruckAll {
   kitchen: boolean;
@@ -87,19 +90,23 @@ export interface TruckDetailAll extends TruckAll {
   height: number;
   tank: number;
   consumption: string | number;
-};
+}
 
 export interface BookinFormVelues {
   name: string;
   email: string;
   bookingDate: string;
   comment: string;
-};
+}
 
 export interface TruckReview {
-  reviews: { reviewer_name: string, reviewer_rating: number, comment: string }[];
+  reviews: {
+    reviewer_name: string;
+    reviewer_rating: number;
+    comment: string;
+  }[];
   description: string;
-};
+}
 
 export type PropsisActive = {
   isActive: boolean;

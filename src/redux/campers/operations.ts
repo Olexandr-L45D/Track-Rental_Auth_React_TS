@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { Truck, TruckDetailById } from "../../components/App/App.types";
-import { TruckAlImages } from "../../components/AllTruckListImages/AllTruckListImages";
+// import { TruckAlImages } from "../../components/AllTruckListImages/AllTruckListImages";
 
 const axiosInstanceTruksOperations = axios.create({
   baseURL: "https://66b1f8e71ca8ad33d4f5f63e.mockapi.io", // Тут базовий URL для отримання даних
@@ -50,50 +50,6 @@ export const findTruckById = createAsyncThunk<TruckDetailById, number>(
     }
   }
 );
-
-export interface TruckImageResponse {
-  items: TruckAlImages[];
-  total: number;
-}
-export const fetchAllTruckImage = createAsyncThunk<
-  TruckImageResponse,
-  FetchAllTruckParams,
-  { state: RootState }
->("campers/fetchAllTruckImage", async ({ page = 1 }, { rejectWithValue }) => {
-  try {
-    const response = await fetch(
-      `https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers?page=${page}&limit=12`
-    );
-    if (!response.ok) throw new Error("Network response was not ok");
-    const data = await response.json();
-    return {
-      items: data.map((truck: any) => ({
-        id: truck.id,
-        name: truck.name,
-        gallery: truck.gallery, // Отримуємо тільки галерею
-      })),
-      total: 23,
-    };
-  } catch (e: any) {
-    return rejectWithValue(e.message);
-  }
-});
-
-export const fetchAllTruckImages = createAsyncThunk<
-  TruckImageResponse,
-  FetchAllTruckParams,
-  { state: RootState }
->("campers/fetchAllTruckImages", async ({ page = 1 }, { rejectWithValue }) => {
-  try {
-    const response = await fetch(
-      `https://66b1f8e71ca8ad33d4f5f63e.mockapi.io/campers?page=${page}&limit=12`
-    );
-    if (!response.ok) throw new Error("Network response was not ok");
-    return await response.json();
-  } catch (e: any) {
-    return rejectWithValue(e.message);
-  }
-});
 
 const translateText = async (
   text: string,

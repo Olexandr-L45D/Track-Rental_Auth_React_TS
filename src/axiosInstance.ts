@@ -1,26 +1,22 @@
 import axios from "axios";
-//axiosInstanceUser - to USER -Bec  прибираю імпорт стору та прибираю діспатч з логаут
-// export const axiosInstanceUser = axios.create({
-//   baseURL: "https://connections-api.goit.global",
-// });
+
 export const axiosInstanceUser = axios.create({
   baseURL: "https://nodejs-hw-mongodb-auth-syz8.onrender.com",
   withCredentials: true, // ✅ Дозволяє кукі та заголовки CORS
 });
 
-// baseURL: "https://nodejs-hw-mongodb-auth-syz8.onrender.com",
 //  новий УРЛ з нового сервіса - railway: nodejs-hw-mongodb-production.up.railway.app
 axios.defaults.withCredentials = true;
 
 // Глобальна обробка 401 (Unauthorized)
 axiosInstanceUser.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     if (error.response?.status === 401) {
       console.error("Unauthorized, logging out...");
 
       localStorage.removeItem("token");
-      
+
       window.location.href = "/"; // Перекидаємо на головну
     }
     return Promise.reject(error);
@@ -33,8 +29,8 @@ const axiosInstanceTruksOperations = axios.create({
 
 // 2. Обробляємо помилки у відповіді
 axiosInstanceTruksOperations.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
     if (error.response?.status === 401) {
       console.error("Unauthorized, logging out...");
 
@@ -44,5 +40,3 @@ axiosInstanceTruksOperations.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-

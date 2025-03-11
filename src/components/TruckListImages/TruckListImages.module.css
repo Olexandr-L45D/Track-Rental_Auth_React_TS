@@ -1,6 +1,7 @@
+/* TruckListImages */
+
 .containerList {
-  /* width: 600px; */
-  width: auto;
+  width: 1400px;
   height: auto;
   margin: 0px;
   padding: 0px;
@@ -11,8 +12,8 @@
 }
 
 .list {
-  width: 600px;
-  height: 368px;
+  width: 1400px;
+  height: 300px;
   margin: 1px;
   margin-left: 10px;
   padding: 1px;
@@ -27,9 +28,22 @@
   margin: 0px;
   padding: 0px;
 }
+
+.cartContainer {
+  width: 335px;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 .img {
-  width: 200px;
-  height: 200px;
+  width: 320px;
+  height: 290px;
   padding: 2px;
   margin: 2px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -37,8 +51,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .imgCard {
-  width: 200px;
-  height: 200px;
+  width: 320px;
+  height: 320px;
   padding: 1px;
   margin: 1px;
 }

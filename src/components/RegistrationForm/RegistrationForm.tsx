@@ -3,12 +3,8 @@ import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import {
-  register,
-  setAuthHeader,
-  UsRegisterValues,
-} from "../../redux/auth/operations";
-import { AppDispatch, AppThunkDispatch } from "../../redux/store";
+import { register, UsRegisterValues } from "../../redux/auth/operations";
+import { AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";

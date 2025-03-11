@@ -12,9 +12,6 @@ export default function PrivateRoute({
   redirectTo,
 }: PrivateRouteProps): JSX.Element {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const isRefreshing = useSelector(
-    (state: RootState) => state.auth.isRefreshing
-  );
 
   return isLoggedIn ? <Component /> : <Navigate to={redirectTo} replace />; // ✅ Виконуємо функцію, якщо це функція
 }

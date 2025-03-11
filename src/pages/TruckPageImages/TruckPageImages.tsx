@@ -1,15 +1,13 @@
 import css from "./TruckPageImages.module.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllTruck,
-  fetchAllTruckImage,
-} from "../../redux/campers/operations";
+import { fetchAllTruck } from "../../redux/campers/operations";
 import { selectPage } from "../../redux/campers/selectors";
 import Loader from "../../components/Loader/Loader";
 import { useAppSelector } from "../../redux/hooks";
 import { AppThunkDispatch } from "../../redux/store";
-import AllTruckListImages from "../../components/AllTruckListImages/AllTruckListImages";
+import TruckListImages from "../../components/TruckListImages/TruckListImages";
+import ButtonLoadMore from "../../components/ButtonLoadMore/ButtonLoadMore";
 
 export default function TruckPageImages(): JSX.Element {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -18,15 +16,16 @@ export default function TruckPageImages(): JSX.Element {
 
   useEffect(() => {
     if (page === 1) {
-      dispatch(fetchAllTruckImage({ page }));
+      dispatch(fetchAllTruck({ page }));
     }
   }, [dispatch, page]);
 
   return (
     <div className={css.cartAll}>
       <div className={css.cartAllPage}>
-        {isLoading ? <Loader /> : <AllTruckListImages />}
+        {isLoading ? <Loader /> : <TruckListImages />}
       </div>
+      <ButtonLoadMore />
     </div>
   );
 }

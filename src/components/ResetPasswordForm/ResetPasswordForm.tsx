@@ -1,16 +1,16 @@
 import { useState } from "react";
 import css from "./ResetPasswordForm.module.css";
-import sprite from "../../images/sprite.svg";
+// import sprite from "../../images/sprite.svg";
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { AppDispatch, AppThunkDispatch } from "../../redux/store";
+import { AppThunkDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useSearchParams } from "react-router-dom"; // Отримання токена з URL
 import { resetPassword } from "../../redux/auth/operations";
 import * as Yup from "yup";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+// import { useAppDispatch } from "../../hooks/useAppDispatch";
 import Loader from "../Loader/Loader";
 import { selectIsLoading } from "../../redux/auth/selectors";
 import { setToken } from "../../redux/auth/slice";
