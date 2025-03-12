@@ -4,6 +4,7 @@ import { axiosInstanceUser } from "../../axiosInstance";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { notifyError, notifySuccess } from "../../hooks/notifications";
 import { RootState } from "../store";
+import { AuthResponseLog } from "./slice";
 
 export const setAuthHeader = (accessToken: string | null) => {
   console.log("🔎 Checking accessToken in setAuthHeader:", accessToken);
@@ -114,27 +115,23 @@ export const getUser = createAsyncThunk("user/getUser", async (_, thunkAPI) => {
  */
 
 export const logIn = createAsyncThunk<
-  { status: number; data: AuthResponse }, // ✅ Оновлено тип повернення
+  { status: number; data: AuthResponseLog }, // ✅ Оновлено тип повернення
   AuthCredentials,
   { rejectValue: string }
 >("auth/login", async (userInfo, thunkAPI) => {
   try {
-    const response = await axiosInstanceUser.post<AuthResponse>(
+    const response = await axiosInstanceUser.post<AuthResponseLog>(
       "/auth/login",
       userInfo
     );
-
     console.log("🔍 API LOGIN RESPONSE:", response.data);
     console.log("🔍 API LOGIN TOKEN:", response.data?.data?.accessToken);
-
     if (!response.data || !response.data.data.accessToken) {
       console.error("❌ API response does not contain accessToken!");
       return thunkAPI.rejectWithValue("No accessToken in response");
     }
-
     // ✅ Додаємо токен у заголовки Axios
     setAuthHeader(response.data.data.accessToken);
-
     // ✅ Зберігаємо токен у localStorage
     localStorage.setItem("jwt-token", response.data.data.accessToken);
     notifySuccess("You Login Succesfull");
@@ -144,32 +141,6 @@ export const logIn = createAsyncThunk<
     return thunkAPI.rejectWithValue("Error during login!");
   }
 });
-
-// export const logIn = createAsyncThunk<
-//    { status: number; data: AuthResponse }, // Оновлено тип повернення
-//     AuthCredentials,
-//     { rejectValue: string }
-// >( 'auth/login',   async (userInfo, thunkAPI) => {
-//         try {
-//             const response = await axiosInstanceUser.post<AuthResponse>('/auth/login', userInfo);
-//           // After successful login, add the token to the HTTP header
-//           console.log("🔍 API LOGIN RESPONSE:", response.data); // ✅ Перевіряємо, що повертає бекенд
-//           console.log("🔍 API LOGIN RESPONSE:", response.data.data.accessToken); // ✅ Перевіряємо, що повертає бекенд
-//             setAuthHeader(response.data.data.accessToken);
-
-//             // Збереження токену в localStorage
-//             localStorage.setItem('token', response.data.data.accessToken);
-//            if (!response.data || !response.data.data.accessToken) {
-//         console.error("❌ API response does not contain accessToken!");
-//         return thunkAPI.rejectWithValue("No accessToken in response");
-//       }
-
-//             return { status: response.status, data: response.data }; // Оновлено повернення
-//         } catch (error) {
-//             return thunkAPI.rejectWithValue("Error during login!");
-//         }
-//     }
-// );
 
 /*
  * POST @ /auth/logout
@@ -383,14 +354,16 @@ export const refreshSessionUser = createAsyncThunk<
  */
 export const confirmOauth = createAsyncThunk<
   UserRefreshSessionToken,
-  { code: string | null }, // Очікуваний аргумент
+  { code: string }, // Очікуваний аргумент
   { state: RootState; rejectValue: string }
->("user/confirm-oauth", async (code, thunkAPI) => {
+>("user/confirm-oauth", async ({ code }, thunkAPI) => {
   try {
+    console.log("🚀 Sending request to backend with code:", code);
     const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
       "/auth/confirm-oauth",
       { code }
     );
+    localStorage.setItem("jwt-token", response.data.accessToken || "");
     setAuthHeader(response.data.accessToken);
     return response.data;
   } catch (error: any) {

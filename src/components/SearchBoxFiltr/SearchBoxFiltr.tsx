@@ -1,4 +1,3 @@
-
 import css from "./SearchBoxFiltr.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setFilter } from "../../redux/filters/slice";
@@ -16,7 +15,7 @@ export default function SearchBoxFiltr(): JSX.Element {
 
   // типізую локацію для initialValues та values
   interface SearchBoxVelues {
-    location: string; 
+    location: string;
   }
   // Початкові значення форми
   const initialValues: SearchBoxVelues = {
@@ -29,8 +28,11 @@ export default function SearchBoxFiltr(): JSX.Element {
       .required("Location is required")
       .min(3, "Location must be at least 3 characters"),
   });
-  
-  const handleSubmit = (values: SearchBoxVelues, { setSubmitting }: FormikHelpers<SearchBoxVelues>) => {
+
+  const handleSubmit = (
+    values: SearchBoxVelues,
+    { setSubmitting }: FormikHelpers<SearchBoxVelues>
+  ) => {
     const locationValue = values.location.trim();
 
     // Оновлення URL параметрів
@@ -53,9 +55,8 @@ export default function SearchBoxFiltr(): JSX.Element {
         enableReinitialize
       >
         {({ isSubmitting }) => (
-          <Form>
+          <Form className={css.items}>
             <label className={css.label}>
-              {t("navigation.example")}
               <Field
                 type="text"
                 name="location"
@@ -83,5 +84,3 @@ export default function SearchBoxFiltr(): JSX.Element {
     </div>
   );
 }
-
-

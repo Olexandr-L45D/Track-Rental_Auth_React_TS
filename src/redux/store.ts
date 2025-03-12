@@ -1,10 +1,30 @@
-import { configureStore, Middleware, isRejectedWithValue, Tuple } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  Middleware,
+  isRejectedWithValue,
+  Tuple,
+} from "@reduxjs/toolkit";
 import tasksReducerCard from "./campers/slice";
 import { filtersReducer } from "./filters/slice";
 import languageReducer from "./sliceLanguage";
 import { authReducer } from "./auth/slice";
 import storage from "redux-persist/lib/storage";
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import { confirmOauth } from "./auth/operations";
+
+console.log(
+  "✅ confirmOauth exists in Redux:",
+  typeof confirmOauth === "function"
+);
 
 // ✅ Оновлений persistConfig
 const persistConfig = {
@@ -15,11 +35,11 @@ const persistConfig = {
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 // ✅ Middleware для обробки 401 Unauthorized
-const authMiddleware: Middleware = (store) => (next) => (action) => {
+const authMiddleware: Middleware = store => next => action => {
   if (isRejectedWithValue(action) && action.payload === "Unauthorized") {
     console.error("Unauthorized, logging out...");
     localStorage.removeItem("token");
-    window.location.href = "/"; 
+    window.location.href = "/";
     return;
   }
   return next(action);
@@ -33,7 +53,7 @@ export const store = configureStore({
     language: languageReducer,
   },
 
-   middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
@@ -41,18 +61,14 @@ export const store = configureStore({
       },
       immutableCheck: { warnAfter: 64 },
     }).concat(authMiddleware) as Tuple<[Middleware, Middleware]>, // ✅ Фіксуємо типізацію
-
 });
 
 // ✅ Типізація для `dispatch` та persistor
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export type AppThunkDispatch = typeof store.dispatch & ((action: any) => Promise<any>);
+export type AppThunkDispatch = typeof store.dispatch &
+  ((action: any) => Promise<any>);
 export const persistor = persistStore(store);
-
-
-
-
 
 // {
 //     "rewrites": [
@@ -62,5 +78,3 @@ export const persistor = persistStore(store);
 //         }
 //     ]
 // }
-
-  

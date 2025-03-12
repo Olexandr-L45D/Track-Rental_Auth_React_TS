@@ -27,15 +27,7 @@ const initialLoginValues: UsLoginVelues = {
   password: "",
 };
 
-interface LoginFormProps {
-  attempts: number;
-  setAttempts: React.Dispatch<React.SetStateAction<number>>;
-}
-// export default function LoginForm({ attempts = 0, setAttempts = () => {}}: LoginFormProps): JSX.Element {
-export default function LoginForm({
-  attempts,
-  setAttempts,
-}: LoginFormProps): JSX.Element {
+export default function LoginForm(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false); // <-- Стан модального вікна
   const isLoading = useSelector(selectIsLoading);
   const dispatch: AppThunkDispatch = useDispatch();
@@ -43,16 +35,6 @@ export default function LoginForm({
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (attempts >= 3) {
-      // Використовуємо setTimeout для затримки редіректу
-      setTimeout(() => {
-        console.log("Navigating to /register");
-        navigate("/register");
-      }, 500); // Затримка в 300 мс
-    }
-  }, [attempts, navigate]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -64,38 +46,16 @@ export default function LoginForm({
       .required(" Password is Required"),
   });
 
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
-
-  const handleSubmit = async (
+  const handleLogin = (
     values: UsLoginVelues,
-    { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+    { resetForm }: FormikHelpers<UsLoginVelues>
   ) => {
-    try {
-      await dispatch(logIn(values));
-      toast.success("You have successfully logged in!");
-      console.log("✅ Login successful! Forcing re-render...");
-      forceUpdate(); // ✅ Примусовий ре-рендер  (в звязку з тим що в мене в АПП роути з функцією)
-      navigate("/catalog", { replace: true });
-    } catch (error) {
-      const newAttempts = attempts + 1;
-      setAttempts(newAttempts);
+    const trimmedValues = {
+      email: values.email.trim(),
+      password: values.password.trim(),
+    };
+    dispatch(logIn(trimmedValues));
 
-      if (newAttempts >= 3) {
-        console.log(
-          "Too many failed login attempts, redirecting to /register..."
-        );
-        toast.error(
-          "Too many failed login attempts. Redirecting to registration."
-        );
-        setTimeout(() => {
-          navigate("/register");
-        }, 500); // Невелика затримка перед редіректом
-      } else {
-        setError(
-          `Incorrect email or password. Attempts left: ${3 - newAttempts}`
-        );
-      }
-    }
     resetForm();
   };
 
@@ -115,7 +75,7 @@ export default function LoginForm({
       <Formik
         validationSchema={validationSchema}
         initialValues={initialLoginValues}
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
       >
         <Form>
           <div className={css.items}>
@@ -196,6 +156,59 @@ export default function LoginForm({
     </div>
   );
 }
+
+// interface LoginFormProps {
+//   attempts: number;
+//   setAttempts: React.Dispatch<React.SetStateAction<number>>;
+// }
+// export default function LoginForm({
+//   attempts,
+//   setAttempts,
+// }: LoginFormProps): JSX.Element {
+
+// const handleSubmit = async (
+//   values: UsLoginVelues,
+//   { setSubmitting, resetForm }: FormikHelpers<UsLoginVelues>
+// ) => {
+//   try {
+//     await dispatch(logIn(values));
+//     toast.success("You have successfully logged in!");
+//     console.log("✅ Login successful! Forcing re-render...");
+//     forceUpdate(); // ✅ Примусовий ре-рендер  (в звязку з тим що в мене в АПП роути з функцією)
+//     navigate("/catalog", { replace: true });
+//   } catch (error) {
+//     const newAttempts = attempts + 1;
+//     setAttempts(newAttempts);
+
+//     if (newAttempts >= 3) {
+//       console.log(
+//         "Too many failed login attempts, redirecting to /register..."
+//       );
+//       toast.error(
+//         "Too many failed login attempts. Redirecting to registration."
+//       );
+//       setTimeout(() => {
+//         navigate("/register");
+//       }, 500); // Невелика затримка перед редіректом
+//     } else {
+//       setError(
+//         `Incorrect email or password. Attempts left: ${3 - newAttempts}`
+//       );
+//     }
+//   }
+//   resetForm();
+// };
+
+// const [, forceUpdate] = useReducer(x => x + 1, 0);
+// useEffect(() => {
+//   if (attempts >= 3) {
+//     // Використовуємо setTimeout для затримки редіректу
+//     setTimeout(() => {
+//       console.log("Navigating to /register");
+//       navigate("/register");
+//     }, 500); // Затримка в 300 мс
+//   }
+// }, [attempts, navigate]);
 
 //  Реакт-ТайпСкрипт очікує пропси тому підкреслювало в АПП - я додав в сам РОУТ але якщо не працює то треба передати в сам ЛОГІН-Форм в аргументах
 // так як має працювати лічильник спроб авторизаціїї до 3 -х разів і якщо ні то перекидати на регістрацію

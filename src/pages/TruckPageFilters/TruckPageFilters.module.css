@@ -1,27 +1,26 @@
 .cartAll {
-    width: 1440px;
-    height: auto;
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    /* overflow-x: hidden; */ 
-    /* фіксує сторінку і блокує горизонтальний скрол (вліво/вправо) */
+  width: 1440px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  /* flex-direction: column; */
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  /* overflow-x: hidden; */
+  /* фіксує сторінку і блокує горизонтальний скрол (вліво/вправо) */
 }
 
 .cartAllPage {
-    width: 1440px;
-    height: auto;
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+  width: 1440px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
-
-

@@ -17,13 +17,6 @@ export const Navigation = (): JSX.Element => {
   const { i18n } = useTranslation(); // Додано хук
   const { t } = useTranslation();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
-  // const navigate = useNavigate();
-
-  //    useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     navigate("/login"); // Перенаправляємо без диспатчу до лоігну
-  //   }
-  // }, [isLoggedIn, navigate]);
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("appLanguage") || "en";

@@ -30,9 +30,18 @@ export interface AuthResponse {
   };
 }
 
+export interface AuthResponseLog {
+  data: {
+    accessToken: string;
+    user: {
+      email: string;
+    };
+  };
+}
+
 export interface User {
   id?: string; // id не обов'язковий
-  name: string;
+  name?: string;
   email: string;
 }
 
@@ -47,7 +56,8 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: null,
+  // user: null,
+  user: null as { email: string } | null, // ✅ Дозволяємо user бути null
   token: null,
   accessToken: null,
   isLoggedIn: false,
@@ -125,21 +135,21 @@ const authSlice = createSlice({
             "🟢 Expected `accessToken`:",
             action.payload?.data?.data?.accessToken
           );
-
-          state.user = {
-            name: action.payload.data.data.user.name,
-            email: action.payload.data.data.user.email,
-          };
-
+          if (action.payload?.data?.data?.user) {
+            state.user = {
+              name: action.payload.data.data.user.name ?? "",
+              email: action.payload.data.data.user.email ?? "",
+            };
+          } else {
+            console.warn("⚠️ No user data found in response!");
+          }
           const accessToken = action.payload?.data?.data?.accessToken;
-
           if (accessToken) {
             state.accessToken = action.payload.data.data.accessToken;
             localStorage.setItem(
               "jwt-token",
               action.payload.data.data.accessToken
             );
-
             // Встановлення заголовка для всіх наступних запитів
             setAuthHeader(action.payload.data.data.accessToken);
           } else {
@@ -156,7 +166,7 @@ const authSlice = createSlice({
         logIn.fulfilled,
         (
           state,
-          action: PayloadAction<{ status: number; data: AuthResponse }>
+          action: PayloadAction<{ status: number; data: AuthResponseLog }>
         ) => {
           console.log("🟢 logIn.fulfilled TRIGGERED!");
           console.log("🔄 handleLogin TRIGGERED!");
@@ -165,33 +175,30 @@ const authSlice = createSlice({
             "📌 Отримано токен:",
             action.payload?.data?.data?.accessToken
           );
-
-          state.user = {
-            name: action.payload.data.data.user.name,
-            email: action.payload.data.data.user.email,
-          };
+          if (action.payload?.data?.data?.user) {
+            state.user = {
+              ...(state.user ?? {}), // ✅ Запобігаємо помилці
+              email: action.payload.data.data.user.email ?? "",
+            };
+          } else {
+            console.warn("⚠️ No user data found in response!");
+          }
 
           const newAccessToken = action.payload.data.data.accessToken ?? null;
-
           state.accessToken = newAccessToken;
           state.isLoading = false;
           state.isRefreshing = false;
           state.isLoggedIn = !!newAccessToken;
-
           console.log(
             "✅ Новий токен, який записуємо в Redux:",
             newAccessToken
           );
-
           if (newAccessToken) {
             console.log("📦 Зберігаємо цей самий токен у LocalStorage");
             localStorage.setItem("jwt-token", newAccessToken);
           }
-
           console.log("✅ state після handleLogin:", state);
-
           setAuthHeader(newAccessToken);
-
           console.log("✅ Token успішно записано в Redux:", state.accessToken);
           console.log("✅ isLoggedIn SET TO TRUE in Redux:", state.isLoggedIn);
           console.log("📌 New Redux State:", state); // ✅ Додали лог стану
@@ -257,26 +264,13 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isError = action.payload as string;
       })
-      // .addCase(confirmOauth.fulfilled, (state: AuthState, action: PayloadAction<{ status: number; data: AuthResponse }>) => {
 
-      //   console.log("🔑 Payload отримано:", action.payload);
-      //   console.log("📌 Отримано токен:", action.payload?.data?.data?.accessToken);
-
-      //   state.user = {
-      //     name: action.payload.data.data.user.name,
-      //     email: action.payload.data.data.user.email,
-      //   };
-
-      //   state.accessToken = action.payload.data.data.accessToken;
-      //   state.isLoggedIn = true;
-      //   localStorage.setItem("jwt-token", action.payload.data.data.accessToken);
-      //   setAuthHeader(action.payload.data.data.accessToken);
-      // })
       .addCase(confirmOauth.fulfilled, handleLogin)
-      .addCase(confirmEmail.fulfilled, state => {
+
+      .addCase(getOauthUrl.fulfilled, state => {
         state.isLoading = false;
       })
-      .addCase(getOauthUrl.fulfilled, state => {
+      .addCase(confirmEmail.fulfilled, state => {
         state.isLoading = false;
       })
       .addCase(getUser.fulfilled, handleUserInfo)
