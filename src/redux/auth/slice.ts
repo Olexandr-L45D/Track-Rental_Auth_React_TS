@@ -274,6 +274,7 @@ const authSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(getUser.fulfilled, handleUserInfo)
+
       .addCase(refreshSessionUser.pending, state => {
         state.isRefreshing = true;
       })
@@ -287,6 +288,8 @@ const authSlice = createSlice({
       })
 
       .addCase(refreshSessionUser.rejected, (state, action) => {
+        console.error("❌ REFRESH REJECTED:", action.error);
+        console.error("📌 Error payload:", action.payload);
         state.accessToken = null;
         state.isError = action.payload as string;
         state.isRefreshing = false;

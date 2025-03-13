@@ -169,14 +169,12 @@ export interface UserRefreshToken {
   accessToken: string | null; // Токен може приходити в деяких випадках
 }
 
-// функція відправки листа на пошту для авторизації (використовую власний бекенд)
 interface ResetEmailResponse {
   email: string;
 }
 
 export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
   "auth/sendResetEmail",
-  // 'user/sendResetEmail',
   async (email, { rejectWithValue }) => {
     try {
       const response = await axiosInstanceUser.post("/auth/send-reset-email", {
@@ -190,26 +188,6 @@ export const sendResetEmail = createAsyncThunk<ResetEmailResponse, string>(
   }
 );
 
-/**
- * Send Reset Password Email
- * User gets link to the Password Reset page with reset token
- */
-// export const sendResetPasswordEmail = createAsyncThunk(
-//   'user/send-reset-email',
-//   async (email, thunkAPI) => {
-//     try {
-//       const { data } = await authAPI.post('/auth/send-reset-email', email);
-//       notifySuccess('Password reset email sent');
-//       return data;
-//     } catch (error) {
-//       if (error.response?.data?.data?.message)
-//         return thunkAPI.rejectWithValue(error.response.data.data.message);
-//       notifyError('Password reset email was not sent');
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   },
-// );
-
 // функція ресет пароля для сміни пароля та утентифікації (використовую власний бекенд)
 export const resetPassword = createAsyncThunk<
   { message: string }, // Очікуваний формат відповіді
@@ -220,10 +198,11 @@ export const resetPassword = createAsyncThunk<
   // 'user/reset-pwd',
   async ({ newPassword, token }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstanceUser.post("/auth/reset-pwd", {
-        newPassword,
-        token,
-      });
+      const response = await axiosInstanceUser.post(
+        "/auth/reset-pwd",
+        { newPassword, token },
+        { withCredentials: true } // Додаємо підтримку куків
+      );
       notifySuccess("Reset on you password Succesfull");
       return response.data;
     } catch (error: any) {
@@ -247,8 +226,10 @@ export const refreshUser = createAsyncThunk<
     }
     setAuthHeader(accessToken);
     notifySuccess("Refresh of token Succesfull");
-    const response = await axiosInstanceUser.get<UserRefreshToken>(
-      "/auth/refresh"
+    const response = await axiosInstanceUser.post<UserRefreshToken>(
+      "/auth/refresh",
+      {}, // Порожній об'єкт, оскільки POST
+      { withCredentials: true } // Додаємо підтримку куків
     );
 
     console.log("🟢 User data from refresh:", response.data);
@@ -269,6 +250,7 @@ export const refreshUser = createAsyncThunk<
 /**
  * Confirm Email
  * User is now active and can log in with his password
+ * функція для пудтвердження електронної адреси
  */
 interface ConfirmEmailPayload {
   accessToken: string | null;
@@ -279,9 +261,11 @@ export const confirmEmail = createAsyncThunk<
   { token: string } // ✅ Очікуємо об'єкт з `token`
 >("user/confirm-email", async ({ token }, thunkAPI) => {
   try {
-    const response = await axiosInstanceUser.post("/auth/confirm-email", {
-      token,
-    });
+    const response = await axiosInstanceUser.post(
+      "/auth/confirm-email/:token",
+      { token },
+      { withCredentials: true } // Додаємо підтримку куків
+    );
     console.log(response);
     setAuthHeader(response.data.data.accessToken);
     notifySuccess("Email confirmed");
@@ -325,29 +309,55 @@ export interface UserRefreshSessionToken {
 }
 
 export const refreshSessionUser = createAsyncThunk<
-  UserRefreshSessionToken, // 🔹 Можеш замінити на точний тип даних, який повертає API
+  UserRefreshSessionToken,
   void,
-  { state: RootState; rejectValue: string } // 🔹 Додаємо правильний тип для `getState()`
->(
-  "user/refresh-session",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
-        "/auth/refresh"
-      );
-      setAuthHeader(response.data.accessToken);
-      return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  },
-  {
-    condition: (_, thunkAPI) => {
-      const reduxState = thunkAPI.getState() as RootState; // 🔹 Вказуємо RootState
-      return reduxState.auth.accessToken !== null;
-    },
+  { state: RootState; rejectValue: string }
+>("user/refresh-session", async (_, thunkAPI) => {
+  try {
+    console.log("🚀 Sending refresh request...");
+
+    const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
+      "/auth/refresh",
+      {}, // Порожній об'єкт, оскільки POST
+      { withCredentials: true } // Додаємо підтримку куків
+    );
+
+    console.log("✅ Refresh response:", response.data);
+
+    setAuthHeader(response.data.accessToken);
+    return response.data;
+  } catch (error: any) {
+    console.error("❌ Refresh failed:", error.response?.data || error.message);
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "Refresh failed"
+    );
   }
-);
+});
+
+// export const refreshSessionUser = createAsyncThunk<
+//   UserRefreshSessionToken, // 🔹 Можеш замінити на точний тип даних, який повертає API
+//   void,
+//   { state: RootState; rejectValue: string } // 🔹 Додаємо правильний тип для `getState()`
+// >(
+//   "user/refresh-session",
+//   async (_, thunkAPI) => {
+//     try {
+//       const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
+//         "/auth/refresh"
+//       );
+//       setAuthHeader(response.data.accessToken);
+//       return response.data;
+//     } catch (error: any) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   },
+//   {
+//     condition: (_, thunkAPI) => {
+//       const reduxState = thunkAPI.getState() as RootState; // 🔹 Вказуємо RootState
+//       return reduxState.auth.accessToken !== null;
+//     },
+//   }
+// );
 
 /**
  * Google auth: confirm user and get authToken
@@ -360,8 +370,9 @@ export const confirmOauth = createAsyncThunk<
   try {
     console.log("🚀 Sending request to backend with code:", code);
     const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
-      "/auth/confirm-oauth",
-      { code }
+      "/auth/confirm-oauth/",
+      { code },
+      { withCredentials: true } // Додаємо підтримку куків
     );
     localStorage.setItem("jwt-token", response.data.accessToken || "");
     setAuthHeader(response.data.accessToken);

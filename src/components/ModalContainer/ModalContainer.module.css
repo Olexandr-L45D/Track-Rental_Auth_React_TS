@@ -1,19 +1,20 @@
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    z-index: 500;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Покриває весь екран */
+  display: flex;
+  justify-content: center; /* Центруємо по горизонталі */
+  align-items: center; /* Центруємо по вертикалі */
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6); /* Темний фон */
 }
 
 .black {
-    background-color: var(--backdrop-color-black);
+  background-color: var(--backdrop-color-black);
 }
 
 .transparent {
-    background-color: transparent;
+  background-color: transparent;
 }

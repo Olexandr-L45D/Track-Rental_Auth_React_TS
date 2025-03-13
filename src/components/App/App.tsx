@@ -41,7 +41,7 @@ import { AppThunkDispatch, RootState } from "../../redux/store";
 import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
-import { refreshUser } from "../../redux/auth/operations";
+import { refreshSessionUser, refreshUser } from "../../redux/auth/operations";
 
 // Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
 /// <reference lib="dom" />
@@ -68,6 +68,20 @@ export default function App() {
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   console.log("🔄 Checking session...");
+  //   dispatch(refreshSessionUser());
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   const firstLogIn = () => {
+  //     if (accessToken) {
+  //       dispatch(getUser());
+  //     }
+  //   };
+  //   firstLogIn();
+  // }, [accessToken, dispatch]);
 
   // useEffect(() => {
   //   console.log("🟢 useEffect TRIGGERED (Token Check)");
@@ -138,7 +152,7 @@ export default function App() {
 
           {/* Форми скидання пароля */}
           <Route
-            path="/confirm-email"
+            path="/confirm-email/:token"
             element={
               <RestrictedRoute
                 component={SendEmailConfirmationPage}
@@ -156,7 +170,19 @@ export default function App() {
               />
             }
           />
-          <Route
+
+          {/* <Route
+            path="/googleauth"
+            element={
+              <RestrictedRoute
+                component={<GoogleRedirectHandler />}
+                redirectTo="/home"
+              />
+            }
+          /> */}
+          <Route path="/confirm-oauth" element={<GoogleRedirectHandler />} />
+
+          {/* <Route
             path="/confirm-oauth"
             element={
               <RestrictedRoute
@@ -164,7 +190,7 @@ export default function App() {
                 redirectTo="/catalog"
               />
             }
-          />
+          /> */}
 
           {/* Захищені маршрути */}
           <Route

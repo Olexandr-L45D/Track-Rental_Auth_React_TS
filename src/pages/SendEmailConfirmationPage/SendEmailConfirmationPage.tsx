@@ -26,9 +26,9 @@ const SendEmailConfirmationPage = (): JSX.Element => {
       }, 3000);
     } catch (error) {
       console.error(error);
-      // notifyError('Failed to confirm email. Please try again.');
+
       setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 3000);
     }
   };
