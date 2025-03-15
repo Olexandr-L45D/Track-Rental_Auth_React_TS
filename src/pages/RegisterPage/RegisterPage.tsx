@@ -14,38 +14,8 @@ const RegisterPage = (): JSX.Element => {
   const dispatch: AppThunkDispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
 
-  //   useEffect(() => {
-  //   console.log("🟢 RegisterPage useEffect triggered");
-
-  //   const token = localStorage.getItem("jwt-token");
-  //   if (token) {
-  //     console.log("📦 Loaded token from LocalStorage:", token);
-  //     dispatch(setToken({ accessToken: token }));
-  //   }
-
-  //   if (isLoggedIn && location.pathname === "/register") {
-  //     console.log("🚀 User is logged in! Navigating to /catalog");
-  //     navigate("/catalog", { replace: true });
-  //   }
-  // }, [dispatch, navigate, isLoggedIn, location.pathname]);
-
-  //   useEffect(() => {
-  //   console.log("🟢 RegisterPage useEffect triggered");
-
-  //   const token = localStorage.getItem("jwt-token");
-  //   if (token) {
-  //     console.log("📦 Loaded token from LocalStorage:", token);
-  //     dispatch(setToken({ accessToken: token }));
-  //   }
-
-  //   if (isLoggedIn) {
-  //     console.log("🚀 User is logged in! Navigating to /catalog");
-  //     navigate("/catalog", { replace: true });
-  //   }
-  // }, [dispatch, navigate, isLoggedIn]);
-
   return (
-    <section className={css.background}>
+    <section className={css.container}>
       <section className={css.sectinPage}>
         <div className={css.card}>
           <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>

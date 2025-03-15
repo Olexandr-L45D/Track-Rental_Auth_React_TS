@@ -53,7 +53,7 @@ export default function TruckPageFilters(): JSX.Element {
   }, [dispatch, page, filteres]);
 
   return (
-    <div className={css.cartAll}>
+    <div className={css.container}>
       <div className={css.cartAllPage}>
         <SearchBoxFiltr />
         {isLoading ? <Loader /> : <AllTruckList />}

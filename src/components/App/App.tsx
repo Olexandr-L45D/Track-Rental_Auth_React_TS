@@ -69,63 +69,6 @@ export default function App() {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   console.log("🔄 Checking session...");
-  //   dispatch(refreshSessionUser());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   const firstLogIn = () => {
-  //     if (accessToken) {
-  //       dispatch(getUser());
-  //     }
-  //   };
-  //   firstLogIn();
-  // }, [accessToken, dispatch]);
-
-  // useEffect(() => {
-  //   console.log("🟢 useEffect TRIGGERED (Token Check)");
-  //   console.log("📌 Поточний маршрут:", location.pathname);
-  //   console.log("📌 isLoggedIn:", isLoggedIn);
-  //   console.log("📌 accessToken:", accessToken);
-  //   console.log("⚠️ Already redirected:", hasRedirected);
-  //   console.log("📦 First visit flag before check:", localStorage.getItem("firstVisit"));
-
-  //   if (hasRedirected) {
-  //     console.log("🛑 Skipping redirect, already redirected.");
-  //     return;
-  //   }
-
-  //   const isFirstVisit = !localStorage.getItem("firstVisit");
-
-  //   if (isFirstVisit) {
-  //     console.log("🔥 First visit detected! Saving flag...");
-  //     localStorage.setItem("firstVisit", "true");
-
-  //     if (!isLoggedIn && !isRefreshing) {
-  //       console.log("⏳ Redirecting to /register...");
-  //       setHasRedirected(true);
-  //       navigate("/register", { replace: true });
-  //       return;
-  //     }
-  //   }
-
-  //   if (!isLoggedIn && !isRefreshing && location.pathname !== "/register" && location.pathname !== "/") {
-  //     console.log("🔄 Redirecting to /login...");
-  //     setHasRedirected(true);
-  //     navigate("/login", { replace: true });
-  //     return;
-  //   }
-
-  //   if (isLoggedIn) {
-  //     console.log("🚀 Redirecting to /catalog");
-  //     setHasRedirected(true);
-  //     navigate("/catalog", { replace: true });
-  //     return;
-  //   }
-
-  // }, [isLoggedIn, isRefreshing, navigate, location.pathname, hasRedirected]);
-
   return isRefreshing ? (
     <Loader />
   ) : (

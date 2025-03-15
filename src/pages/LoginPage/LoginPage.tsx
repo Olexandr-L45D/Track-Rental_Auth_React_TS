@@ -11,7 +11,7 @@ const LoginPage = (): JSX.Element => {
   const [attempts, setAttempts] = useState(0);
 
   return (
-    <section className={css.background}>
+    <section className={css.container}>
       <section className={css.cartFormSection}>
         <div className={css.cartPage}>
           <h1 className={css.cartTitl}>{t("login.titleLogin")}</h1>

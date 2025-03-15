@@ -26,7 +26,8 @@
     "consum": "Споживання",
     "contacts": "Контакти",
     "login": "Увійти",
-    "register": "Реєстрація"
+    "register": "Реєстрація",
+    "navGalery": "Галерея автівок"
   },
   "register": {
     "titleRegistr": "АВТОРИЗАЦІЯ",
@@ -34,7 +35,10 @@
     "titleAuthen": "АУТЕНТИФІКАЦІЯ",
     "titleEmail": "Лист",
     "titlePassword": "Новий Пароь",
-    "titleLogout": "Вийти"
+    "titleLogout": "Вийти",
+    "titleResetPass": "Форма заміни пароля",
+    "titleHello": "Привіт",
+    "textDescrip": "Придумайте і надішліть новий складний пароль довжиною не менше 8 символів, який містить цифри і великі та малі літери"
   },
   "login": {
     "titleLogin": "ФОРМА АВТОРИЗАЦІЇ"

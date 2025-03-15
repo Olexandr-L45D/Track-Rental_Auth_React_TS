@@ -1,20 +1,18 @@
-.cartAll {
-  width: 1440px;
+/* .container {
+  width: 320px;
   height: auto;
   margin: 0px;
   padding: 0px;
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   flex-direction: row;
   text-align: center;
   justify-content: center;
   align-items: center;
-  /* overflow-x: hidden; */
-  /* фіксує сторінку і блокує горизонтальний скрол (вліво/вправо) */
 }
 
 .cartAllPage {
-  width: 1440px;
+  width: 320px;
   height: auto;
   margin: 0px;
   padding: 0px;
@@ -23,4 +21,154 @@
   text-align: center;
   justify-content: center;
   align-items: center;
+} */
+
+.container {
+  width: 320px;
+  height: auto;
+  margin: 0px;
+  margin-top: 65px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.cartAllPage {
+  width: 320px;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 320px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .cartAllPage {
+    width: 320px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 320px) {
+  .container {
+    max-width: 300px;
+  }
+  .cartAllPage {
+    width: 320px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .cartAllPage {
+    width: 750px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 1000px;
+  }
+  .cartAllPage {
+    width: 1000px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    width: 1260px;
+  }
+  .cartAllPage {
+    width: 1260px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* Широкі екрани (1440px - 1580px) */
+@media (min-width: 1440px) {
+  .container {
+    width: 1420px;
+  }
+  .cartAllPage {
+    width: 1400px;
+  }
+}
+
+/* Дуже широкі екрани (від 1580px і більше) */
+@media (min-width: 1580px) {
+  .container {
+    width: 1560px;
+  }
+}
+@media (min-width: 1700px) {
+  .container {
+    width: 1680px;
+  }
+}
+
+/* Ультра широкі монітори (1920px і більше) */
+@media (min-width: 1920px) {
+  .container {
+    width: 1900px;
+  }
 }

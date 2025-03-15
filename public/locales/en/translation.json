@@ -25,7 +25,8 @@
     "width": "Width",
     "height": "Height",
     "tank": "Tank",
-    "consum": "Consumption"
+    "consum": "Consumption",
+    "navGalery": "Truck Gallery"
   },
   "register": {
     "titleRegistr": "AUTHORIZATION",
@@ -33,7 +34,10 @@
     "titleAuthen": "AUTHENTICATION",
     "titleEmail": "Reset Email",
     "titlePassword": "Reset Password",
-    "titleLogout": "Logout"
+    "titleLogout": "Logout",
+    "titleResetPass": "ResetPasswordForm",
+    "titleHello": "Hello",
+    "textDescrip": "Come up with and send a new complex password a length of at least 8"
   },
   "login": {
     "titleLogin": "AUTHORIZATION FORM"

@@ -1,3 +1,18 @@
+.container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 56px);
+  overflow: hidden;
+  background-image: url("../../images/Picture.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%, 280px 210px;
+  margin-top: 120px;
+}
+
 .cartFormSection {
   padding: auto;
   margin-top: 30px;
@@ -90,12 +105,48 @@
   text-align: left;
 }
 
-.background {
-  min-height: calc(100vh - 56px);
-  overflow: hidden;
-  background-image: url("../../images/Picture.jpg");
-  background-repeat: no-repeat, no-repeat;
-  background-size: 100%, 280px 210px;
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+  }
 }
 
-/* litvinenko1978aleks@gmail.com */
+@media (min-width: 1024px) {
+  .container {
+    width: 1024px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    width: 1280px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    width: 1440px;
+  }
+}
+
+@media (min-width: 1580px) {
+  .container {
+    width: 1580px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    width: 1920px;
+  }
+}

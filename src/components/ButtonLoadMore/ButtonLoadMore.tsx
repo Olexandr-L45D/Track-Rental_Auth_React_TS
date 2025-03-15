@@ -5,6 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { AppThunkDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 
 const ButtonLoadMore = (): JSX.Element => {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -33,6 +34,55 @@ const ButtonLoadMore = (): JSX.Element => {
 };
 
 export default ButtonLoadMore;
+
+// const ButtonLoadMore = (): JSX.Element => {
+//   const dispatch: AppThunkDispatch = useDispatch();
+//   const { page, totalpages, loading } = useAppSelector(state => state.campers);
+//   const [isVisible, setIsVisible] = useState(false);
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       const gallery = document.querySelector(".cartAllPage");
+//       if (!gallery) return;
+
+//       const rect = gallery.getBoundingClientRect();
+//       const isBottomVisible = rect.bottom <= window.innerHeight;
+
+//       setIsVisible(isBottomVisible);
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+//     handleScroll(); // Викликаємо один раз при завантаженні
+
+//     return () => {
+//       window.removeEventListener("scroll", handleScroll);
+//     };
+//   }, []);
+
+//   const handleClick = () => {
+//     if (!loading && page < totalpages) {
+//       dispatch(fetchAllTruck({ page }));
+//     }
+//   };
+
+//   return (
+//     <div
+//       className={`${css.cartBottomLoad} ${
+//         isVisible ? css.visible : css.hidden
+//       }`}
+//     >
+//       <button
+//         className={css.btnSend}
+//         onClick={handleClick}
+//         disabled={loading || page >= totalpages}
+//       >
+//         {loading ? "Loading..." : "Load more"}
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default ButtonLoadMore;
 
 // Як це працює:
 // При кліку по кнопці:

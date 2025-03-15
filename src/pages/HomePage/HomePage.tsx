@@ -13,7 +13,7 @@ export default function HomePage(): JSX.Element {
   const [showAuth, setShowAuth] = useState(false);
 
   return (
-    <div className={css.background}>
+    <div className={css.container}>
       <section className={css.card}>
         <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
         <h3 className={css.cartText}>{t("navigation.titleWelcom")}</h3>

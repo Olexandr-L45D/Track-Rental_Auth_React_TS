@@ -8,28 +8,20 @@ import ResetPasswordForm from "../../components/ResetPasswordForm/ResetPasswordF
 const ResetPasswordPage = (): JSX.Element => {
   const [isRegistering, setIsRegistering] = useState(true);
   const { t } = useTranslation();
-  // const [attempts, setAttempts] = useState(0);
-  // const navigate = useNavigate();
   const isLoggedIn = useSelector(
     (state: RootState) => state.auth?.isLoggedIn ?? false
   );
 
   return (
-    <section className={css.background}>
+    <section className={css.container}>
       <section className={css.sectinPage}>
         <div className={css.card}>
-          <h1 className={css.cartTitle}>Hello</h1>
-          <h2 className={css.cartText}>
-            Come up with and send a new complex password that contains numbers
-            and upper and lower case letters with a length of at least 8
-            characters
-          </h2>
+          <h1 className={css.cartTitle}>{t("register.titleHello")}</h1>
+          <h2 className={css.cartText}>{t("register.textDescrip")}</h2>
         </div>
         <section className={css.cartFormSection}>
           <div className={css.cartPage}>
-            {/* <h3 className={css.cartForm}>{t("register.titleRegistr")}</h3> */}
-            <h3 className={css.cartForm}>ResetPasswordForm</h3>
-
+            <h3 className={css.cartForm}>{t("register.titleResetPass")}</h3>
             <ResetPasswordForm />
           </div>
         </section>

@@ -33,10 +33,8 @@ export const Navigation = (): JSX.Element => {
   return (
     <section className={css.container}>
       <div className={css.title}>
-        <NavLink to="/" className={css.navLink}>
-          <svg className={css.iconLogo}>
-            <use href={`${sprite}#icon-truckLogo`} />
-          </svg>
+        <NavLink to="/" className={newLinkClass}>
+          {t("navigation.navGalery")}
         </NavLink>
       </div>
 

@@ -1,95 +1,141 @@
-
 .container {
-    width: 100%;
-    display: flex;
-    justify-content: start;
-     align-items: left;
-    text-align: left;
-    
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: start;
+  align-items: left;
+  text-align: left;
+  min-height: calc(100vh - 56px);
+  overflow: hidden;
+  background-image: url("../../images/Picture.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100%, 280px 210px;
+  margin-top: 120px;
 }
 
 .card {
-    display: flex;
-    margin-top: 180px;
-    margin-left: 64px;
-    flex-direction: column;
-    justify-content: start;
-    align-items: left;
-    text-align: left;
+  display: flex;
+  margin-top: 180px;
+  margin-left: 64px;
+  flex-direction: column;
+  justify-content: start;
+  align-items: left;
+  text-align: left;
 }
 
 .cartTitle {
-    padding: 2px;
-    margin: 2px;
-    color: #fff;
-    font-size: 2em;
-    font-weight: 900;
-    line-height: 2;
-    display: flex;
-    justify-content: start;
-    align-items: left;
-    text-align: left;
+  padding: 2px;
+  margin: 2px;
+  color: #fff;
+  font-size: 2em;
+  font-weight: 900;
+  line-height: 2;
+  display: flex;
+  justify-content: start;
+  align-items: left;
+  text-align: left;
 }
 
 .cartText {
-    padding: 2px;
-    margin: 2px;
-    color: #fff;
-    font-size: 1em;
-    font-weight: 700;
-    line-height: 1;
+  padding: 2px;
+  margin: 2px;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  justify-content: start;
+  align-items: left;
+  text-align: left;
+}
+
+.cartBtn {
+  padding: 2px;
+  margin: 2px;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1;
+}
+.cartIcon {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+  margin-bottom: 0px;
+  padding: 0px;
+}
+
+.buttonViews {
+  width: 166px;
+  height: 56px;
+  padding: 0px;
+  margin: 10px;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+  border-radius: 40px;
+}
+
+.btnVie {
+  width: 166px;
+  height: 56px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e44848;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 40px;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
     display: flex;
     justify-content: start;
     align-items: left;
     text-align: left;
+    margin: 0px;
+  }
 }
 
-.cartBtn {
-    padding: 2px;
-    margin: 2px;
-    font-size: 1em;
-    font-weight: 700;
-    line-height: 1;
-}
-.cartIcon {
-    width: 80px;
-    height: 80px;
-    margin: 5px;
-    margin-bottom: 0px;
-    padding: 0px;
-}
-
-.background {
-    min-height: calc(100vh - 56px);
-    overflow: hidden;
-    background-image: url('../../images/Picture.jpg');
-    background-repeat: no-repeat, no-repeat;
-    background-size: 100%, 280px 210px;
-    
-}
-
-.buttonViews {
-    width: 166px;
-    height: 56px;
-    padding: 0px;
-    margin: 10px;
-    margin-left: 5px;
+@media (min-width: 1024px) {
+  .container {
+    width: 1024px;
     display: flex;
-    flex-direction: row;
-    text-align: center;
-    align-items: center;
-    border-radius: 40px;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+    margin: 0px;
+  }
 }
 
-.btnVie {
-    width: 166px;
-    height: 56px;
-    font-size: 18px;
+@media (min-width: 1280px) {
+  .container {
+    width: 1280px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e44848;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 40px;
-    color: #fff;
+    justify-content: start;
+    align-items: left;
+    text-align: left;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    width: 1440px;
+  }
+}
+
+@media (min-width: 1580px) {
+  .container {
+    width: 1580px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    width: 1920px;
+  }
 }

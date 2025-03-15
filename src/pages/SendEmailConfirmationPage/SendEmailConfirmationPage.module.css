@@ -76,10 +76,67 @@
   text-align: left;
 }
 
-.background {
+.container {
   min-height: calc(100vh - 56px);
   overflow: hidden;
   background-image: url("../../images/Baz_IMG_6212-1024x683.jpg");
   background-repeat: no-repeat, no-repeat;
   background-size: 100%, 280px 210px;
+}
+
+/* Маленькі мобільні (до 320px) */
+@media (max-width: 320px) {
+  .container {
+    width: 100%;
+    padding: 0 10px;
+  }
+}
+
+/* Планшети та великі телефони (480px - 768px) */
+@media (min-width: 320px) {
+  .container {
+    max-width: 300px;
+  }
+}
+
+/* Планшети (768px - 1024px) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+  }
+}
+
+/* Невеликі ноутбуки (1024px - 1280px) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 980px;
+  }
+}
+
+/* Десктопи (1280px - 1440px) */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+/* Широкі екрани (1440px - 1580px) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Дуже широкі екрани (від 1580px і більше) */
+@media (min-width: 1580px) {
+  .container {
+    max-width: 1560px;
+  }
+}
+
+/* Ультра широкі монітори (1920px і більше) */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1800px;
+  }
 }

@@ -21,7 +21,7 @@ export default function TruckPageImages(): JSX.Element {
   }, [dispatch, page]);
 
   return (
-    <div className={css.cartAll}>
+    <div className={css.container}>
       <div className={css.cartAllPage}>
         {isLoading ? <Loader /> : <TruckListImages />}
       </div>
