@@ -1,6 +1,6 @@
 .item {
   position: fixed;
-  top: 55px; /* Встановлюємо під хедером (замінити на висоту хедера) */
+  top: 120px; /* Встановлюємо під хедером (замінити на висоту хедера) */
   left: 0;
   right: 0;
   z-index: 500;
@@ -12,7 +12,7 @@
   align-items: center;
   flex-direction: row;
   height: 60px; /* Трохи збільшив, щоб не було занадто тісно */
-  width: 1440px; /* 100%, щоб розтягувалось */
+  width: 330px; /* 100%, щоб розтягувалось */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -21,19 +21,14 @@
   height: auto;
   margin: 0px;
   padding: 0px;
-  /* padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 15px; */
   display: flex;
   flex-direction: row;
-  /* text-align: center; */
-  /* align-items: center; */
   justify-content: center;
   gap: 20px;
 }
 
 .label {
-  width: 130px;
+  width: 50px;
   height: 40px;
   margin: 5px;
   padding: 5px;
@@ -45,19 +40,23 @@
 }
 
 .paragraf {
-  width: 500px;
+  width: 0px;
   justify-content: start;
-  margin: 2px;
+  margin: 1px;
+  padding: 1px;
+  font-size: 0em;
+  font-weight: 0;
+  line-height: 0;
 }
 
 .buttonIconSearch {
-  width: 150px;
-  height: 45px;
+  width: 100px;
+  height: 35px;
   padding: 0px;
   padding-top: 5px;
   margin: 0px;
   margin-top: 2px;
-  margin-left: 40px;
+  margin-left: 30px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -70,8 +69,8 @@
   margin-top: 10px;
 }
 .btnSearch {
-  width: 150px;
-  height: 40px;
+  width: 100px;
+  height: 30px;
   font-size: 18px;
   display: flex;
   justify-content: center;
@@ -100,9 +99,9 @@
   border-radius: 10px;
   padding: 2px;
   margin: 5px;
-  margin-right: 20px;
-  width: 250px;
-  height: 40px;
+  margin-right: 10px;
+  width: 150px;
+  height: 30px;
   background-color: #f7f7f7;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -114,13 +113,13 @@
 }
 
 .icon {
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
 }
 
 .iconCard {
-  width: 112px;
-  height: 96px;
+  width: 80px;
+  height: 70px;
   margin: 2px;
   padding: 2px;
   border: 1px solid rgb(104, 102, 102);
@@ -163,7 +162,7 @@
 }
 
 .button {
-  margin: 10px;
+  margin: 5px;
 }
 .cartPage {
   display: flex;
@@ -174,14 +173,223 @@
 }
 
 .cartTitle {
-  padding: 2px;
-  margin: 2px;
+  padding: 1px;
+  margin: 1px;
   color: black;
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1.5;
+  font-size: 1em;
+  font-weight: 300;
+  line-height: 1;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
+}
+
+@media (min-width: 768px) {
+  .item {
+    width: 750px;
+    height: 50px;
+    top: 50px;
+  }
+  .label {
+    width: 130px;
+    height: 40px;
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .paragraf {
+    width: 300px;
+    justify-content: start;
+    margin: 1px;
+    padding: 1px;
+    font-size: 1.2em;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .buttonIconSearch {
+    width: 150px;
+    height: 45px;
+    padding: 0px;
+    padding-top: 5px;
+    margin: 0px;
+    margin-top: 2px;
+    margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+  }
+
+  .btnReset {
+    margin-top: 10px;
+  }
+  .btnSearch {
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e44848;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    color: #fff;
+  }
+
+  .btn {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .messag {
+    margin: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .inp {
+    border-radius: 10px;
+    padding: 2px;
+    margin: 5px;
+    margin-right: 20px;
+    width: 250px;
+    height: 40px;
+    background-color: #f7f7f7;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .iconCard {
+    width: 112px;
+    height: 96px;
+    margin: 2px;
+    padding: 2px;
+    border: 1px solid rgb(104, 102, 102);
+    border-radius: 5px;
+    color: rgb(14, 15, 15);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .iconCard.active {
+    background-color: #e0f7fa;
+    border: 1px solid #00796b;
+  }
+
+  .itemsCont {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .username {
+    font-weight: 700;
+  }
+
+  .button {
+    margin: 10px;
+  }
+  .cartPage {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cartTitle {
+    padding: 2px;
+    margin: 2px;
+    color: black;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.5;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .item {
+    width: 1014px;
+    height: 50px;
+  }
+  .paragraf {
+    width: 500px;
+    justify-content: start;
+    margin: 2px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .item {
+    width: 1270px;
+  }
+}
+
+/* Широкі екрани (1440px - 1580px) */
+@media (min-width: 1440px) {
+  .item {
+    width: 1430px;
+  }
+}
+
+/* Дуже широкі екрани (від 1580px і більше) */
+@media (min-width: 1580px) {
+  .item {
+    width: 1570px;
+  }
+}
+@media (min-width: 1700px) {
+  .item {
+    width: 1700px;
+  }
+}
+
+/* Ультра широкі монітори (1920px і більше) */
+@media (min-width: 1920px) {
+  .item {
+    width: 1920px;
+  }
 }

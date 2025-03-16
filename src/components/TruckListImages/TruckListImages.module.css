@@ -99,7 +99,7 @@
 
   .cartContainer {
     width: 330px;
-    height: 330px;
+    height: 300px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -138,7 +138,7 @@
 
   .cartContainer {
     width: 330px;
-    height: 330px;
+    height: 300px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -161,33 +161,6 @@
   }
   .list {
     width: 1420px;
-  }
-  .img {
-    width: 320px;
-    height: 290px;
-    padding: 2px;
-    margin: 2px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  .cartContainer {
-    width: 330px;
-    height: 330px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  .imgCard {
-    width: 320px;
-    height: 300px;
-    padding: 1px;
-    margin: 1px;
   }
 }
 

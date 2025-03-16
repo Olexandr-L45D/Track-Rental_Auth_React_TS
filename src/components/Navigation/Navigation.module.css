@@ -1,12 +1,13 @@
 .container {
+  padding: 0px;
+  margin: 0px;
+  margin-left: 52px;
   width: 160px;
   display: flex;
   flex-direction: column;
   text-align: left;
   justify-content: start;
   align-items: left;
-  padding: 0px;
-  margin: 0px;
 }
 
 .card {
@@ -158,6 +159,28 @@ a:focus {
 @media (min-width: 768px) {
   .container {
     width: 750px;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    justify-content: start;
+    align-items: left;
+  }
+  .title {
+    height: 40px;
+    width: 120px;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 2px;
+    color: black;
+    display: flex;
+    text-align: left;
+    justify-content: start;
+    align-items: left;
+  }
+  .activeButton {
+    margin: 5px;
+    /* margin-right: 20px;
+    margin-left: 20px; */
   }
 }
 
@@ -183,25 +206,8 @@ a:focus {
     justify-content: start;
     align-items: left;
   }
-
-  .iconLogo {
-    display: flex;
-    text-align: left;
-    justify-content: start;
-    align-items: left;
-    margin: 2px;
-    width: 130px;
-    height: 25px;
-  }
-
-  .navLink {
-    display: flex;
-    text-align: left;
-    justify-content: start;
-    align-items: left;
-    color: black;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  .activeButton {
+    margin: 10px;
   }
 }
 

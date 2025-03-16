@@ -14,7 +14,7 @@ const LoginPage = (): JSX.Element => {
     <section className={css.container}>
       <section className={css.cartFormSection}>
         <div className={css.cartPage}>
-          <h1 className={css.cartTitl}>{t("login.titleLogin")}</h1>
+          <h1 className={css.cartForm}>{t("login.titleLogin")}</h1>
           <LoginForm />
           {/* <LoginForm attempts={attempts} setAttempts={setAttempts} /> */}
         </div>

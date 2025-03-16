@@ -15,10 +15,6 @@ const ResetPasswordPage = (): JSX.Element => {
   return (
     <section className={css.container}>
       <section className={css.sectinPage}>
-        <div className={css.card}>
-          <h1 className={css.cartTitle}>{t("register.titleHello")}</h1>
-          <h2 className={css.cartText}>{t("register.textDescrip")}</h2>
-        </div>
         <section className={css.cartFormSection}>
           <div className={css.cartPage}>
             <h3 className={css.cartForm}>{t("register.titleResetPass")}</h3>

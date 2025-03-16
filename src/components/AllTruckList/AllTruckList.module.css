@@ -1,7 +1,8 @@
 .containerList {
-  width: 1420px;
+  width: 320px;
   height: auto;
   margin: 0px;
+  margin-top: 120px;
   padding: 0px;
   display: flex;
   flex-direction: column;
@@ -9,8 +10,8 @@
 }
 
 .list {
-  width: 1420px;
-  height: 368px;
+  width: 320px;
+  height: auto;
   margin: 1px;
   margin-left: 10px;
   padding: 1px;
@@ -23,6 +24,12 @@
 .cartItem {
   margin: 0px;
   padding: 0px;
+  width: 320px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  list-style: none;
 }
 .titlesblok {
   margin: 0px;
@@ -47,11 +54,11 @@
 }
 .titles {
   font-weight: 600;
-  font-size: 24px;
-  line-height: 1.3;
+  font-size: 16px;
+  line-height: 1.2;
   color: black;
   margin: 0px;
-  margin-left: 5px;
+  margin-left: 3px;
   padding: 0px;
 }
 
@@ -66,76 +73,57 @@
   color: black;
 }
 
-.cartContainer {
-  width: 1420px;
-  height: 368px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-.cartComent {
-  width: 700px;
-  height: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-}
-
 .textPrice {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 1.3;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
   margin: 0px;
   padding: 0px;
   padding-right: 0px;
-  margin-left: 140px;
+  margin-left: 10px;
 }
 .textTitle {
-  margin: 5px;
+  margin: 2px;
   display: flex;
   justify-content: start;
   align-items: center;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1;
   color: #555;
 }
 
 .textTitles {
-  margin: 5px;
-  margin-left: 20px;
+  margin: 2px;
+  margin-left: 10px;
   padding: 0px;
   display: flex;
   justify-content: start;
   align-items: center;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1;
   color: #555;
 }
 .text {
-  margin: 5px;
+  margin: 2px;
   display: flex;
   justify-content: start;
   align-items: center;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 10px;
+  line-height: 1;
   color: #555;
 }
 .textDescr {
-  width: 520px;
+  width: 310px;
   height: 24px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
+  font-weight: 300;
+  font-size: 6px;
+  line-height: 1;
   margin: 5px;
+  padding: 2px;
   color: #475467;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   /* Забороняє перенесення тексту на новий рядок */
   overflow: hidden;
   /* Обрізає текст, що не вміщується */
@@ -240,9 +228,20 @@
 .btnShowe:focus {
   color: #0f0707;
 }
+.cartContainer {
+  width: 320px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 .img {
-  width: 500px;
-  height: 320px;
+  width: 310px;
+  height: 310px;
   padding: 2px;
   margin: 2px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -250,13 +249,20 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .imgCard {
-  width: 500px;
-  height: 320px;
+  width: 310px;
+  height: 310px;
   padding: 5px;
   margin: 1px;
   margin-right: 30px;
 }
-
+.cartComent {
+  width: 310px;
+  height: 310px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
 .textTitleL {
   width: 200px;
   height: 30px;
@@ -285,7 +291,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  /* Прибираємо маркери списку */
 }
 
 .descripItem {
@@ -315,4 +320,688 @@
   font-weight: 500;
   font-size: 14px;
   color: #333;
+}
+
+@media (min-width: 768px) {
+  .containerList {
+    width: 750px;
+    height: auto;
+    margin: 0;
+    margin-top: 50px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .list {
+    width: 750px;
+    height: auto;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    list-style: none;
+  }
+  .img {
+    width: 280px;
+    height: 270px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .imgCard {
+    width: 280px;
+    height: 270px;
+    padding: 1px;
+    margin: 1px;
+  }
+  .cartComent {
+    width: 750px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .cartItem {
+    width: 100%;
+    max-width: 750px; /* або інша розумна ширина */
+    margin: 10px auto; /* Це вирівняє по центру */
+  }
+  .cartContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .titlesblok {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    text-align: center;
+    align-items: center;
+  }
+
+  .featuresList {
+    margin: 1px;
+    padding: 1px;
+    width: 100%;
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+  }
+  .titles {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    color: black;
+    margin: 0px;
+    margin-left: 5px;
+    padding: 0px;
+  }
+  .textDescr {
+    width: 420px;
+    height: 24px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 5px;
+    color: #475467;
+    white-space: nowrap;
+    /* Забороняє перенесення тексту на новий рядок */
+    overflow: hidden;
+    /* Обрізає текст, що не вміщується */
+    text-overflow: ellipsis;
+    /* Додає три крапки (...) в кінці обрізаного тексту */
+  }
+  .textPrice {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 0px;
+    margin-left: 40px;
+  }
+  .textTitle {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .textTitles {
+    margin: 5px;
+    margin-left: 20px;
+    padding: 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+  .text {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #555;
+  }
+}
+
+@media (min-width: 1024px) {
+  .containerList {
+    width: 1000px;
+    height: auto;
+    margin: 0;
+    margin-top: 50px;
+    padding: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .list {
+    width: 1000px;
+    height: auto;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    list-style: none;
+  }
+  .imgCard {
+    width: 330px;
+    height: 320px;
+    padding: 1px;
+    margin: 1px;
+  }
+  .img {
+    width: 330px;
+    height: 320px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .cartItem {
+    width: 100%;
+    max-width: 1000px;
+    margin: 10px auto;
+  }
+  .cartContainer {
+    width: 100%;
+    height: 330px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .cartComent {
+    width: 450px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .containerList {
+    width: 1260px;
+    height: auto;
+    margin: 0;
+    margin-top: 50px;
+    padding: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .list {
+    width: 1260px;
+    height: auto;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    list-style: none;
+  }
+  .imgCard {
+    width: 400px;
+    height: 320px;
+    padding: 1px;
+    margin: 1px;
+  }
+  .img {
+    width: 400px;
+    height: 320px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .cartItem {
+    width: 100%;
+    max-width: 1260px;
+    margin: 10px auto;
+  }
+  .cartContainer {
+    width: 100%;
+    height: 330px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .cartComent {
+    width: 450px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .containerList {
+    width: 1420px;
+    justify-content: flex-start;
+    height: auto;
+    margin: 0px;
+    margin-top: 120px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .list {
+    width: 1420px;
+    height: 368px;
+    margin: 1px;
+    margin-left: 10px;
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+  }
+
+  .titlesblok {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    text-align: center;
+    align-items: center;
+  }
+
+  .featuresList {
+    margin: 1px;
+    padding: 1px;
+    width: 100%;
+    height: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+  }
+  .titles {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    color: black;
+    margin: 0px;
+    margin-left: 5px;
+    padding: 0px;
+  }
+
+  .cardWrapper a {
+    text-decoration: none;
+  }
+
+  .productName {
+    padding: 4px;
+    margin-top: 8px;
+    margin-bottom: 0;
+    color: black;
+  }
+
+  .cartItem {
+    width: 100%;
+    max-width: 1440px;
+    margin: 10px auto;
+  }
+  .cartContainer {
+    width: 100%;
+    height: 368px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .cartComent {
+    width: 700px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .textPrice {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.3;
+    margin: 0px;
+    padding: 0px;
+    padding-right: 0px;
+    margin-left: 140px;
+  }
+  .textTitle {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .textTitles {
+    margin: 5px;
+    margin-left: 20px;
+    padding: 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+  }
+  .text {
+    margin: 5px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #555;
+  }
+  .textDescr {
+    width: 520px;
+    height: 24px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 5px;
+    color: #475467;
+    white-space: nowrap;
+    /* Забороняє перенесення тексту на новий рядок */
+    overflow: hidden;
+    /* Обрізає текст, що не вміщується */
+    text-overflow: ellipsis;
+    /* Додає три крапки (...) в кінці обрізаного тексту */
+  }
+
+  .featuresItem {
+    width: 123px;
+    height: 48px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f4f7;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+  }
+
+  .featuresItemAc {
+    width: 87px;
+    height: 48px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 0px;
+    margin-top: 45px;
+    margin-left: 10px;
+    padding-bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f4f7;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+  }
+
+  .comIte {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 92px;
+    height: 138px;
+    background-color: gray;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(5px);
+  }
+
+  .error {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .icons {
+    width: 50px;
+    height: 25px;
+    padding: 0px;
+    margin: 0px;
+    color: rgb(255, 0, 34);
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+    align-items: right;
+  }
+  .buttonIconShowe {
+    width: 166px;
+    height: 56px;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 8px;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    border-radius: 40px;
+  }
+  .btnShowe {
+    width: 166px;
+    height: 56px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e44848;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    color: #ffffff;
+  }
+
+  .btnShowe:hover,
+  .btnShowe:focus {
+    color: #0f0707;
+  }
+  .img {
+    width: 500px;
+    height: 320px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .imgCard {
+    width: 500px;
+    height: 320px;
+    padding: 5px;
+    margin: 1px;
+    margin-right: 30px;
+  }
+
+  .textTitleL {
+    width: 200px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .descripBloc {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .descripList {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    margin-right: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* Прибираємо маркери списку */
+  }
+
+  .descripItem {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #555;
+  }
+
+  .iconhed {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(5px);
+    /* Зміщення вниз */
+  }
+
+  .loched {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #333;
+  }
+}
+
+@media (min-width: 1580px) {
+  .containerList {
+    width: 1560px;
+  }
+  .list {
+    width: 1560px;
+  }
+  .cartItem {
+    width: 100%;
+    max-width: 1560px;
+    margin: 10px auto;
+  }
+}
+@media (min-width: 1700px) {
+  .containerList {
+    width: 1680px;
+  }
+  .list {
+    width: 1680px;
+    height: 600px;
+  }
+  .img {
+    width: 650px;
+    height: 350px;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .imgCard {
+    width: 650px;
+    height: 350px;
+    padding: 5px;
+    margin: 1px;
+    margin-right: 30px;
+  }
+  .cartComent {
+    width: 900px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  .cartItem {
+    width: 100%;
+    height: 400px;
+    max-width: 1680px;
+    margin: 10px auto;
+  }
+}
+
+@media (min-width: 1920px) {
+  .containerList {
+    width: 1880px;
+  }
+  .list {
+    width: 1880px;
+  }
+  .cartItem {
+    width: 100%;
+    height: 400px;
+    max-width: 1880px;
+    margin: 10px auto;
+  }
 }

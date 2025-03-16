@@ -91,10 +91,9 @@
   .container {
     width: 750px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     text-align: center;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
   }
   .cartAllPage {
@@ -103,9 +102,9 @@
     margin: 0px;
     padding: 0px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     text-align: center;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
   }
 }
@@ -119,11 +118,6 @@
     height: auto;
     margin: 0px;
     padding: 0px;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
   }
 }
 
@@ -136,11 +130,6 @@
     height: auto;
     margin: 0px;
     padding: 0px;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
   }
 }
 
@@ -148,6 +137,7 @@
 @media (min-width: 1440px) {
   .container {
     width: 1420px;
+    margin-top: 125px;
   }
   .cartAllPage {
     width: 1400px;

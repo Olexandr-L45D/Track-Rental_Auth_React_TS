@@ -10,17 +10,10 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 const RegisterPage = (): JSX.Element => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const dispatch: AppThunkDispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
 
   return (
     <section className={css.container}>
       <section className={css.sectinPage}>
-        <div className={css.card}>
-          <h1 className={css.cartTitle}>{t("navigation.titleHome")}</h1>
-          <h2 className={css.cartText}>{t("navigation.titleWelcom")}</h2>
-        </div>
         <section className={css.cartFormSection}>
           <div className={css.cartPage}>
             <h3 className={css.cartForm}>{t("register.titleRegistr")}</h3>

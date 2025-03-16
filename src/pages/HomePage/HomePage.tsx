@@ -22,8 +22,7 @@ export default function HomePage(): JSX.Element {
           <Link to="/gallery">
             <div className={css.buttonViews}>
               <button className={css.btnVie} type="submit">
-                {/* {t("navigation.View")} */}
-                View car images
+                {t("navigation.ViewImages")}
               </button>
             </div>
           </Link>

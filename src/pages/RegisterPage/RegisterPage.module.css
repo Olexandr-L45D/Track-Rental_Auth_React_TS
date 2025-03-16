@@ -1,17 +1,18 @@
 .container {
   width: 100%;
-  height: auto;
+  min-height: 100vh; /* ✅ Забезпечує повну висоту екрану */
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 56px);
-  overflow: hidden;
   background-image: url("../../images/Picture.jpg");
-  background-repeat: no-repeat, no-repeat;
-  background-size: 100%, 280px 210px;
-  margin-top: 120px;
+  background-repeat: no-repeat;
+  background-size: cover; /* ✅ Масштабує фон на всю область */
+  background-position: center; /* ✅ Центрує зображення */
+  margin: 0;
+  padding: 0;
 }
+
 .cartFormSection {
   display: flex;
   flex-direction: row;
@@ -33,9 +34,9 @@
   padding: 2px;
   margin: 2px;
   color: white;
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1.5;
+  font-size: 1em;
+  font-weight: 500;
+  line-height: 1;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -45,7 +46,7 @@
 .sectinPage {
   display: flex;
   margin: 0px;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   padding: 0px;
   flex-direction: row;
   justify-content: center;
@@ -93,11 +94,35 @@
 @media (min-width: 768px) {
   .container {
     width: 750px;
+    height: auto;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
     margin: 0px;
+  }
+  .sectinPage {
+    display: flex;
+    margin: 0px;
+    margin-top: 10px;
+    padding: 0px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .cartForm {
+    width: auto;
+    padding: 2px;
+    margin: 2px;
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.5;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -109,6 +134,16 @@
     justify-content: center;
     align-items: center;
     margin: 0px;
+  }
+  .sectinPage {
+    display: flex;
+    margin: 0px;
+    margin-top: 50px;
+    padding: 0px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
 

@@ -9,10 +9,10 @@
     "search": "Search",
     "Load": "Load More",
     "show_more": "Show more",
-    "searchTitle": "Search by location 🚚",
+    "searchTitle": "Search🚚",
     "titleHome": "Campers of your dreams",
-    "View": "View Now",
-    "titleWelcom": "You can find everything uoy want in our catalog",
+    "ViewImages": "View car images",
+    "titleWelcom": "You can find everything uoy want in our catalog. Register to book",
     "example": "Example: City",
     "features": "Features",
     "reviews": "Reviews",
@@ -26,7 +26,7 @@
     "height": "Height",
     "tank": "Tank",
     "consum": "Consumption",
-    "navGalery": "Truck Gallery"
+    "navGalery": "Truck"
   },
   "register": {
     "titleRegistr": "AUTHORIZATION",
