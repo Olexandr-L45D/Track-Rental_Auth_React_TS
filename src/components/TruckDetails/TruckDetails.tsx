@@ -50,36 +50,37 @@ const TruckDetails = (): JSX.Element => {
     <div className={css.container}>
       <section className={css.cartContainer}>
         <section className={css.cartComent}>
-          <div className={css.titlesblok}>
-            <h1 className={css.titles}>{selectedTruck.name}</h1>
-          </div>
+          <section className={css.cartComentHed}>
+            <div className={css.titlesblok}>
+              <h1 className={css.titles}>{selectedTruck.name}</h1>
+            </div>
 
-          <ul className={css.descripBloc}>
-            <li className={css.descripBlo}>
-              <div className={css.textTitlesis}>
-                <svg className={css.iconhed}>
-                  <use href={`${sprite}#icon-star`} />
-                </svg>
-              </div>
-              <div className={css.loched}>
-                {selectedTruck.rating}
-                <strong className={css.loched}>(Reviews)</strong>
-              </div>
-            </li>
-            <li className={css.textTitlesBl}>
-              <div className={css.textTitlesis}>
-                <svg className={css.iconhed}>
-                  <use href={`${sprite}#icon-city`} />
-                </svg>
-              </div>
-              <div className={css.loched}>{selectedTruck.location}</div>
-            </li>
-          </ul>
+            <ul className={css.descripBloc}>
+              <li className={css.descripBlo}>
+                <div className={css.textTitlesis}>
+                  <svg className={css.iconhed}>
+                    <use href={`${sprite}#icon-star`} />
+                  </svg>
+                </div>
+                <div className={css.loched}>
+                  {selectedTruck.rating}
+                  <strong className={css.loched}>(Reviews)</strong>
+                </div>
+              </li>
+              <li className={css.textTitlesBl}>
+                <div className={css.textTitlesis}>
+                  <svg className={css.iconhed}>
+                    <use href={`${sprite}#icon-city`} />
+                  </svg>
+                </div>
+                <div className={css.loched}>{selectedTruck.location}</div>
+              </li>
+            </ul>
 
-          <div className={css.textPriceBl}>
-            <h3 className={css.textPrice}>€ {selectedTruck.price}</h3>
-          </div>
-
+            <div className={css.textPriceBl}>
+              <h3 className={css.textPrice}>€ {selectedTruck.price}</h3>
+            </div>
+          </section>
           <ul className={css.imgCardBloc}>
             {selectedTruck.gallery.map(({ thumb }, index) => (
               <li key={index} className={css.imgCard}>

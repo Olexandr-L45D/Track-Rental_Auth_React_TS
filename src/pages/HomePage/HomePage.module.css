@@ -2,15 +2,19 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: start;
-  align-items: left;
-  text-align: left;
+  /* justify-content: start; */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* align-items: left;
+  text-align: left; */
   min-height: calc(100vh - 56px);
   overflow: hidden;
   background-image: url("../../images/Picture.jpg");
   background-repeat: no-repeat, no-repeat;
   background-size: 100%, 280px 210px;
   margin-top: 120px;
+  min-height: 100vh;
 }
 
 .card {

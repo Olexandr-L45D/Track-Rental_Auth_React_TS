@@ -6,9 +6,9 @@
   padding: 0px;
   gap: 10px;
   display: flex;
-  justify-content: start;
-  text-align: center;
+  justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 /* Маленькі мобільні (до 320px) */
