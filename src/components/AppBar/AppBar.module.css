@@ -13,69 +13,12 @@
   text-align: center;
   flex-direction: row;
   height: 120px;
-  width: 330px;
+  max-width: 1900px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Планшети (768px - 1024px) */
 @media (min-width: 768px) {
   .header {
-    width: 750px;
     height: 50px;
-  }
-}
-
-/* Невеликі ноутбуки (1024px - 1280px) */
-@media (min-width: 1024px) {
-  .header {
-    width: 1014px;
-    height: 50px;
-  }
-}
-
-/* Десктопи (1280px - 1440px) */
-@media (min-width: 1280px) {
-  .header {
-    width: 1270px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #f2f4f7;
-    padding: 24px 64px;
-    background-color: #f7f7f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    height: 60px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* Широкі екрани (1440px - 1580px) */
-@media (min-width: 1440px) {
-  .header {
-    width: 1430px;
-  }
-}
-
-/* Дуже широкі екрани (від 1580px і більше) */
-@media (min-width: 1580px) {
-  .header {
-    width: 1570px;
-  }
-}
-@media (min-width: 1700px) {
-  .header {
-    width: 1700px;
-  }
-}
-
-/* Ультра широкі монітори (1920px і більше) */
-@media (min-width: 1920px) {
-  .header {
-    width: 1920px;
   }
 }

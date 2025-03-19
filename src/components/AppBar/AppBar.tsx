@@ -6,9 +6,7 @@ import { RootState } from "../../redux/store";
 import { Navigation } from "../Navigation/Navigation";
 // import { selectIsLoggedIn } from "../../redux/auth/selectors";
 
-
 export const AppBar = (): JSX.Element => {
-  // const isLoggedIn = useSelector(selectIsLoggedIn);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn); // Перевірка на авторизацію
   return (
     <header className={css.header}>

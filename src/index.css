@@ -22,12 +22,27 @@ a:hover {
 body {
   color: #080808;
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  left: 0;
+  right: 0;
   min-height: 100vh;
   overflow-x: hidden;
 }
 header {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  left: 0;
+  right: 0;
   border: 0px solid rgba(250, 245, 245, 0.1);
 }
 h1 {
@@ -63,7 +78,7 @@ button:focus-visible {
   }
 
   a:hover {
-    color: #747bff;
+    color: red;
   }
 
   button {
@@ -71,6 +86,7 @@ button:focus-visible {
   }
 }
 
-ul,li {
+ul,
+li {
   list-style: none;
 }

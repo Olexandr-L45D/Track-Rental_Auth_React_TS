@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 // import { useAppDispatch } from "../../hooks/useAppDispatch";
 
-interface SendResetEmailFormProps {
+export interface SendResetEmailFormProps {
   onClose: () => void; // ✅ Додаємо типізацію `onClose`
 }
 

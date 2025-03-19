@@ -570,6 +570,54 @@
   color: black;
 }
 
+.textContainerses {
+  width: 320px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 0px;
+  margin: 2px;
+  margin-left: 30px;
+}
+.textTitleTit {
+  width: 300px;
+  height: 30px;
+  margin: 0px;
+  padding: 0px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--gray);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.textTitleTi {
+  width: 280px;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--gray);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.blocForm {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
 @media (min-width: 768px) {
   .container {
     margin: 0px;
@@ -652,6 +700,54 @@
   .imgCard {
     padding: 3px;
     margin: 3px;
+  }
+
+  .textContainerses {
+    width: 630px;
+    height: 580px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 0px;
+    margin: 2px;
+    margin-left: 30px;
+  }
+  .textTitleTit {
+    width: 600px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--gray);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .textTitleTi {
+    width: 600px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--gray);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .blocForm {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
   }
 }
 

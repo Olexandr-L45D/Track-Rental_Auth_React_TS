@@ -42,6 +42,7 @@ import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
 import { refreshSessionUser, refreshUser } from "../../redux/auth/operations";
+import TruckFeaturesPage from "../../pages/TruckFeaturesPages/TruckFeaturesPages";
 
 // Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
 /// <reference lib="dom" />
@@ -148,7 +149,7 @@ export default function App() {
               <PrivateRoute redirectTo="/login" component={TruckDetalsPage} />
             }
           >
-            <Route path="features" element={<TruckFeatures />} />
+            {/* <Route path="features" element={<TruckFeaturesPage />} /> */}
             <Route path="reviews" element={<TruckReviews />} />
           </Route>
 

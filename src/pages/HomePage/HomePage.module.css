@@ -2,12 +2,11 @@
   width: 100%;
   height: auto;
   display: flex;
-  /* justify-content: start; */
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* align-items: left;
-  text-align: left; */
+  left: 0;
+  right: 0;
   min-height: calc(100vh - 56px);
   overflow: hidden;
   background-image: url("../../images/Picture.jpg");

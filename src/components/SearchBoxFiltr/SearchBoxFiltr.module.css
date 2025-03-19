@@ -1,4 +1,6 @@
 .item {
+  max-width: 1900px;
+  height: 60px;
   position: fixed;
   top: 120px; /* Встановлюємо під хедером (замінити на висоту хедера) */
   left: 0;
@@ -11,8 +13,6 @@
   justify-content: start;
   align-items: center;
   flex-direction: row;
-  height: 60px; /* Трохи збільшив, щоб не було занадто тісно */
-  width: 330px; /* 100%, щоб розтягувалось */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -187,7 +187,6 @@
 
 @media (min-width: 768px) {
   .item {
-    width: 750px;
     height: 50px;
     top: 50px;
   }
@@ -352,44 +351,11 @@
 
 @media (min-width: 1024px) {
   .item {
-    width: 1014px;
     height: 50px;
   }
   .paragraf {
     width: 500px;
     justify-content: start;
     margin: 2px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .item {
-    width: 1270px;
-  }
-}
-
-/* Широкі екрани (1440px - 1580px) */
-@media (min-width: 1440px) {
-  .item {
-    width: 1430px;
-  }
-}
-
-/* Дуже широкі екрани (від 1580px і більше) */
-@media (min-width: 1580px) {
-  .item {
-    width: 1570px;
-  }
-}
-@media (min-width: 1700px) {
-  .item {
-    width: 1700px;
-  }
-}
-
-/* Ультра широкі монітори (1920px і більше) */
-@media (min-width: 1920px) {
-  .item {
-    width: 1920px;
   }
 }

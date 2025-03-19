@@ -64,6 +64,7 @@
 
 @media (min-width: 768px) {
   .container {
+    margin-top: 155px;
     width: 750px;
     display: flex;
     flex-direction: column;
@@ -112,7 +113,7 @@
 @media (min-width: 1440px) {
   .container {
     width: 1420px;
-    margin-top: 125px;
+    /* margin-top: 145px; */
   }
   .cartAllPage {
     width: 1400px;

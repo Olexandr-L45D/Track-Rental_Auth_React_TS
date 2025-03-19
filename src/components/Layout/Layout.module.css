@@ -1,21 +1,10 @@
-/* .container {
-  display: grid;
-  gap: 16px;
-  width: 1700px;
-  height: auto;
-  margin: 0 auto;
-  padding: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-} */
-
 .containerLayout {
   display: grid;
   gap: 16px;
-  width: 330px;
-  /* height: 100%; */
+  /* width: 330px; */
+  max-width: 1900px;
+  left: 0;
+  right: 0;
   min-height: 100vh; /* ✅ Забезпечує повну висоту екрану */
   margin: 0 auto;
   padding: 0px;
@@ -24,7 +13,7 @@
   align-items: center;
   text-align: center;
 }
-/* Планшети (768px - 1024px) */
+/* 
 @media (min-width: 768px) {
   .containerLayout {
     width: 750px;
@@ -36,28 +25,24 @@
   }
 }
 
-/* Невеликі ноутбуки (1024px - 1280px) */
 @media (min-width: 1024px) {
   .containerLayout {
     width: 1000px;
   }
 }
 
-/* Десктопи (1280px - 1440px) */
 @media (min-width: 1280px) {
   .containerLayout {
     width: 1260px;
   }
 }
 
-/* Широкі екрани (1440px - 1580px) */
 @media (min-width: 1440px) {
   .containerLayout {
     width: 1420px;
   }
 }
 
-/* Дуже широкі екрани (від 1580px і більше) */
 @media (min-width: 1580px) {
   .containerLayout {
     width: 1560px;
@@ -68,9 +53,9 @@
     width: 1680px;
   }
 }
-/* Ультра широкі монітори (1920px і більше) */
+
 @media (min-width: 1920px) {
   .containerLayout {
     width: 1800px;
   }
-}
+} */

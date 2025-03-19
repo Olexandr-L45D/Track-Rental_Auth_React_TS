@@ -10,6 +10,9 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/store";
+import BookingForm from "../BookingForm/BookingForm";
+import ModalContainer from "../ModalContainer/ModalContainer";
+import TruckFeatures from "../TruckFeatures/TruckFeatures";
 
 const TruckDetails = (): JSX.Element => {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -17,6 +20,9 @@ const TruckDetails = (): JSX.Element => {
   const { selectedTruck, loading, error } = useAppSelector(
     state => state.campers
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useParams<{ id: string }>();
@@ -142,6 +148,20 @@ const TruckDetails = (): JSX.Element => {
             />
             <Outlet />
           </div>
+          {/* {isModalOpen && (
+            <ModalContainer onClose={closeModal}>
+              <TruckFeatures onClose={closeModal} />
+            </ModalContainer>
+          )} */}
+          <section className={css.textContainerses}>
+            <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
+            <h4 className={css.textTitleTi}>
+              {t("navigation.bokTitleFmText")}
+            </h4>
+            <div className={css.blocForm}>
+              <BookingForm />
+            </div>
+          </section>
         </section>
       </section>
     </div>

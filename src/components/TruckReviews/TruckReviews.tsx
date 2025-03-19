@@ -1,13 +1,12 @@
 import css from "./TruckReviews.module.css";
 import sprite from "../../images/sprite.svg";
-import BookingForm from "../BookingForm/BookingForm";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../redux/hooks";
 import { TruckReview } from "../App/App.types";
 
 const TruckReviews = (): JSX.Element => {
   const { selectedTruck } = useAppSelector(
-    (state) => state.campers as { selectedTruck: TruckReview | null }
+    state => state.campers as { selectedTruck: TruckReview | null }
   );
   const { t } = useTranslation();
 
@@ -47,14 +46,6 @@ const TruckReviews = (): JSX.Element => {
       ) : (
         <p>{t("navigation.noReviewsAvailable")}</p>
       )}
-
-      <section className={css.textContainerses}>
-        <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
-        <h4 className={css.textTitleTi}>{t("navigation.bokTitleFmText")}</h4>
-        <div className={css.blocForm}>
-          <BookingForm />
-        </div>
-      </section>
     </div>
   );
 };

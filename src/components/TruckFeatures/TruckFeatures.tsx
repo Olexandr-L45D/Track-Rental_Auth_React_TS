@@ -4,10 +4,11 @@ import css from "./TruckFeatures.module.css";
 import BookingForm from "../BookingForm/BookingForm";
 import { useTranslation } from "react-i18next";
 import { TruckDetailAll } from "../App/App.types";
+import { SendResetEmailFormProps } from "../SendResetEmailForm/SendResetEmailForm";
 
-const TruckFeatures = (): JSX.Element => {
+const TruckFeatures = ({ onClose }: SendResetEmailFormProps): JSX.Element => {
   const { selectedTruck } = useAppSelector(
-    (state) => state.campers as { selectedTruck: TruckDetailAll | null }
+    state => state.campers as { selectedTruck: TruckDetailAll | null }
   );
   const { t } = useTranslation();
   // Перевірка на випадок, якщо selectedTruck ще не завантажений
@@ -100,17 +101,8 @@ const TruckFeatures = (): JSX.Element => {
           </ul>
         </section>
       </section>
-
-      <section className={css.textContainerses}>
-        <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
-        <h4 className={css.textTitleTi}>{t("navigation.bokTitleFmText")}</h4>
-        <div className={css.blocForm}>
-          <BookingForm />
-        </div>
-      </section>
     </section>
   );
 };
 
 export default TruckFeatures;
-
