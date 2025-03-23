@@ -3,13 +3,7 @@ import sprite from "/images/sprite.svg";
 import css from "./TruckDetails.module.css";
 import { GoArrowLeft } from "react-icons/go";
 import { findTruckById } from "../../redux/campers/operations";
-import {
-  NavLink,
-  Outlet,
-  useLocation,
-  useParams,
-  useRoutes,
-} from "react-router-dom";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
@@ -17,8 +11,6 @@ import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/store";
 import BookingForm from "../BookingForm/BookingForm";
-import TruckFeatures from "../TruckFeatures/TruckFeatures";
-import TruckReviews from "../TruckReviews/TruckReviews";
 
 const TruckDetails = (): JSX.Element => {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -26,21 +18,14 @@ const TruckDetails = (): JSX.Element => {
   const { selectedTruck, loading, error } = useAppSelector(
     state => state.campers
   );
-  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useParams<{ id: string }>();
-
-  // const Routes = useRoutes([
-  //   { path: "features", element: <TruckFeatures /> },
-  //   { path: "reviews", element: <TruckReviews /> },
-  // ]);
 
   if (!id) {
     return <div>No Truck ID provided</div>;
   }
   useEffect(() => {
-    // console.log("🚀 Викликаємо findTruckById для ID:", id);
     dispatch(findTruckById(Number(id)));
   }, [dispatch, id]);
 

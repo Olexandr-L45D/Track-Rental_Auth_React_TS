@@ -42,7 +42,6 @@ import PrivateRoute from "../PrivateRoute";
 import RestrictedRoute from "../RestrictedRoute";
 import Loader from "../Loader/Loader";
 import { refreshSessionUser, refreshUser } from "../../redux/auth/operations";
-import TruckFeaturesPage from "../../pages/TruckFeaturesPages/TruckFeaturesPages";
 
 // Оголошуємо тип для window, додаючи redirected щоб далі з ним працювати і дізнаватись стан Додаю на початку файлу, щоб TypeScript знав, що ми працюємо з DOM.
 /// <reference lib="dom" />
@@ -62,10 +61,7 @@ export default function App() {
   const user = useSelector((state: RootState) => state.auth.user);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const location = useLocation();
-  // const hasRedirected = useRef(false);
-  // const [hasRedirected, setHasRedirected] = useState(false);
 
-  // запит на ТОКЕН isRefreshing (чи валідний токен?)
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
@@ -152,15 +148,6 @@ export default function App() {
             <Route path="features" element={<TruckFeatures />} />
             <Route path="reviews" element={<TruckReviews />} />
           </Route>
-
-          {/* <Route
-            path="/catalog/:id"
-            element={<PrivateRoute redirectTo="/login" />}
-          >
-            <Route index element={<TruckDetailsPage />} />
-            <Route path="features" element={<TruckFeatures />} />
-            <Route path="reviews" element={<TruckReviews />} />
-          </Route> */}
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
