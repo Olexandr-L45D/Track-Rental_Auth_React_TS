@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { TruckDetailAll } from "../App/App.types";
 import { SendResetEmailFormProps } from "../SendResetEmailForm/SendResetEmailForm";
 
-const TruckFeatures = ({ onClose }: SendResetEmailFormProps): JSX.Element => {
+const TruckFeatures = (): JSX.Element => {
   const { selectedTruck } = useAppSelector(
     state => state.campers as { selectedTruck: TruckDetailAll | null }
   );

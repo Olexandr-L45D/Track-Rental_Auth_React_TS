@@ -1,9 +1,10 @@
 .cartBottomDetall {
   /* width: 100%; */
-  width: 320px;
-  height: 320px;
-  margin: 0px;
-  padding: 0px;
+  width: 310px;
+  height: auto;
+  margin: 2px;
+  margin-bottom: 10px;
+  padding: 2px;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -12,11 +13,10 @@
 }
 
 .cartComentBloks {
-  width: 320px;
-  height: 320px;
-  margin: 0px;
-  margin-left: 64px;
-  padding: 0px;
+  width: 310px;
+  height: auto;
+  margin: 2px;
+  padding: 2px;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -109,7 +109,7 @@
 .textDescr {
   padding: 0px;
   margin: 0px;
-  width: 320px;
+  width: 310px;
   height: auto;
 }
 
@@ -166,7 +166,7 @@
   margin: 2px;
   margin-left: 10px;
   padding: 2px;
-  width: 320px;
+  width: 310px;
   height: 25px;
   display: flex;
   flex-direction: row;
@@ -452,7 +452,7 @@
   font-weight: bold;
 }
 .reviewBlTitle {
-  margin: 2px;
+  margin: 5px;
   padding: 0px;
   display: flex;
   justify-content: start;

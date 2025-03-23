@@ -3,7 +3,13 @@ import sprite from "/images/sprite.svg";
 import css from "./TruckDetails.module.css";
 import { GoArrowLeft } from "react-icons/go";
 import { findTruckById } from "../../redux/campers/operations";
-import { NavLink, Outlet, useParams } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+  useRoutes,
+} from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { useTranslation } from "react-i18next";
@@ -11,8 +17,8 @@ import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { AppThunkDispatch } from "../../redux/store";
 import BookingForm from "../BookingForm/BookingForm";
-import ModalContainer from "../ModalContainer/ModalContainer";
 import TruckFeatures from "../TruckFeatures/TruckFeatures";
+import TruckReviews from "../TruckReviews/TruckReviews";
 
 const TruckDetails = (): JSX.Element => {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -20,13 +26,16 @@ const TruckDetails = (): JSX.Element => {
   const { selectedTruck, loading, error } = useAppSelector(
     state => state.campers
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useParams<{ id: string }>();
-  // console.log("🚛 Отримано ID вантажівки:", id);
+
+  // const Routes = useRoutes([
+  //   { path: "features", element: <TruckFeatures /> },
+  //   { path: "reviews", element: <TruckReviews /> },
+  // ]);
+
   if (!id) {
     return <div>No Truck ID provided</div>;
   }
@@ -143,16 +152,12 @@ const TruckDetails = (): JSX.Element => {
               open={open}
               close={() => setOpen(false)}
               slides={slides}
-              index={currentIndex} // Заміна initialIndex на index
-              on={{ view: ({ index }) => setCurrentIndex(index) }} // Додатково, для оновлення індексу при перегляді
+              index={currentIndex}
+              on={{ view: ({ index }) => setCurrentIndex(index) }}
             />
             <Outlet />
           </div>
-          {/* {isModalOpen && (
-            <ModalContainer onClose={closeModal}>
-              <TruckFeatures onClose={closeModal} />
-            </ModalContainer>
-          )} */}
+
           <section className={css.textContainerses}>
             <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
             <h4 className={css.textTitleTi}>

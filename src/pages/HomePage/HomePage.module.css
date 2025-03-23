@@ -1,19 +1,15 @@
 .container {
   width: 100%;
-  height: auto;
+  min-height: 100vh; /* ✅ Забезпечує повну висоту екрану */
   display: flex;
+  text-align: center;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  left: 0;
-  right: 0;
-  min-height: calc(100vh - 56px);
-  overflow: hidden;
   background-image: url("../../images/Picture.jpg");
-  background-repeat: no-repeat, no-repeat;
-  background-size: 100%, 280px 210px;
+  background-repeat: no-repeat;
+  background-size: cover; /* ✅ Масштабує фон на всю область */
+  background-position: center; /* ✅ Центрує зображення */
   margin-top: 120px;
-  min-height: 100vh;
 }
 
 .card {
