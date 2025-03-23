@@ -140,18 +140,19 @@ const TruckDetails = (): JSX.Element => {
               index={currentIndex}
               on={{ view: ({ index }) => setCurrentIndex(index) }}
             />
-            <Outlet />
           </div>
-
-          <section className={css.textContainerses}>
-            <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
-            <h4 className={css.textTitleTi}>
-              {t("navigation.bokTitleFmText")}
-            </h4>
-            <div className={css.blocForm}>
-              <BookingForm />
-            </div>
-          </section>
+          <div className={css.cartBotomBloc}>
+            <Outlet />
+            <section className={css.textContainerses}>
+              <h3 className={css.textTitleTit}>{t("navigation.bokTitleFm")}</h3>
+              <h4 className={css.textTitleTi}>
+                {t("navigation.bokTitleFmText")}
+              </h4>
+              <div className={css.blocForm}>
+                <BookingForm />
+              </div>
+            </section>
+          </div>
         </section>
       </section>
     </div>
