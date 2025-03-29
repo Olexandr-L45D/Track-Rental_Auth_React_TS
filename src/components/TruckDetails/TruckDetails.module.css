@@ -2,6 +2,7 @@
   width: 320px;
   height: auto;
   margin: 0px;
+  /* margin-bottom: 20px; */
   padding: 0px;
   gap: 10px;
   display: flex;
@@ -374,7 +375,9 @@
   text-align: center;
   align-items: center;
   padding: 0px;
+  /* padding-top: 40px; */
   margin: 2px;
+  /* margin-top: 80px; */
   margin-left: 30px;
 }
 
@@ -724,7 +727,7 @@
     line-height: 1.5;
     color: var(--gray);
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
   }
 
@@ -738,7 +741,7 @@
     line-height: 1.5;
     color: var(--gray);
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
   }
 
@@ -747,7 +750,7 @@
     margin: 0px;
     padding: 0px;
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
   }
 }
@@ -1404,12 +1407,13 @@
     text-align: center;
     align-items: center;
     padding: 0px;
-    margin: 2px;
+    margin: 0px;
     margin-left: 50px;
   }
   .textTitleTit {
     width: 600px;
-    height: 30px;
+    /* height: 30px; */
+    height: auto;
     margin: 0px;
     padding: 0px;
     font-weight: 600;
@@ -1423,7 +1427,8 @@
 
   .textTitleTi {
     width: 600px;
-    height: 30px;
+    /* height: 30px; */
+    height: auto;
     margin: 0px;
     padding: 0px;
     font-weight: 400;

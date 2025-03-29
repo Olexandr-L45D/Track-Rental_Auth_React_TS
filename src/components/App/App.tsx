@@ -1,11 +1,4 @@
-import {
-  Routes,
-  Route,
-  useNavigate,
-  Navigate,
-  Outlet,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 const LoginPage = lazy(() => import("../../pages/LoginPage/LoginPage"));
 const RegisterPage = lazy(
@@ -111,15 +104,6 @@ export default function App() {
             }
           />
 
-          {/* <Route
-            path="/googleauth"
-            element={
-              <RestrictedRoute
-                component={<GoogleRedirectHandler />}
-                redirectTo="/home"
-              />
-            }
-          /> */}
           <Route path="/confirm-oauth" element={<GoogleRedirectHandler />} />
 
           {/* <Route

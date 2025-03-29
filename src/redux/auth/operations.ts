@@ -334,31 +334,6 @@ export const refreshSessionUser = createAsyncThunk<
   }
 });
 
-// export const refreshSessionUser = createAsyncThunk<
-//   UserRefreshSessionToken, // 🔹 Можеш замінити на точний тип даних, який повертає API
-//   void,
-//   { state: RootState; rejectValue: string } // 🔹 Додаємо правильний тип для `getState()`
-// >(
-//   "user/refresh-session",
-//   async (_, thunkAPI) => {
-//     try {
-//       const response = await axiosInstanceUser.post<UserRefreshSessionToken>(
-//         "/auth/refresh"
-//       );
-//       setAuthHeader(response.data.accessToken);
-//       return response.data;
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   },
-//   {
-//     condition: (_, thunkAPI) => {
-//       const reduxState = thunkAPI.getState() as RootState; // 🔹 Вказуємо RootState
-//       return reduxState.auth.accessToken !== null;
-//     },
-//   }
-// );
-
 /**
  * Google auth: confirm user and get authToken
  */

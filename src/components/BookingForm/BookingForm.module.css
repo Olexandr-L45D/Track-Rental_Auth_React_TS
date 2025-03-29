@@ -125,8 +125,8 @@
     width: 527px;
     height: auto;
     margin: 5px;
+    margin-top: 0px;
     margin-left: 0px;
-    padding: 5px;
     padding: 0px;
     list-style: none;
     border: none;
@@ -210,21 +210,13 @@
 
   .inptextarea {
     resize: none;
-    /* Прибирає можливість змінювати розмір textarea */
     width: 100%;
-    /* Займає всю доступну ширину контейнера */
     height: 90px;
-    /* Фіксована висота для textarea */
     padding: 5px;
-    /* Відступи всередині textarea */
     font-size: 16px;
-    /* Розмір шрифту */
     border: 1px solid #ccc;
-    /* Колір і ширина рамки */
     border-radius: 5px;
-    /* Закруглення кутів */
     outline: none;
-    /* Прибирає обведення при фокусі */
     background-color: #f7f7f7;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -241,5 +233,24 @@
     /* Колір тексту плейсхолдера */
     font-style: italic;
     /* Текст плейсхолдера курсивом */
+  }
+}
+
+@media (min-width: 1440px) {
+  .item {
+    width: 527px;
+    height: auto;
+    margin: 5px;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 0px;
+    list-style: none;
+    border: none;
+    border-radius: 8px;
+    color: rgb(14, 15, 15);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: left;
   }
 }
